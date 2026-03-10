@@ -1,0 +1,68 @@
+name: Flutter CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, develop]
+
+jobs:
+  flutter_ci:
+    name: Flutter Quality Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: main
+          cache: true
+
+      # 3. Verify Flutter installation
+      - name: Flutter doctor
+        run: flutter doctor -v
+
+      # 4. Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. Enforce Dart formatting
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      # 6. Run static analyzer
+      - name: Run analyzer
+        run: flutter analyze
+
+      # 7. Run tests with coverage
+      - name: Run tests
+        run: flutter test --coverage
+
+      # 8. Prevent hardcoded colors outside theme
+      - name: Enforce design system
+        run: |
+          echo "Checking for hardcoded colors..."
+
+          VIOLATIONS=$(grep -RE "Colors\.[a-zA-Z]" lib/ --exclude-dir=theme --exclude="*.g.dart" || true)
+          VIOLATIONS2=$(grep -RE "Color\(0x" lib/ --exclude-dir=theme --exclude="*.g.dart" || true)
+
+          if [ -n "$VIOLATIONS" ] || [ -n "$VIOLATIONS2" ]; then
+            echo ""
+            echo "Hardcoded colors detected. Use theme tokens."
+            echo ""
+            echo "$VIOLATIONS"
+            echo "$VIOLATIONS2"
+            exit 1
+          fi
+
+          echo "No hardcoded colors found."
+
+      # 9. Ensure project builds successfully
+      - name: Verify Android build
+        run: flutter build apk --debug
