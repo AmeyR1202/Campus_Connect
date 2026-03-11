@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/errors/app_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthDatasource {
@@ -9,28 +10,38 @@ class FirebaseAuthDatasource {
     required String email,
     required String password,
   }) async {
-    final credential = await firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return credential;
+    try {
+      return await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message.toString());
+    }
   }
 
   Future<UserCredential> login({
     required String email,
     required String password,
   }) async {
-    final credential = await firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return credential;
+    try {
+      return await firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message.toString());
+    }
   }
 
   Future<void> sendEmailVerification() async {
-    final user = firebaseAuth.currentUser;
-    if (user != null && !user.emailVerified) {
-      await user.sendEmailVerification();
+    try {
+      final user = firebaseAuth.currentUser;
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+      }
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message.toString());
     }
   }
 
@@ -39,6 +50,10 @@ class FirebaseAuthDatasource {
   }
 
   Future<void> logout() async {
-    await firebaseAuth.signOut();
+    try {
+      await firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message.toString());
+    }
   }
 }

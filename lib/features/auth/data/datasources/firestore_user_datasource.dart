@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/errors/app_exception.dart';
 import 'package:campus_connect/features/auth/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -10,25 +11,33 @@ class FirestoreUserDatasource {
     required String uid,
     required String username,
   }) async {
-    await firestore.collection('users').doc(uid).set({
-      'username': username,
-      'createdAt': FieldValue.serverTimestamp(),
-    });
+    try {
+      await firestore.collection('users').doc(uid).set({
+        'username': username,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message.toString());
+    }
   }
 
   Future<UserModel> getUser(String uid) async {
-    final docSnapshot = await firestore.collection('users').doc(uid).get();
+    try {
+      final docSnapshot = await firestore.collection('users').doc(uid).get();
 
-    if (!docSnapshot.exists) {
-      throw Exception('User profile not found in Firestore');
+      if (!docSnapshot.exists) {
+        throw ServerException('User profile not found in Firestore');
+      }
+
+      final data = docSnapshot.data();
+
+      if (data == null) {
+        throw ServerException('User data is null');
+      }
+
+      return UserModel.fromFirestore(data, docSnapshot.id);
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message.toString());
     }
-
-    final data = docSnapshot.data();
-
-    if (data == null) {
-      throw Exception('User data is null');
-    }
-
-    return UserModel.fromFirestore(data, docSnapshot.id);
   }
 }
