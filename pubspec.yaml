@@ -21,6 +21,7 @@ dependencies:
   fpdart: ^1.2.0
   flutter_bloc: ^9.1.1
   firebase_core: ^4.5.0
+  get_it: ^9.2.1
 
 dev_dependencies:
   flutter_test:

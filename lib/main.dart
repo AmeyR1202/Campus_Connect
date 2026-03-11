@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/di/service_locator.dart';
 import 'package:campus_connect/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await initDependencies();
   runApp(const MyApp());
 }
 
