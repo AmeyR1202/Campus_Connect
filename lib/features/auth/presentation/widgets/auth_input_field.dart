@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AuthInputField extends StatelessWidget {
+  final TextEditingController controller;
   final String hintText;
   final bool isObscure;
   final VoidCallback? onToggle;
@@ -9,6 +10,7 @@ class AuthInputField extends StatelessWidget {
     required this.hintText,
     this.isObscure = false,
     this.onToggle,
+    required this.controller,
   });
 
   @override

@@ -1,3 +1,4 @@
+import 'package:campus_connect/features/auth/presentation/pages/home_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/login_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/splash_screen.dart';
@@ -11,5 +12,6 @@ final GoRouter router = GoRouter(
     GoRoute(path: '/welcome', builder: (context, state) => WelcomePage()),
     GoRoute(path: '/signup', builder: (context, state) => SignUpPage()),
     GoRoute(path: '/login', builder: (context, state) => LoginPage()),
+    GoRoute(path: '/home', builder: (context, state) => HomePage()),
   ],
 );

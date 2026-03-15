@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class AuthSubmitButton extends StatelessWidget {
   final String buttonLabel;
-  const AuthSubmitButton({super.key, required this.buttonLabel});
+  final VoidCallback onPressed;
+  const AuthSubmitButton({
+    super.key,
+    required this.buttonLabel,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class AuthSubmitButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           buttonLabel,
           style: TextStyle(

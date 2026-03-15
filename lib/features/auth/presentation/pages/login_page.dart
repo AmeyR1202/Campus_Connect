@@ -1,7 +1,10 @@
+import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_button.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_switch_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,7 +14,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   bool obscurePassword = true;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +73,10 @@ class _LoginPageState extends State<LoginPage> {
 
                       const SizedBox(height: 8),
 
-                      AuthInputField(hintText: 'example@gmail.com'),
+                      AuthInputField(
+                        hintText: 'example@gmail.com',
+                        controller: emailController,
+                      ),
                       SizedBox(height: 20),
 
                       Text.rich(
@@ -87,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                       AuthInputField(
                         hintText: "Enter your password",
                         isObscure: obscurePassword,
+                        controller: passwordController,
                         onToggle: () {
                           setState(() {
                             obscurePassword = !obscurePassword;
@@ -109,7 +126,17 @@ class _LoginPageState extends State<LoginPage> {
 
                       const SizedBox(height: 28),
 
-                      AuthSubmitButton(buttonLabel: 'Log In'),
+                      AuthSubmitButton(
+                        buttonLabel: 'Log In',
+                        onPressed: () {
+                          context.read<AuthBloc>().add(
+                            LoginRequested(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            ),
+                          );
+                        },
+                      ),
 
                       const SizedBox(height: 30),
 
