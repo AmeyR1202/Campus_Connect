@@ -24,7 +24,9 @@ class HomePage extends StatelessWidget {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: const Text('CAMPUS CONNECT'),
           actions: [
             IconButton(

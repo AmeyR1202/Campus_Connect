@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:campus_connect/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/log_in_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/log_out_usecase.dart';
@@ -28,16 +30,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-
-    final result = await getCurrentUserUsecase();
-
-    result.fold((failure) => emit(AuthError(failure.message)), (user) {
-      if (user == null) {
-        emit(AuthUnauthenticated());
-      } else {
-        emit(AuthAuthenticated(user));
-      }
-    });
+    try {
+      final result = await getCurrentUserUsecase().timeout(
+        const Duration(seconds: 10),
+      );
+      result.fold((failure) => emit(AuthError(failure.message)), (user) {
+        if (user == null) {
+          emit(AuthUnauthenticated());
+        } else {
+          emit(AuthAuthenticated(user));
+        }
+      });
+    } on TimeoutException {
+      emit(AuthUnauthenticated()); // show as logout if not fetched in 10 secs
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
   }
 
   Future<void> _onLoginRequested(

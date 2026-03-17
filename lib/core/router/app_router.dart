@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/router/page_transitions.dart';
 import 'package:campus_connect/features/auth/presentation/pages/home_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/login_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/sign_up_page.dart';
@@ -6,12 +7,28 @@ import 'package:campus_connect/features/auth/presentation/pages/welcome_page.dar
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: '/welcome',
+  initialLocation: '/splash',
   routes: [
-    GoRoute(path: '/splash', builder: (context, state) => SplashScreen()),
-    GoRoute(path: '/welcome', builder: (context, state) => WelcomePage()),
-    GoRoute(path: '/signup', builder: (context, state) => SignUpPage()),
-    GoRoute(path: '/login', builder: (context, state) => LoginPage()),
-    GoRoute(path: '/home', builder: (context, state) => HomePage()),
+    GoRoute(path: '/splash', builder: (context, state) => SplashPage()),
+    GoRoute(
+      path: '/welcome',
+      pageBuilder: (context, state) =>
+          buildPageWithTransition(state: state, child: const WelcomePage()),
+    ),
+    GoRoute(
+      path: '/signup',
+      pageBuilder: (context, state) =>
+          buildPageWithTransition(state: state, child: const SignUpPage()),
+    ),
+    GoRoute(
+      path: '/login',
+      pageBuilder: (context, state) =>
+          buildPageWithTransition(state: state, child: const LoginPage()),
+    ),
+    GoRoute(
+      path: '/home',
+      pageBuilder: (context, state) =>
+          buildPageWithTransition(state: state, child: const HomePage()),
+    ),
   ],
 );
