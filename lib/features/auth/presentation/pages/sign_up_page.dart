@@ -38,11 +38,15 @@ class _SignUpPageState extends State<SignUpPage> {
         if (state is AuthLoading) {
           Loader();
         }
-        if (state is AuthAuthenticated) {
-          context.go('/home');
+        if (state is AuthVerificationEmailSent) {
+          snackbar(
+            context,
+            "Sign up Successfull, Verification email sent. Please check your inbox.",
+          );
+          context.go('/login');
         }
         if (state is AuthError) {
-          snackbar(context, "some error occured");
+          snackbar(context, state.message);
         }
       },
       child: Scaffold(
@@ -152,9 +156,14 @@ class _SignUpPageState extends State<SignUpPage> {
 
                         const SizedBox(height: 30),
 
-                        AuthSwitchText(
-                          questionText: 'Already have an account? ',
-                          actionText: 'Log in',
+                        InkWell(
+                          onTap: () {
+                            context.go('/login');
+                          },
+                          child: AuthSwitchText(
+                            questionText: 'Already have an account? ',
+                            actionText: 'Log in',
+                          ),
                         ),
                       ],
                     ),

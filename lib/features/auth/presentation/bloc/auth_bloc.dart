@@ -44,6 +44,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginRequested event,
     Emitter<AuthState> emit,
   ) async {
+    emit(AuthLoading());
+
     final result = await loginUsecase(
       email: event.email,
       password: event.password,
@@ -59,6 +61,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     SignupRequested event,
     Emitter<AuthState> emit,
   ) async {
+    emit(AuthLoading());
     final result = await signupUsecase(
       email: event.email,
       username: event.username,
@@ -66,8 +69,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     result.fold(
-      (failure) => AuthError(failure.message),
-      (_) => emit(AuthUnauthenticated()),
+      (failure) => emit(AuthError(failure.message)),
+      (_) => emit(AuthVerificationEmailSent()),
     );
   }
 
@@ -75,6 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LogoutRequested event,
     Emitter<AuthState> emit,
   ) async {
+    emit(AuthLoading());
     final result = await logoutUsecase();
 
     result.fold(

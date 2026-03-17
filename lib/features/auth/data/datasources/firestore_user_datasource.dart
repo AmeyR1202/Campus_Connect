@@ -10,10 +10,12 @@ class FirestoreUserDatasource {
   Future<void> createUser({
     required String uid,
     required String username,
+    required String email,
   }) async {
     try {
       await firestore.collection('users').doc(uid).set({
         'username': username,
+        'email': email,
         'createdAt': FieldValue.serverTimestamp(),
       });
     } on FirebaseException catch (e) {

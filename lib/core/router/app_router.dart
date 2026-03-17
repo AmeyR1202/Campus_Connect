@@ -6,7 +6,7 @@ import 'package:campus_connect/features/auth/presentation/pages/welcome_page.dar
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: '/splash',
+  initialLocation: '/welcome',
   routes: [
     GoRoute(path: '/splash', builder: (context, state) => SplashScreen()),
     GoRoute(path: '/welcome', builder: (context, state) => WelcomePage()),

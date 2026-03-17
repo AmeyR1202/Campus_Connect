@@ -4,6 +4,7 @@ import 'package:campus_connect/features/auth/data/datasources/firebase_auth_data
 import 'package:campus_connect/features/auth/data/datasources/firestore_user_datasource.dart';
 import 'package:campus_connect/features/auth/domain/entities/user_entity.dart';
 import 'package:campus_connect/features/auth/domain/repository/auth_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -21,14 +22,17 @@ class AuthRepositoryImpl implements AuthRepository {
       final firebaseUser = authDatasource.getFirebaseUser();
 
       if (firebaseUser == null) {
-        return Right(null);
+        return const Right(null);
       }
+      // refreshing the user because sometimes the firebase cache can mark emailVerified = false
+      await firebaseUser.reload();
+      final refreshedUser = authDatasource.getFirebaseUser();
 
-      final userModel = await firestoreDatasource.getUser(firebaseUser.uid);
+      final userModel = await firestoreDatasource.getUser(refreshedUser!.uid);
 
       final entity = userModel.toEntity(
-        email: firebaseUser.email!,
-        isEmailVerified: firebaseUser.emailVerified,
+        email: refreshedUser.email!,
+        isEmailVerified: refreshedUser.emailVerified,
       );
 
       return Right(entity);
@@ -55,6 +59,12 @@ class AuthRepositoryImpl implements AuthRepository {
       if (firebaseUser == null) {
         return const Left(AuthFailure("Login failed"));
       }
+      await firebaseUser.reload();
+
+      if (!firebaseUser.emailVerified) {
+        return const Left(AuthFailure("Please verify your email first"));
+      }
+
       final userModel = await firestoreDatasource.getUser(firebaseUser.uid);
 
       final entity = userModel.toEntity(
@@ -85,13 +95,16 @@ class AuthRepositoryImpl implements AuthRepository {
       if (firebaseUser == null) {
         return Left(AuthFailure("user creation failed"));
       }
+
       // send verification email
+      debugPrint("Sending verification email...");
+
       await authDatasource.sendEmailVerification();
 
-      // create firestore profile
       await firestoreDatasource.createUser(
         uid: firebaseUser.uid,
         username: username,
+        email: email,
       );
 
       return Right(null);

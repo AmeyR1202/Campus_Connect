@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticated) {
-          context.go('home');
+          context.go('/home');
         }
         if (state is AuthUnauthenticated) {
           context.go('/welcome');
