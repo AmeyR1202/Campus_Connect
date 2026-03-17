@@ -66,31 +66,25 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           const SizedBox(height: 40),
 
-                          const Text(
+                          Text(
                             "Log in to your\nAccount",
-                            style: TextStyle(
-                              fontSize: 34,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.headlineLarge!.copyWith(fontSize: 34),
                           ),
 
                           const SizedBox(height: 12),
 
                           Text(
                             "Enter your email and password to log in",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey.shade600,
-                            ),
+                            style: Theme.of(context).textTheme.labelMedium!
+                                .copyWith(color: Colors.grey),
                           ),
                           const SizedBox(height: 20),
 
-                          const Text(
+                          Text(
                             "Email",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
 
                           const SizedBox(height: 8),
@@ -104,18 +98,13 @@ class _LoginPageState extends State<LoginPage> {
                           Text.rich(
                             TextSpan(
                               text: 'Password ',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-                              children: const [
+                              style: Theme.of(context).textTheme.bodyMedium,
+
+                              children: [
                                 TextSpan(
                                   text: '(at least 6 characters)',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
+                                  style: Theme.of(context).textTheme.labelSmall!
+                                      .copyWith(color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -139,10 +128,8 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.centerRight,
                             child: Text(
                               "Forgot Password ?",
-                              style: TextStyle(
-                                color: Colors.blue.shade600,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium!
+                                  .copyWith(color: Colors.blue.shade600),
                             ),
                           ),
 

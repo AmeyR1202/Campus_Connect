@@ -65,22 +65,18 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         const SizedBox(height: 40),
 
-                        const Text(
+                        Text(
                           "Sign in to your\nAccount",
-                          style: TextStyle(
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineLarge!.copyWith(fontSize: 34),
                         ),
 
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 30),
 
-                        const Text(
+                        Text(
                           "Username",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
 
                         const SizedBox(height: 8),
@@ -91,12 +87,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
 
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           "Email",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
 
                         const SizedBox(height: 8),
@@ -110,18 +103,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         Text.rich(
                           TextSpan(
                             text: 'Password ',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
-                            children: const [
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            children: [
                               TextSpan(
                                 text: '(at least 6 characters)',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
+                                style: Theme.of(context).textTheme.labelSmall!
+                                    .copyWith(fontWeight: FontWeight.w400),
                               ),
                             ],
                           ),

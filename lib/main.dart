@@ -24,6 +24,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: ThemeData(
+        fontFamily: 'DMSans', // global default
+
+        textTheme: const TextTheme(
+          headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+          bodyMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          labelSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          labelMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+      ),
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
