@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/log_in_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/log_out_usecase.dart';
@@ -9,6 +10,7 @@ import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final SessionCubit sessionCubit;
   final LoginUsecase loginUsecase;
   final SignupUsecase signupUsecase;
   final GetCurrentUserUsecase getCurrentUserUsecase;
@@ -18,6 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.getCurrentUserUsecase,
     required this.signupUsecase,
     required this.logoutUsecase,
+    required this.sessionCubit,
   }) : super(AuthInitial()) {
     on<CheckAuthStatus>(_onCheckAuthStatus);
     on<LoginRequested>(_onLoginRequested);
@@ -36,8 +39,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       result.fold((failure) => emit(AuthError(failure.message)), (user) {
         if (user == null) {
+          sessionCubit.clearSession();
           emit(AuthUnauthenticated());
         } else {
+          sessionCubit.setUser(user);
           emit(AuthAuthenticated(user));
         }
       });
@@ -59,10 +64,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       password: event.password,
     );
 
-    result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
-    );
+    result.fold((failure) => emit(AuthError(failure.message)), (user) {
+      sessionCubit.setUser(user);
+      emit(AuthAuthenticated(user));
+    });
   }
 
   Future<void> _onSignupRequested(
@@ -89,9 +94,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     final result = await logoutUsecase();
 
-    result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) => emit(AuthUnauthenticated()),
-    );
+    result.fold((failure) => emit(AuthError(failure.message)), (_) {
+      sessionCubit.clearSession();
+      emit(AuthUnauthenticated());
+    });
   }
 }

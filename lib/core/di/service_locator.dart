@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
 import 'package:campus_connect/features/auth/data/datasources/firestore_user_datasource.dart';
 import 'package:campus_connect/features/auth/data/repositories/auth_repository_impl.dart';
@@ -44,6 +45,9 @@ Future<void> initDependencies() async {
       signupUsecase: sl(),
       getCurrentUserUsecase: sl(),
       logoutUsecase: sl(),
+      sessionCubit: sl(),
     ),
   );
+
+  sl.registerLazySingleton(() => SessionCubit());
 }

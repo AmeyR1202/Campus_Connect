@@ -1,5 +1,6 @@
 import 'package:campus_connect/core/di/service_locator.dart';
 import 'package:campus_connect/core/router/app_router.dart';
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,7 +13,10 @@ void main() async {
   await initDependencies();
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => sl<AuthBloc>())],
+      providers: [
+        BlocProvider(create: (_) => sl<AuthBloc>()),
+        BlocProvider(create: (_) => sl<SessionCubit>()),
+      ],
       child: const MyApp(),
     ),
   );
