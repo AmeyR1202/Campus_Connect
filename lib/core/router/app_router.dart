@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/router/page_transitions.dart';
+import 'package:campus_connect/features/attendance/presentation/pages/attendance_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/email_sent_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/home_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/login_page.dart';
@@ -35,6 +36,20 @@ final GoRouter router = GoRouter(
       path: '/email-success',
       pageBuilder: (context, state) =>
           buildPageWithTransition(state: state, child: const EmailSentPage()),
+    ),
+    GoRoute(
+      path: '/attendance',
+      pageBuilder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+
+        return buildPageWithTransition(
+          state: state,
+          child: AttendancePage(
+            userId: data['userId'],
+            subjectId: data['subjectId'],
+          ),
+        );
+      },
     ),
   ],
 );

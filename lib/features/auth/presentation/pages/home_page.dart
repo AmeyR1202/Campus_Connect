@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthUnauthenticated) {
           context.go('/welcome');
@@ -23,28 +23,67 @@ class HomePage extends StatelessWidget {
           ).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Text('CAMPUS CONNECT'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                context.read<AuthBloc>().add(LogoutRequested());
-              },
-            ),
-          ],
-        ),
+      builder: (context, state) {
+        String? userId;
 
-        body: const Center(
-          child: Text(
-            "HOME PAGE CAMPUS CONNECT",
-            style: TextStyle(fontSize: 18),
+        if (state is AuthAuthenticated) {
+          userId = state.user.id;
+        }
+
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: const Text('CAMPUS CONNECT'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () {
+                  context.read<AuthBloc>().add(LogoutRequested());
+                },
+              ),
+            ],
           ),
-        ),
-      ),
+          body: Column(
+            children: [
+              const Center(
+                child: Text(
+                  "HOME PAGE CAMPUS CONNECT",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (userId == null) return; // safety
+
+                  context.push(
+                    '/attendance',
+                    extra: {'userId': userId, 'subjectId': 'English'},
+                  );
+                },
+                child: const Text("Attendance Page"),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
+
+
+
+
+// backgroundColor: Colors.white,
+//           appBar: AppBar(
+//             backgroundColor: Colors.white,
+//             title: const Text('CAMPUS CONNECT'),
+//             actions: [
+//               IconButton(
+//                 icon: const Icon(Icons.logout),
+//                 onPressed: () {
+//                   context.read<AuthBloc>().add(LogoutRequested());
+//                 },
+//               ),
+//             ],
+//           ),

@@ -1,6 +1,7 @@
 import 'package:campus_connect/core/di/service_locator.dart';
 import 'package:campus_connect/core/router/app_router.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,6 +17,7 @@ void main() async {
       providers: [
         BlocProvider(create: (_) => sl<AuthBloc>()),
         BlocProvider(create: (_) => sl<SessionCubit>()),
+        BlocProvider(create: (_) => sl<AttendanceBloc>()),
       ],
       child: const MyApp(),
     ),

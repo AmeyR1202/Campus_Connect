@@ -1,4 +1,11 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/features/attendance/data/datasource/firestore_attendance_datasource.dart';
+import 'package:campus_connect/features/attendance/data/repository/attendance_repository_impl.dart';
+import 'package:campus_connect/features/attendance/domain/repositories/attendance_repository.dart';
+import 'package:campus_connect/features/attendance/domain/usecase/add_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecase/get_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecase/get_stats.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
 import 'package:campus_connect/features/auth/data/datasources/firestore_user_datasource.dart';
 import 'package:campus_connect/features/auth/data/repositories/auth_repository_impl.dart';
@@ -50,4 +57,26 @@ Future<void> initDependencies() async {
   );
 
   sl.registerLazySingleton(() => SessionCubit());
+
+  // Attendance DataSources
+  sl.registerLazySingleton(
+    () => FirestoreAttendanceDatasource(firestore: sl()),
+  );
+
+  sl.registerLazySingleton<AttendanceRepository>(
+    () => AttendanceRepositoryImpl(datasource: sl()),
+  );
+
+  // Usecases
+  sl.registerLazySingleton(() => AddAttendanceUsecase(sl()));
+  sl.registerLazySingleton(() => GetStatsUsecase(sl()));
+  sl.registerLazySingleton(() => GetAttendanceUsecase(sl()));
+
+  sl.registerFactory(
+    () => AttendanceBloc(
+      addAttendance: sl(),
+      getAttendance: sl(),
+      getStats: sl(),
+    ),
+  );
 }
