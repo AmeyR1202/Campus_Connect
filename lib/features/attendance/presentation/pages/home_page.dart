@@ -1,6 +1,7 @@
 import 'package:campus_connect/core/widgets/drawer.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/dashboard_card.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/feature_cards.dart';
+import 'package:campus_connect/features/attendance/presentation/widgets/student_hero_card.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/subject_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,6 +54,18 @@ class HomePage extends StatelessWidget {
 
           body: CustomScrollView(
             slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: StudentHeroCard(
+                    name: "Amey Rakhe",
+                    semester: "VIII",
+                    year: "SE",
+                    branch: "IoT",
+                  ),
+                ),
+              ),
+
               /// DASHBOARD GRID
               SliverPadding(
                 padding: const EdgeInsets.all(16),
