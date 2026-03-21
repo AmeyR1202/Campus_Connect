@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/router/page_transitions.dart';
+import 'package:campus_connect/core/widgets/error_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/attendance_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/email_sent_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/home_page.dart';
@@ -12,7 +13,6 @@ import 'package:go_router/go_router.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/splash',
   routes: [
-    /// SHELL (BOTTOM NAV)
     ShellRoute(
       builder: (context, state, child) {
         return MainScreen(child: child);
@@ -42,4 +42,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) => EmailSentPage(),
     ),
   ],
+  errorBuilder: (context, state) {
+    return ErrorPage();
+  },
 );
