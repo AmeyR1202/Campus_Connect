@@ -121,28 +121,46 @@ class HomePage extends StatelessWidget {
                       subtitle: "2 new items",
                       icon: Icons.search,
                       color: Colors.blue,
-                      onTap: () {},
+                      onTap: () {
+                        context.go('/lost&found');
+                      },
+                    ),
+                    FeatureCard(
+                      title: "timetable",
+                      subtitle: "3 dummy",
+                      icon: Icons.event,
+                      color: Colors.purple,
+                      onTap: () {
+                        debugPrint("GOOOOO TIMETABLE");
+                        context.push('/timetable');
+                      },
                     ),
                     FeatureCard(
                       title: "Events",
                       subtitle: "3 upcoming",
                       icon: Icons.event,
                       color: Colors.purple,
-                      onTap: () {},
+                      onTap: () {
+                        context.go('/events');
+                      },
                     ),
                     FeatureCard(
                       title: "Discussions",
                       subtitle: "5 active threads",
                       icon: Icons.forum,
                       color: Colors.orange,
-                      onTap: () {},
+                      onTap: () {
+                        context.go('/discussions');
+                      },
                     ),
                     FeatureCard(
                       title: "Blogs",
                       subtitle: "Latest posts",
                       icon: Icons.article,
                       color: Colors.teal,
-                      onTap: () {},
+                      onTap: () {
+                        context.go('/blogs');
+                      },
                     ),
                   ]),
                 ),

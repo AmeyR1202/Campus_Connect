@@ -58,7 +58,9 @@ class ErrorPage extends StatelessWidget {
                     ),
                     child: Text(
                       "Go Home",
-                      style: Theme.of(context).textTheme.labelMedium,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium!.copyWith(color: Colors.white),
                     ),
                   ),
                 ),

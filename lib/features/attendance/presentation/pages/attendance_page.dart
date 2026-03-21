@@ -2,9 +2,9 @@ import 'package:campus_connect/features/attendance/domain/entities/attendance_en
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/attendance_bloc.dart';
-import '../bloc/attendance_event.dart';
-import '../bloc/attendance_state.dart';
+import '../bloc/attendance_bloc/attendance_bloc.dart';
+import '../bloc/attendance_bloc/attendance_event.dart';
+import '../bloc/attendance_bloc/attendance_state.dart';
 
 class AttendancePage extends StatelessWidget {
   final String userId;
