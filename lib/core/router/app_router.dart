@@ -1,55 +1,45 @@
 import 'package:campus_connect/core/router/page_transitions.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/attendance_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/email_sent_page.dart';
-import 'package:campus_connect/features/auth/presentation/pages/home_page.dart';
+import 'package:campus_connect/features/attendance/presentation/pages/home_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/login_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/splash_screen.dart';
 import 'package:campus_connect/features/auth/presentation/pages/welcome_page.dart';
+import 'package:campus_connect/presentation/main_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/splash',
   routes: [
+    /// SHELL (BOTTOM NAV)
+    ShellRoute(
+      builder: (context, state, child) {
+        return MainScreen(child: child);
+      },
+      routes: [
+        GoRoute(
+          path: '/home',
+          pageBuilder: (context, state) =>
+              buildPageWithTransition(state: state, child: const HomePage()),
+        ),
+        GoRoute(
+          path: '/attendance',
+          pageBuilder: (context, state) => buildPageWithTransition(
+            state: state,
+            child: const AttendancePage(userId: '', subjectId: ''),
+          ),
+        ),
+      ],
+    ),
+
     GoRoute(path: '/splash', builder: (context, state) => SplashPage()),
-    GoRoute(
-      path: '/welcome',
-      pageBuilder: (context, state) =>
-          buildPageWithTransition(state: state, child: const WelcomePage()),
-    ),
-    GoRoute(
-      path: '/signup',
-      pageBuilder: (context, state) =>
-          buildPageWithTransition(state: state, child: const SignUpPage()),
-    ),
-    GoRoute(
-      path: '/login',
-      pageBuilder: (context, state) =>
-          buildPageWithTransition(state: state, child: const LoginPage()),
-    ),
-    GoRoute(
-      path: '/home',
-      pageBuilder: (context, state) =>
-          buildPageWithTransition(state: state, child: const HomePage()),
-    ),
+    GoRoute(path: '/welcome', builder: (context, state) => WelcomePage()),
+    GoRoute(path: '/login', builder: (context, state) => LoginPage()),
+    GoRoute(path: '/signup', builder: (context, state) => SignUpPage()),
     GoRoute(
       path: '/email-success',
-      pageBuilder: (context, state) =>
-          buildPageWithTransition(state: state, child: const EmailSentPage()),
-    ),
-    GoRoute(
-      path: '/attendance',
-      pageBuilder: (context, state) {
-        final data = state.extra as Map<String, dynamic>;
-
-        return buildPageWithTransition(
-          state: state,
-          child: AttendancePage(
-            userId: data['userId'],
-            subjectId: data['subjectId'],
-          ),
-        );
-      },
+      builder: (context, state) => EmailSentPage(),
     ),
   ],
 );

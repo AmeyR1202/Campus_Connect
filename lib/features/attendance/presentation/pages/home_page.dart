@@ -1,13 +1,14 @@
 import 'package:campus_connect/core/widgets/drawer.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/dashboard_card.dart';
+import 'package:campus_connect/features/attendance/presentation/widgets/feature_cards.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/subject_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../bloc/auth_bloc.dart';
-import '../bloc/auth_event.dart';
-import '../bloc/auth_state.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../auth/presentation/bloc/auth_event.dart';
+import '../../../auth/presentation/bloc/auth_state.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -91,6 +92,62 @@ class HomePage extends StatelessWidget {
                 ),
               ),
 
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Campus Features',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+              ),
+
+              /// FEATURES GRID
+              SliverPadding(
+                padding: const EdgeInsets.all(016),
+                sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 2.2,
+                  ),
+                  delegate: SliverChildListDelegate([
+                    FeatureCard(
+                      title: "Lost & Found",
+                      subtitle: "2 new items",
+                      icon: Icons.search,
+                      color: Colors.blue,
+                      onTap: () {},
+                    ),
+                    FeatureCard(
+                      title: "Events",
+                      subtitle: "3 upcoming",
+                      icon: Icons.event,
+                      color: Colors.purple,
+                      onTap: () {},
+                    ),
+                    FeatureCard(
+                      title: "Discussions",
+                      subtitle: "5 active threads",
+                      icon: Icons.forum,
+                      color: Colors.orange,
+                      onTap: () {},
+                    ),
+                    FeatureCard(
+                      title: "Blogs",
+                      subtitle: "Latest posts",
+                      icon: Icons.article,
+                      color: Colors.teal,
+                      onTap: () {},
+                    ),
+                  ]),
+                ),
+              ),
+
               /// TITLE
               SliverToBoxAdapter(
                 child: Padding(
@@ -143,6 +200,8 @@ class HomePage extends StatelessWidget {
                   ]),
                 ),
               ),
+
+              /// FEATURES TITLE
             ],
           ),
         );
