@@ -1,3 +1,6 @@
+import 'package:campus_connect/features/auth/domain/enums/branch.dart';
+import 'package:campus_connect/features/auth/domain/enums/semester.dart';
+import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:equatable/equatable.dart';
 
 class UserEntity extends Equatable {
@@ -6,6 +9,9 @@ class UserEntity extends Equatable {
   final String email;
   final bool isEmailVerified;
   final DateTime createdAt;
+  final Semester currentSemester;
+  final Branch branch;
+  final Year year;
 
   const UserEntity({
     required this.id,
@@ -13,8 +19,20 @@ class UserEntity extends Equatable {
     required this.email,
     required this.isEmailVerified,
     required this.createdAt,
+    required this.currentSemester,
+    required this.branch,
+    required this.year,
   });
 
   @override
-  List<Object?> get props => [id, username, email, isEmailVerified, createdAt];
+  List<Object?> get props => [
+    id,
+    username,
+    email,
+    isEmailVerified,
+    createdAt,
+    currentSemester,
+    branch,
+    year,
+  ];
 }

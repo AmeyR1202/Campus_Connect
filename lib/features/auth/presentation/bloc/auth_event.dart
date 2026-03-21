@@ -1,3 +1,6 @@
+import 'package:campus_connect/features/auth/domain/enums/branch.dart';
+import 'package:campus_connect/features/auth/domain/enums/semester.dart';
+import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AuthEvent extends Equatable {
@@ -23,11 +26,17 @@ class SignupRequested extends AuthEvent {
   final String username;
   final String email;
   final String password;
+  final Branch branch;
+  final Year year;
+  final Semester semester;
 
   const SignupRequested({
     required this.username,
     required this.email,
     required this.password,
+    required this.branch,
+    required this.year,
+    required this.semester,
   });
 
   @override

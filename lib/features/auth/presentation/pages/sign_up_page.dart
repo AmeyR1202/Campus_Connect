@@ -1,4 +1,7 @@
 import 'package:campus_connect/core/widgets/snackbar.dart';
+import 'package:campus_connect/features/auth/domain/enums/branch.dart';
+import 'package:campus_connect/features/auth/domain/enums/semester.dart';
+import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
@@ -21,6 +24,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool obscurePassword = true;
+  Branch? selectedBranch;
+  Year? selectedYear;
+  Semester? selectedSemester;
 
   @override
   void dispose() {
@@ -131,6 +137,48 @@ class _SignUpPageState extends State<SignUpPage> {
                                   });
                                 },
                               ),
+                              const SizedBox(height: 20),
+
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: _buildDropdown<Branch>(
+                                      label: "Branch",
+                                      value: selectedBranch,
+                                      items: Branch.values,
+                                      onChanged: (value) {
+                                        setState(() => selectedBranch = value);
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+
+                                  Expanded(
+                                    child: _buildDropdown<Year>(
+                                      label: "Year",
+                                      value: selectedYear,
+                                      items: Year.values,
+                                      onChanged: (value) {
+                                        setState(() => selectedYear = value);
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+
+                                  Expanded(
+                                    child: _buildDropdown<Semester>(
+                                      label: "Sem",
+                                      value: selectedSemester,
+                                      items: Semester.values,
+                                      onChanged: (value) {
+                                        setState(
+                                          () => selectedSemester = value,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
 
                               const SizedBox(height: 30),
 
@@ -142,6 +190,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                       username: usernameController.text.trim(),
                                       email: emailController.text.trim(),
                                       password: passwordController.text.trim(),
+                                      branch: selectedBranch!,
+                                      year: selectedYear!,
+                                      semester: selectedSemester!,
                                     ),
                                   );
                                 },
@@ -178,6 +229,42 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildDropdown<T>({
+    required String label,
+    required T? value,
+    required List<T> items,
+    required Function(T?) onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: Theme.of(context).textTheme.bodyMedium),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<T>(
+              value: value,
+              isExpanded: true,
+              hint: Text("Select"),
+              items: items.map((item) {
+                return DropdownMenuItem<T>(
+                  value: item,
+                  child: Text(item.toString().split('.').last),
+                );
+              }).toList(),
+              onChanged: onChanged,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

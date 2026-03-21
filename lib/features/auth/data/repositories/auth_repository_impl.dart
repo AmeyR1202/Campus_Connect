@@ -3,6 +3,9 @@ import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
 import 'package:campus_connect/features/auth/data/datasources/firestore_user_datasource.dart';
 import 'package:campus_connect/features/auth/domain/entities/user_entity.dart';
+import 'package:campus_connect/features/auth/domain/enums/branch.dart';
+import 'package:campus_connect/features/auth/domain/enums/semester.dart';
+import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:campus_connect/features/auth/domain/repository/auth_repository.dart';
 
 import 'package:fpdart/fpdart.dart';
@@ -87,6 +90,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String username,
     required String email,
     required String password,
+    required Branch branch,
+    required Year year,
+    required Semester semester,
   }) async {
     try {
       final credential = await authDatasource.signUp(
@@ -105,6 +111,9 @@ class AuthRepositoryImpl implements AuthRepository {
         uid: firebaseUser.uid,
         username: username,
         email: email,
+        year: year.name,
+        semester: semester.name,
+        branch: branch.name,
       );
 
       return Right(null);
