@@ -1,8 +1,10 @@
+import 'package:campus_connect/core/errors/app_exception.dart';
 import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';
 import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:campus_connect/features/auth/domain/repository/auth_repository.dart';
+import 'package:campus_connect/features/auth/domain/validators/email_validator.dart';
 import 'package:fpdart/fpdart.dart';
 
 class SignupUsecase {
@@ -17,8 +19,12 @@ class SignupUsecase {
     required Branch branch,
     required Year year,
     required Semester semester,
-  }) {
-    return authRepository.signUp(
+  }) async {
+    if (!EmailValidator.isValidCollegeEmail(email)) {
+      return left(InvalidEmailFailure('Please enter college email id only'));
+    }
+
+    return await authRepository.signUp(
       username: username,
       email: email,
       password: password,

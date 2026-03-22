@@ -11,3 +11,7 @@ class AuthFailure extends Failure {
 class ServerFailure extends Failure {
   const ServerFailure(super.message);
 }
+
+class InvalidEmailFailure extends Failure {
+  const InvalidEmailFailure(super.message);
+}
