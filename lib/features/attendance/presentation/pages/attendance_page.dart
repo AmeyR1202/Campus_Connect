@@ -26,22 +26,17 @@ class AttendancePage extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  // 🔹 Stats Section
                   _buildStatsSection(state),
 
-                  // 🔹 Attendance List
                   Expanded(child: _buildAttendanceList(state)),
 
-                  // 🔹 Buttons
                   _buildActionButtons(context),
                 ],
               ),
 
-              // 🔹 Loader Overlay (important UX improvement)
               if (state.isLoading)
                 const Center(child: CircularProgressIndicator()),
 
-              // 🔹 Error (simple for now)
               if (state.error != null) Center(child: Text(state.error!)),
             ],
           );
@@ -50,9 +45,6 @@ class AttendancePage extends StatelessWidget {
     );
   }
 
-  // -----------------------------
-  // Stats Section
-  // -----------------------------
   Widget _buildStatsSection(AttendanceState state) {
     final stats = state.stats;
 
@@ -77,9 +69,6 @@ class AttendancePage extends StatelessWidget {
     );
   }
 
-  // -----------------------------
-  // Attendance List
-  // -----------------------------
   Widget _buildAttendanceList(AttendanceState state) {
     final list = state.attendance;
 
@@ -105,9 +94,6 @@ class AttendancePage extends StatelessWidget {
     );
   }
 
-  // -----------------------------
-  // Action Buttons
-  // -----------------------------
   Widget _buildActionButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -117,7 +103,7 @@ class AttendancePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               final entity = AttendanceEntity(
-                lectureId: DateTime.now().toString(), // temporary unique id
+                lectureId: DateTime.now().toString(),
                 subjectId: subjectId,
                 status: AttendanceStatus.present,
                 markedAt: DateTime.now(),
@@ -131,7 +117,7 @@ class AttendancePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               final entity = AttendanceEntity(
-                lectureId: DateTime.now().toString(), // temporary unique id
+                lectureId: DateTime.now().toString(),
                 subjectId: subjectId,
                 status: AttendanceStatus.absent,
                 markedAt: DateTime.now(),

@@ -1,5 +1,6 @@
 import 'package:campus_connect/core/widgets/drawer.dart';
-import 'package:campus_connect/features/attendance/presentation/widgets/dashboard_card.dart';
+import 'package:campus_connect/core/widgets/empty_state_widget.dart';
+import 'package:campus_connect/features/attendance/presentation/widgets/attendance_stats_card.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/feature_cards.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/student_hero_card.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/subject_card.dart';
@@ -77,25 +78,25 @@ class HomePage extends StatelessWidget {
                     childAspectRatio: 2.5,
                   ),
                   delegate: SliverChildListDelegate([
-                    DashboardCard(
+                    AttendanceStatsCard(
                       title: 'Overall Attendance',
                       value: '86%',
                       icon: Icons.check_circle,
                       color: Colors.green,
                     ),
-                    DashboardCard(
+                    AttendanceStatsCard(
                       title: 'GPA',
                       value: '7.5/10',
                       icon: Icons.check_circle,
                       color: Colors.green,
                     ),
-                    DashboardCard(
+                    AttendanceStatsCard(
                       title: "Safe to Bunk",
                       value: "3 Subjects",
                       icon: Icons.check_circle,
                       color: Colors.orange,
                     ),
-                    DashboardCard(
+                    AttendanceStatsCard(
                       title: "In Danger",
                       value: "2 Subjects",
                       icon: Icons.warning,
@@ -190,6 +191,14 @@ class HomePage extends StatelessWidget {
                       fontSize: 22,
                     ),
                   ),
+                ),
+              ),
+
+              /// TITLE
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: EmptyStateWidget(),
                 ),
               ),
 

@@ -51,7 +51,6 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
 
-    /// SAFE now
     context.read<AuthBloc>().add(
       SignupRequested(
         username: usernameController.text.trim(),

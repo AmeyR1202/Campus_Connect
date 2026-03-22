@@ -1,4 +1,6 @@
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StudentHeroCard extends StatelessWidget {
   final String name;
@@ -16,6 +18,11 @@ class StudentHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final session = context.watch<SessionCubit>().state;
+    final sem = session.user!.currentSemester.name;
+    final formattedSem =
+        "Sem ${sem.replaceAll('sem', '')}"; // find the sem and replace that with the ''
+
     return SizedBox(
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(20),
@@ -27,21 +34,65 @@ class StudentHeroCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text('Name: ', style: _labelStyle()),
-                    Text(name, style: _valueStyle()),
+                    Text(
+                      'Name: ',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    Text(
+                      session.user!.username,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const Spacer(),
-                    Text('Year: ', style: _labelStyle()),
-                    Text(year, style: _valueStyle()),
+                    Text(
+                      'Year: ',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    Text(
+                      session.user!.year.name.toUpperCase(),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 20),
                 Row(
                   children: [
-                    Text('Semester: ', style: _labelStyle()),
-                    Text(semester, style: _valueStyle()),
+                    Text(
+                      'Semester: ',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    Text(
+                      formattedSem,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const Spacer(),
-                    Text('Branch: ', style: _labelStyle()),
-                    Text(branch, style: _valueStyle()),
+                    Text(
+                      'Branch: ',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    Text(
+                      session.user!.branch.name.toUpperCase(),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -49,22 +100,6 @@ class StudentHeroCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  TextStyle _labelStyle() {
-    return TextStyle(
-      color: Colors.grey.shade600,
-      fontSize: 18,
-      fontWeight: FontWeight.w500,
-    );
-  }
-
-  TextStyle _valueStyle() {
-    return const TextStyle(
-      color: Colors.black,
-      fontSize: 18,
-      fontWeight: FontWeight.w600,
     );
   }
 }
