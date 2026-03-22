@@ -8,7 +8,7 @@ import 'package:campus_connect/features/auth/presentation/pages/login_page.dart'
 import 'package:campus_connect/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/splash_screen.dart';
 import 'package:campus_connect/features/auth/presentation/pages/welcome_page.dart';
-import 'package:campus_connect/presentation/main_screen.dart';
+import 'package:campus_connect/main_presentation/main_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(

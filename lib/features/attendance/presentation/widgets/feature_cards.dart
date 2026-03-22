@@ -24,13 +24,13 @@ class FeatureCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.15),
+          color: color.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: color.withOpacity(0.25),
+              backgroundColor: color.withValues(alpha: 0.25),
               child: Icon(icon, color: color),
             ),
             const SizedBox(width: 12),

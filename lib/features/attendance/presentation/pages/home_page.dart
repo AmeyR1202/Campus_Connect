@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../auth/presentation/bloc/auth_bloc.dart';
-import '../../../auth/presentation/bloc/auth_event.dart';
+// import '../../../auth/presentation/bloc/auth_event.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
 
 class HomePage extends StatelessWidget {
@@ -29,11 +29,11 @@ class HomePage extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        String? userId;
+        // String? userId;
         String? username;
 
         if (state is AuthAuthenticated) {
-          userId = state.user.id;
+          // userId = state.user.id;
           username = state.user.username;
         }
 

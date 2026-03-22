@@ -1,1 +1,1 @@
-enum Branch { Computer, IoT, Mechanical, Electrical, AIDS }
+enum Branch { comps, iot, mechanical, electrical, aids }

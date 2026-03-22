@@ -1,4 +1,3 @@
-import 'package:campus_connect/core/errors/app_exception.dart';
 import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';

@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/widgets/dropdown.dart';
 import 'package:campus_connect/core/widgets/snackbar.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';
@@ -5,6 +6,9 @@ import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
+import 'package:campus_connect/features/auth/presentation/extensions/branch_extension.dart';
+import 'package:campus_connect/features/auth/presentation/extensions/semester_extension.dart';
+import 'package:campus_connect/features/auth/presentation/extensions/year_extension.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_button.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_switch_text.dart';
@@ -34,6 +38,30 @@ class _SignUpPageState extends State<SignUpPage> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  void _onSignup() {
+    if (selectedBranch == null ||
+        selectedYear == null ||
+        selectedSemester == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Please select all fields")));
+
+      return;
+    }
+
+    /// SAFE now
+    context.read<AuthBloc>().add(
+      SignupRequested(
+        username: usernameController.text.trim(),
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        branch: selectedBranch!,
+        year: selectedYear!,
+        semester: selectedSemester!,
+      ),
+    );
   }
 
   @override
@@ -142,8 +170,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: _buildDropdown<Branch>(
+                                    child: AppDropdown<Branch>(
                                       label: "Branch",
+                                      getLabel: (s) => s.displayBranch,
                                       value: selectedBranch,
                                       items: Branch.values,
                                       onChanged: (value) {
@@ -154,8 +183,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                   const SizedBox(width: 10),
 
                                   Expanded(
-                                    child: _buildDropdown<Year>(
+                                    child: AppDropdown<Year>(
                                       label: "Year",
+                                      getLabel: (s) => s.displayYear,
                                       value: selectedYear,
                                       items: Year.values,
                                       onChanged: (value) {
@@ -166,8 +196,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                   const SizedBox(width: 10),
 
                                   Expanded(
-                                    child: _buildDropdown<Semester>(
-                                      label: "Sem",
+                                    child: AppDropdown<Semester>(
+                                      label: "Semester",
+                                      getLabel: (s) => s.displayName,
                                       value: selectedSemester,
                                       items: Semester.values,
                                       onChanged: (value) {
@@ -185,16 +216,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               AuthSubmitButton(
                                 buttonLabel: 'Register',
                                 onPressed: () {
-                                  context.read<AuthBloc>().add(
-                                    SignupRequested(
-                                      username: usernameController.text.trim(),
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text.trim(),
-                                      branch: selectedBranch!,
-                                      year: selectedYear!,
-                                      semester: selectedSemester!,
-                                    ),
-                                  );
+                                  _onSignup();
                                 },
                               ),
 
@@ -229,42 +251,6 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         );
       },
-    );
-  }
-
-  Widget _buildDropdown<T>({
-    required String label,
-    required T? value,
-    required List<T> items,
-    required Function(T?) onChanged,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.bodyMedium),
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<T>(
-              value: value,
-              isExpanded: true,
-              hint: Text("Select"),
-              items: items.map((item) {
-                return DropdownMenuItem<T>(
-                  value: item,
-                  child: Text(item.toString().split('.').last),
-                );
-              }).toList(),
-              onChanged: onChanged,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
