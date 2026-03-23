@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,15 +7,33 @@ import '../bloc/attendance_bloc/attendance_bloc.dart';
 import '../bloc/attendance_bloc/attendance_event.dart';
 import '../bloc/attendance_bloc/attendance_state.dart';
 
-class AttendancePage extends StatelessWidget {
-  final String userId;
-  final String subjectId;
+class AttendancePage extends StatefulWidget {
+  const AttendancePage({super.key});
 
-  const AttendancePage({
-    super.key,
-    required this.userId,
-    required this.subjectId,
-  });
+  @override
+  State<AttendancePage> createState() => _AttendancePageState();
+}
+
+class _AttendancePageState extends State<AttendancePage> {
+  late String userId;
+  final String subjectId = 'os';
+  @override
+  void initState() {
+    super.initState();
+
+    final sessionUser = context.read<SessionCubit>().state.user;
+
+    userId = context.read<SessionCubit>().state.user!.id;
+
+    if (sessionUser == null) {
+      throw Exception("User not logged in");
+    }
+
+    final bloc = context.read<AttendanceBloc>();
+
+    bloc.add(FetchAttendanceEvent(userId: userId, subjectId: subjectId));
+    bloc.add(FetchStatsEvent(userId: userId, subjectId: subjectId));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +121,7 @@ class AttendancePage extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () {
+              print('PRESENT CALLED');
               final entity = AttendanceEntity(
                 lectureId: DateTime.now().toString(),
                 subjectId: subjectId,

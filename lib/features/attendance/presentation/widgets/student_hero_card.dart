@@ -3,18 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StudentHeroCard extends StatelessWidget {
-  final String name;
-  final String semester;
-  final String year;
-  final String branch;
-
-  const StudentHeroCard({
-    super.key,
-    required this.name,
-    required this.semester,
-    required this.year,
-    required this.branch,
-  });
+  const StudentHeroCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +16,7 @@ class StudentHeroCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(20),
         child: ColoredBox(
-          color: Colors.blue.withValues(alpha: 0.2),
+          color: Colors.teal.withValues(alpha: 0.25),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

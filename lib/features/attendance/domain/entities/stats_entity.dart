@@ -7,6 +7,9 @@ class StatsEntity extends Equatable {
   final int canBunk;
   final int mustAttend;
 
+  bool get isEmpty => totalClasses == 0;
+  bool get isLowAttendance => percentage < 75;
+
   const StatsEntity({
     required this.totalClasses,
     required this.attendedClasses,

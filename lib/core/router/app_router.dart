@@ -28,7 +28,7 @@ final GoRouter router = GoRouter(
           path: '/attendance',
           pageBuilder: (context, state) => buildPageWithTransition(
             state: state,
-            child: const AttendancePage(userId: '', subjectId: ''),
+            child: const AttendancePage(),
           ),
         ),
         GoRoute(

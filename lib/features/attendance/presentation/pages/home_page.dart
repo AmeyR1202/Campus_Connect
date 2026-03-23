@@ -1,8 +1,9 @@
 import 'package:campus_connect/core/widgets/drawer.dart';
 import 'package:campus_connect/core/widgets/empty_state_widget.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/attendance_stats_card.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/feature_cards.dart';
-import 'package:campus_connect/features/attendance/presentation/widgets/student_hero_card.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/subject_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class HomePage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthUnauthenticated) {
+          // TODO this page is dependent on auth feature so migrate to cubitserssion
           context.go('/welcome');
         }
 
@@ -37,7 +39,6 @@ class HomePage extends StatelessWidget {
           // userId = state.user.id;
           username = state.user.username;
         }
-
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -55,55 +56,78 @@ class HomePage extends StatelessWidget {
 
           body: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: StudentHeroCard(
-                    name: "Amey Rakhe",
-                    semester: "VIII",
-                    year: "SE",
-                    branch: "IoT",
-                  ),
-                ),
-              ),
+              // SliverToBoxAdapter(
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(16.0),
+              //     child: StudentHeroCard(), // name, sem, year, branch
+              //   ),
+              // ),
+              BlocBuilder<AttendanceBloc, AttendanceState>(
+                builder: (context, state) {
+                  if (state.stats == null) {
+                    return SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: EmptyStateWidget(),
+                      ),
+                    );
+                  }
 
-              /// DASHBOARD GRID
-              SliverPadding(
-                padding: const EdgeInsets.all(16),
-                sliver: SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 2.5,
-                  ),
-                  delegate: SliverChildListDelegate([
-                    AttendanceStatsCard(
-                      title: 'Overall Attendance',
-                      value: '86%',
-                      icon: Icons.check_circle,
-                      color: Colors.green,
-                    ),
-                    AttendanceStatsCard(
-                      title: 'GPA',
-                      value: '7.5/10',
-                      icon: Icons.check_circle,
-                      color: Colors.green,
-                    ),
-                    AttendanceStatsCard(
-                      title: "Safe to Bunk",
-                      value: "3 Subjects",
-                      icon: Icons.check_circle,
-                      color: Colors.orange,
-                    ),
-                    AttendanceStatsCard(
-                      title: "In Danger",
-                      value: "2 Subjects",
-                      icon: Icons.warning,
-                      color: Colors.red,
-                    ),
-                  ]),
-                ),
+                  final stats = state.stats!;
+
+                  if (stats.isEmpty) {
+                    return SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: EmptyStateWidget(),
+                      ),
+                    );
+                  }
+                  return SliverList(
+                    delegate: SliverChildListDelegate([
+                      // grid layout
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 2.5,
+                          shrinkWrap: true,
+
+                          children: [
+                            AttendanceStatsCard(
+                              title: 'Overall Attendance',
+                              value: '${stats.percentage.toStringAsFixed(1)}%',
+                              icon: Icons.check_circle,
+                              color: Colors.green,
+                            ),
+                            AttendanceStatsCard(
+                              title: "Safe to Bunk",
+                              value: "2 Subjects ",
+                              icon: Icons.check_circle,
+                              color: Colors.orange,
+                            ),
+                            AttendanceStatsCard(
+                              title: "In Danger",
+                              value: "3 Subjects",
+                              icon: Icons.warning,
+                              color: Colors.red,
+                            ),
+                            AttendanceStatsCard(
+                              title: "GPA",
+                              value: '7.5/10',
+                              icon: Icons.check_circle,
+                              color: Colors.blueGrey,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // breakdown of the attendance list
+                    ]),
+                  );
+                },
               ),
 
               SliverToBoxAdapter(
@@ -180,68 +204,75 @@ class HomePage extends StatelessWidget {
                 ),
               ),
 
-              /// TITLE
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    'Attendance Breakdown',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-              ),
+              BlocBuilder<AttendanceBloc, AttendanceState>(
+                builder: (context, state) {
+                  if (state.stats == null) {
+                    return const SliverToBoxAdapter(child: SizedBox.shrink());
+                  }
 
-              /// TITLE
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: EmptyStateWidget(),
-                ),
-              ),
+                  final stats = state.stats!;
 
-              /// SUBJECT LIST
-              SliverPadding(
-                padding: const EdgeInsets.all(16),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    SubjectCard(
-                      subjectName: "DBMS",
-                      percentage: 68,
-                      statusText: "Must attend next 4 lectures",
-                      statusColor: Colors.red,
-                    ),
-                    SubjectCard(
-                      subjectName: "Operating Systems",
-                      percentage: 82,
-                      statusText: "Can bunk 3 lectures",
-                      statusColor: Colors.green,
-                    ),
-                    SubjectCard(
-                      subjectName: "Computer Networks",
-                      percentage: 75,
-                      statusText: "Maintain carefully",
-                      statusColor: Colors.orange,
-                    ),
-                    SubjectCard(
-                      subjectName: "Software Engineering",
-                      percentage: 82,
-                      statusText: "Can bunk 3 lectures",
-                      statusColor: Colors.green,
-                    ),
-                    SubjectCard(
-                      subjectName: "OOP",
-                      percentage: 82,
-                      statusText: "Can bunk 3 lectures",
-                      statusColor: Colors.green,
-                    ),
-                  ]),
-                ),
-              ),
+                  if (stats.isEmpty) {
+                    return const SliverToBoxAdapter(child: SizedBox.shrink());
+                  }
+                  return SliverList(
+                    delegate: SliverChildListDelegate([
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'Attendance Breakdown',
+                          style: Theme.of(context).textTheme.bodyLarge!
+                              .copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 22,
+                              ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            SubjectCard(
+                              subjectName: "DBMS",
+                              percentage: 68,
+                              statusText: "Must attend next 4 lectures",
+                              statusColor: Colors.red,
+                            ),
 
-              /// FEATURES TITLE
+                            SubjectCard(
+                              subjectName: "Operating Systems",
+                              percentage: 82,
+                              statusText: "Can bunk 3 lectures",
+                              statusColor: Colors.green,
+                            ),
+
+                            SubjectCard(
+                              subjectName: "Computer Networks",
+                              percentage: 75,
+                              statusText: "Maintain carefully",
+                              statusColor: Colors.orange,
+                            ),
+
+                            SubjectCard(
+                              subjectName: "Software Engineering",
+                              percentage: 82,
+                              statusText: "Can bunk 3 lectures",
+                              statusColor: Colors.green,
+                            ),
+
+                            SubjectCard(
+                              subjectName: "OOP",
+                              percentage: 82,
+                              statusText: "Can bunk 3 lectures",
+                              statusColor: Colors.green,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]),
+                  );
+                },
+              ),
             ],
           ),
         );

@@ -15,3 +15,7 @@ class ServerFailure extends Failure {
 class InvalidEmailFailure extends Failure {
   const InvalidEmailFailure(super.message);
 }
+
+class BlocFailure extends Failure {
+  const BlocFailure(super.message);
+}

@@ -81,6 +81,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       userId: event.userId,
     );
 
+    print(result);
+
     result.fold(
       (failure) =>
           emit(state.copyWith(isLoading: false, error: failure.message)),
