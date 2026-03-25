@@ -13,16 +13,6 @@ class FetchAttendanceEvent extends AttendanceEvent {
   List<Object?> get props => [userId, subjectId];
 }
 
-class FetchStatsEvent extends AttendanceEvent {
-  final String userId;
-  final String subjectId;
-
-  FetchStatsEvent({required this.userId, required this.subjectId});
-
-  @override
-  List<Object?> get props => [userId, subjectId];
-}
-
 class AddAttendanceEvent extends AttendanceEvent {
   final String userId;
   final AttendanceEntity entity;
@@ -31,4 +21,13 @@ class AddAttendanceEvent extends AttendanceEvent {
 
   @override
   List<Object?> get props => [userId, entity];
+}
+
+class FetchAllSubjectsStatsEvent extends AttendanceEvent {
+  final String userId;
+
+  FetchAllSubjectsStatsEvent({required this.userId});
+
+  @override
+  List<Object?> get props => [userId];
 }

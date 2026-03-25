@@ -1,6 +1,7 @@
 import 'package:campus_connect/core/router/page_transitions.dart';
 import 'package:campus_connect/core/widgets/error_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/attendance_page.dart';
+import 'package:campus_connect/features/attendance/presentation/pages/subject_details_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/timetable_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/email_sent_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/home_page.dart';
@@ -26,10 +27,10 @@ final GoRouter router = GoRouter(
         ),
         GoRoute(
           path: '/attendance',
-          pageBuilder: (context, state) => buildPageWithTransition(
-            state: state,
-            child: const AttendancePage(),
-          ),
+          builder: (context, state) {
+            final subjectId = state.extra;
+            return AttendancePage(subjectId: subjectId.toString());
+          },
         ),
         GoRoute(
           path: '/timetable',
@@ -48,6 +49,13 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/email-success',
       builder: (context, state) => EmailSentPage(),
+    ),
+    GoRoute(
+      path: '/subject-details',
+      builder: (context, state) {
+        final filter = state.extra as String; // "safe" or "danger"
+        return SubjectDetailsPage(filter: filter);
+      },
     ),
   ],
   errorBuilder: (context, state) {

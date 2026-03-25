@@ -8,7 +8,9 @@ import '../bloc/attendance_bloc/attendance_event.dart';
 import '../bloc/attendance_bloc/attendance_state.dart';
 
 class AttendancePage extends StatefulWidget {
-  const AttendancePage({super.key});
+  final String subjectId;
+
+  const AttendancePage({super.key, required this.subjectId});
 
   @override
   State<AttendancePage> createState() => _AttendancePageState();
@@ -16,23 +18,23 @@ class AttendancePage extends StatefulWidget {
 
 class _AttendancePageState extends State<AttendancePage> {
   late String userId;
-  final String subjectId = 'os';
+  late String subjectId;
   @override
   void initState() {
     super.initState();
 
     final sessionUser = context.read<SessionCubit>().state.user;
 
-    userId = context.read<SessionCubit>().state.user!.id;
-
     if (sessionUser == null) {
       throw Exception("User not logged in");
     }
 
+    userId = sessionUser.id;
+    subjectId = widget.subjectId;
+
     final bloc = context.read<AttendanceBloc>();
 
-    bloc.add(FetchAttendanceEvent(userId: userId, subjectId: subjectId));
-    bloc.add(FetchStatsEvent(userId: userId, subjectId: subjectId));
+    bloc.add(FetchAllSubjectsStatsEvent(userId: userId));
   }
 
   @override
@@ -65,24 +67,18 @@ class _AttendancePageState extends State<AttendancePage> {
   }
 
   Widget _buildStatsSection(AttendanceState state) {
-    final stats = state.stats;
-
-    if (stats == null) {
-      return const SizedBox();
-    }
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           Text(
-            '${stats.percentage.toStringAsFixed(1)}%',
+            's',
             style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
-          Text('Attended: ${stats.attendedClasses}'),
-          Text('Total: ${stats.totalClasses}'),
-          Text('Can bunk: ${stats.canBunk}'),
-          Text('Must attend: ${stats.mustAttend}'),
+          // Text('Attended: ${stats.attendedClasses}'),
+          // Text('Total: ${stats.totalClasses}'),
+          // Text('Can bunk: ${stats.canBunk}'),
+          // Text('Must attend: ${stats.mustAttend}'),
         ],
       ),
     );
@@ -124,7 +120,7 @@ class _AttendancePageState extends State<AttendancePage> {
               print('PRESENT CALLED');
               final entity = AttendanceEntity(
                 lectureId: DateTime.now().toString(),
-                subjectId: subjectId,
+                subjectId: widget.subjectId,
                 status: AttendanceStatus.present,
                 markedAt: DateTime.now(),
               );
@@ -138,7 +134,7 @@ class _AttendancePageState extends State<AttendancePage> {
             onPressed: () {
               final entity = AttendanceEntity(
                 lectureId: DateTime.now().toString(),
-                subjectId: subjectId,
+                subjectId: widget.subjectId,
                 status: AttendanceStatus.absent,
                 markedAt: DateTime.now(),
               );

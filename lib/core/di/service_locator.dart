@@ -7,7 +7,7 @@ import 'package:campus_connect/features/attendance/domain/repositories/attendanc
 import 'package:campus_connect/features/attendance/domain/repositories/timetable_repository.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/add_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_attendance_usecase.dart';
-import 'package:campus_connect/features/attendance/domain/usecase/get_stats.dart';
+import 'package:campus_connect/features/attendance/domain/usecase/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_timetable_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_bloc.dart';
@@ -74,14 +74,13 @@ Future<void> initDependencies() async {
 
   // Usecases
   sl.registerLazySingleton(() => AddAttendanceUsecase(sl()));
-  sl.registerLazySingleton(() => GetStatsUsecase(sl()));
   sl.registerLazySingleton(() => GetAttendanceUsecase(sl()));
 
   sl.registerFactory(
     () => AttendanceBloc(
       addAttendance: sl(),
       getAttendance: sl(),
-      getStats: sl(),
+      dashboardStats: sl(),
     ),
   );
 
@@ -94,6 +93,7 @@ Future<void> initDependencies() async {
 
   // usecases
   sl.registerLazySingleton(() => GetTimetableUsecase(sl()));
+  sl.registerLazySingleton(() => GetDashboardStatsUsecase(sl()));
 
   sl.registerFactory(() => TimetableBloc(getTimetableUsecase: sl()));
 }

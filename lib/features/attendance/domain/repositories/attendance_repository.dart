@@ -1,6 +1,5 @@
 import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
-import 'package:campus_connect/features/attendance/domain/entities/stats_entity.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class AttendanceRepository {
@@ -14,8 +13,7 @@ abstract class AttendanceRepository {
     required String subjectId,
   });
 
-  Future<Either<Failure, StatsEntity>> getStats({
+  Future<Either<Failure, List<AttendanceEntity>>> getAllAttendance({
     required String userId,
-    required String subjectId,
   });
 }

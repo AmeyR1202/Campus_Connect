@@ -16,8 +16,6 @@ class FirestoreAttendanceDatasource {
       final docRef = firestore
           .collection('users')
           .doc(userId)
-          .collection('subjects')
-          .doc(model.subjectId)
           .collection('attendance')
           .doc(model.lectureId);
       await docRef.set(model.toMap());
@@ -35,10 +33,8 @@ class FirestoreAttendanceDatasource {
       final snapshot = await firestore
           .collection('users')
           .doc(userId)
-          .collection('subjects')
-          .doc(subjectId)
           .collection('attendance')
-          .orderBy('markedAt', descending: true)
+          .where('subjectId', isEqualTo: subjectId)
           .get();
 
       final attendanceList = snapshot.docs
@@ -49,9 +45,24 @@ class FirestoreAttendanceDatasource {
       return left(ServerFailure(e.toString()));
     }
   }
-}
 
-/// lowest layer talking to database directly
-/// We use upsert (set with lectureId) to avoid duplicate attendance records 
-/// and ensure idempotency, especially in cases like multiple taps or offline sync retries.
-/// users/{userId}/subjects/{subjectId}/attendance/{lectureId} => firestore path
+  Future<Either<Failure, List<AttendanceModel>>> getAllAttendance({
+    required String userId,
+  }) async {
+    try {
+      final subjectsSnapshots = await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('attendance')
+          .get();
+
+      final list = subjectsSnapshots.docs
+          .map((doc) => AttendanceModel.fromMap(doc.data()))
+          .toList();
+
+      return right(list);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+}

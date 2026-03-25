@@ -1,6 +1,6 @@
 import 'package:campus_connect/features/attendance/domain/usecase/add_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecase/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_attendance_usecase.dart';
-import 'package:campus_connect/features/attendance/domain/usecase/get_stats.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,16 +8,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final AddAttendanceUsecase addAttendance;
   final GetAttendanceUsecase getAttendance;
-  final GetStatsUsecase getStats;
+  final GetDashboardStatsUsecase dashboardStats;
 
   AttendanceBloc({
+    required this.dashboardStats,
     required this.addAttendance,
     required this.getAttendance,
-    required this.getStats,
   }) : super(AttendanceState()) {
     on<AddAttendanceEvent>(_onAddAttendance);
+    on<FetchAllSubjectsStatsEvent>(_onFetchAllSubjectsStatsEvent);
     on<FetchAttendanceEvent>(_onFetchAttendance);
-    on<FetchStatsEvent>(_onFetchStats);
   }
 
   void _onAddAttendance(
@@ -35,19 +35,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       (failure) =>
           emit(state.copyWith(isLoading: false, error: failure.message)),
       (_) {
-        add(
-          FetchAttendanceEvent(
-            userId: event.userId,
-            subjectId: event.entity.subjectId,
-          ),
-        );
-
-        add(
-          FetchStatsEvent(
-            userId: event.userId,
-            subjectId: event.entity.subjectId,
-          ),
-        );
+        add(FetchAllSubjectsStatsEvent(userId: event.userId));
       },
     );
   }
@@ -70,23 +58,19 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     );
   }
 
-  void _onFetchStats(
-    FetchStatsEvent event,
+  Future<void> _onFetchAllSubjectsStatsEvent(
+    FetchAllSubjectsStatsEvent event,
     Emitter<AttendanceState> emit,
   ) async {
+    print("EVENT TRIGGERED");
     emit(state.copyWith(isLoading: true));
 
-    final result = await getStats(
-      subjectId: event.subjectId,
-      userId: event.userId,
-    );
-
-    print(result);
-
+    final result = await dashboardStats(userId: event.userId);
+    print('BLOC RESULT: $result');
     result.fold(
       (failure) =>
           emit(state.copyWith(isLoading: false, error: failure.message)),
-      (stats) => emit(state.copyWith(isLoading: false, stats: stats)),
+      (data) => emit(state.copyWith(isLoading: false, subjectStats: data)),
     );
   }
 }
