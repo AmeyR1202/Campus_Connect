@@ -85,7 +85,9 @@ class _SplashPageState extends State<SplashPage>
                       alignment: Alignment.centerRight,
                       child: FractionallySizedBox(
                         widthFactor: _revealAnimation.value,
-                        child: Container(color: AppThemeHelper.colors.surface), // revealing slide color
+                        child: Container(
+                          color: AppThemeHelper.colors.surface,
+                        ), // revealing slide color
                       ),
                     ),
                   );

@@ -17,7 +17,7 @@ class AuthSubmitButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF2F5AE0),
+          backgroundColor: AppThemeHelper.colors.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

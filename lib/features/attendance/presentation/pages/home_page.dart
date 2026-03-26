@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           BlocBuilder<AttendanceBloc, AttendanceState>(
             builder: (context, state) {
               final stats = state.subjectStats;
-              print(stats);
+              // print(stats);
 
               if (stats.isEmpty) {
                 return SliverToBoxAdapter(
@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                   title: "Lost & Found",
                   subtitle: "2 new items",
                   icon: Icons.search,
-                  color: FeatureColors.lostFound,
+                  color: Feature.lostFound,
                   onTap: () => context.go('/lost&found'),
                 ),
 
@@ -182,14 +182,14 @@ class _HomePageState extends State<HomePage> {
                   title: "Events",
                   subtitle: "3 upcoming",
                   icon: Icons.event,
-                  color: FeatureColors.timetable,
+                  color: Feature.timetable,
                   onTap: () => context.go('/events'),
                 ),
                 FeatureCard(
                   title: "Discussions",
                   subtitle: "5 active threads",
                   icon: Icons.forum,
-                  color: FeatureColors.discussions,
+                  color: Feature.discussions,
                   onTap: () {
                     context.go('/discussions');
                   },
@@ -198,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                   title: "Blogs",
                   subtitle: "Latest posts",
                   icon: Icons.article,
-                  color: FeatureColors.blogs,
+                  color: Feature.blogs,
                   onTap: () => context.go('/blogs'),
                 ),
               ]),

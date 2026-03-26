@@ -117,7 +117,7 @@ class _AttendancePageState extends State<AttendancePage> {
         children: [
           ElevatedButton(
             onPressed: () {
-              print('PRESENT CALLED');
+              // print('PRESENT CALLED');
               final entity = AttendanceEntity(
                 lectureId: DateTime.now().toString(),
                 subjectId: widget.subjectId,
