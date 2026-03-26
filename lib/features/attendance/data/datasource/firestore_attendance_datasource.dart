@@ -74,7 +74,7 @@ class FirestoreAttendanceDatasource {
     required AttendanceStatus status,
   }) async {
     try {
-      final docRef = await firestore
+      final docRef = firestore
           .collection('users')
           .doc(userId)
           .collection('attendance')

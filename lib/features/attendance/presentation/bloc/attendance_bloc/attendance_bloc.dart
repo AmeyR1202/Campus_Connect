@@ -66,11 +66,11 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     FetchAllSubjectsStatsEvent event,
     Emitter<AttendanceState> emit,
   ) async {
-    print("EVENT TRIGGERED");
+    // print("EVENT TRIGGERED");
     emit(state.copyWith(isLoading: true));
 
     final result = await dashboardStats(userId: event.userId);
-    print('BLOC RESULT: $result');
+    // print('BLOC RESULT: $result');
     result.fold(
       (failure) =>
           emit(state.copyWith(isLoading: false, error: failure.message)),

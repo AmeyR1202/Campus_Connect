@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           BlocBuilder<AttendanceBloc, AttendanceState>(
             builder: (context, state) {
               final stats = state.subjectStats;
-              print(stats);
+              // print(stats);
 
               if (stats.isEmpty) {
                 return SliverToBoxAdapter(
