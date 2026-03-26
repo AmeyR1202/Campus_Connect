@@ -16,4 +16,11 @@ abstract class AttendanceRepository {
   Future<Either<Failure, List<AttendanceEntity>>> getAllAttendance({
     required String userId,
   });
+
+  Future<Either<Failure, void>> updateLecture({
+    required String userId,
+    required String subjectId,
+    required String lectureId,
+    required AttendanceStatus status,
+  });
 }

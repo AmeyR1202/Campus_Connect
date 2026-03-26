@@ -31,3 +31,20 @@ class FetchAllSubjectsStatsEvent extends AttendanceEvent {
   @override
   List<Object?> get props => [userId];
 }
+
+class UpdateLectureEvent extends AttendanceEvent {
+  final String userId;
+  final String subjectId;
+  final String lectureId;
+  final AttendanceStatus status;
+
+  UpdateLectureEvent({
+    required this.subjectId,
+    required this.lectureId,
+    required this.status,
+    required this.userId,
+  });
+
+  @override
+  List<Object?> get props => [subjectId, lectureId, status];
+}

@@ -1,8 +1,9 @@
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
-import 'package:campus_connect/features/attendance/presentation/widgets/history_section.dart';
+import 'package:campus_connect/features/attendance/presentation/widgets/lecture_stats_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SubjectDetailsPage extends StatelessWidget {
   final String filter;
@@ -12,7 +13,10 @@ class SubjectDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(filter == "safe" ? "Safe Subjects" : "Danger Subjects"),
+        title: Text(
+          filter == "safe" ? "Safe Subjects" : "Danger Subjects",
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
       ),
       body: BlocBuilder<AttendanceBloc, AttendanceState>(
         builder: (context, state) {
@@ -69,7 +73,7 @@ class SubjectDetailsPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              "${s.percentage.toStringAsFixed(1)}%",
+                              "Overall: ${s.percentage.toStringAsFixed(1)}%",
                               style: TextStyle(
                                 color: s.percentage >= 75
                                     ? Colors.green
@@ -97,101 +101,69 @@ class SubjectDetailsPage extends StatelessWidget {
 
                       const SizedBox(height: 12),
 
-                      Row(
+                      GridView.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        childAspectRatio: 4,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Can bunk: ",
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.labelMedium,
-                                ),
-                                Text(
-                                  "${s.canBunk}",
-                                  style: Theme.of(context).textTheme.bodyMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.green,
-                                      ),
-                                ),
-                              ],
-                            ),
+                          LectureStatsChip(
+                            s: s,
+                            label: 'Total Lectures: ',
+                            value: "${s.total}",
                           ),
-
-                          const SizedBox(width: 8),
-
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.red.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Must attend: ",
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.labelMedium,
-                                ),
-                                Text(
-                                  "${s.mustAttend}",
-                                  style: Theme.of(context).textTheme.bodyMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.red,
-                                      ),
-                                ),
-                              ],
-                            ),
+                          LectureStatsChip(
+                            s: s,
+                            label: "Attended: ",
+                            value: "${s.attended}",
                           ),
-
-                          const SizedBox(width: 8),
-
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.withValues(alpha: 0.3),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-
-                              children: [
-                                const Icon(
-                                  Icons.history,
-                                  color: Colors.black,
-                                  size: 18,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  "History",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ],
-                            ),
+                          LectureStatsChip(
+                            s: s,
+                            label: 'Can Bunk: ',
+                            value: "${s.canBunk}",
+                          ),
+                          LectureStatsChip(
+                            s: s,
+                            label: 'Must Attend: ',
+                            value: "${s.mustAttend}",
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 12),
+                      InkWell(
+                        onTap: () {
+                          context.push('/subjects/${s.subjectId}/history');
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withValues(alpha: 0.3),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
 
-                      HistorySection(subjectId: s.subjectId),
+                            children: [
+                              const Icon(
+                                Icons.history,
+                                color: Colors.black,
+                                size: 18,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                "All History",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),

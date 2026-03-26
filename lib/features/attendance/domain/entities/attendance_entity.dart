@@ -17,4 +17,4 @@ class AttendanceEntity extends Equatable {
   List<Object?> get props => [lectureId, subjectId, status, markedAt];
 }
 
-enum AttendanceStatus { present, absent, cancelled, late, excused }
+enum AttendanceStatus { present, absent, cancelled }

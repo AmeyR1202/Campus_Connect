@@ -1,6 +1,7 @@
 import 'package:campus_connect/features/attendance/domain/usecase/add_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecase/update_lecture_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,15 +10,18 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final AddAttendanceUsecase addAttendance;
   final GetAttendanceUsecase getAttendance;
   final GetDashboardStatsUsecase dashboardStats;
+  final UpdateLectureUsecase updateLectureUseCase;
 
   AttendanceBloc({
     required this.dashboardStats,
     required this.addAttendance,
     required this.getAttendance,
+    required this.updateLectureUseCase,
   }) : super(AttendanceState()) {
     on<AddAttendanceEvent>(_onAddAttendance);
     on<FetchAllSubjectsStatsEvent>(_onFetchAllSubjectsStatsEvent);
     on<FetchAttendanceEvent>(_onFetchAttendance);
+    on<UpdateLectureEvent>(_onUpdateLecture);
   }
 
   void _onAddAttendance(
@@ -71,6 +75,36 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       (failure) =>
           emit(state.copyWith(isLoading: false, error: failure.message)),
       (data) => emit(state.copyWith(isLoading: false, subjectStats: data)),
+    );
+  }
+
+  Future<void> _onUpdateLecture(
+    UpdateLectureEvent event,
+    Emitter<AttendanceState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+
+    final result = await updateLectureUseCase(
+      userId: event.userId,
+      subjectId: event.subjectId,
+      lectureId: event.lectureId,
+      status: event.status,
+    );
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(isLoading: false, error: failure.message));
+      },
+      (_) {
+        add(
+          FetchAttendanceEvent(
+            userId: event.userId,
+            subjectId: event.subjectId,
+          ),
+        );
+
+        add(FetchAllSubjectsStatsEvent(userId: event.userId));
+      },
     );
   }
 }

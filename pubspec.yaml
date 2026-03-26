@@ -40,6 +40,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/welcome.svg
+    - assets/images/404.svg
   fonts:
     - family: DMSans
       fonts:

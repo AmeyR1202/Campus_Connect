@@ -9,6 +9,7 @@ import 'package:campus_connect/features/attendance/domain/usecase/add_attendance
 import 'package:campus_connect/features/attendance/domain/usecase/get_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_timetable_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecase/update_lecture_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_bloc.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
@@ -81,6 +82,7 @@ Future<void> initDependencies() async {
       addAttendance: sl(),
       getAttendance: sl(),
       dashboardStats: sl(),
+      updateLectureUseCase: sl(),
     ),
   );
 
@@ -94,6 +96,7 @@ Future<void> initDependencies() async {
   // usecases
   sl.registerLazySingleton(() => GetTimetableUsecase(sl()));
   sl.registerLazySingleton(() => GetDashboardStatsUsecase(sl()));
+  sl.registerLazySingleton(() => UpdateLectureUsecase(sl()));
 
   sl.registerFactory(() => TimetableBloc(getTimetableUsecase: sl()));
 }

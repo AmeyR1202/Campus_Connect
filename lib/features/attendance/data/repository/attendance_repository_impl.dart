@@ -41,4 +41,19 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
 
     return result.map((models) => models.map((m) => m.toEntity()).toList());
   }
+
+  @override
+  Future<Either<Failure, void>> updateLecture({
+    required String userId,
+    required String lectureId,
+    required String subjectId,
+    required AttendanceStatus status,
+  }) async {
+    return await datasource.updateLecture(
+      userId: userId,
+      lectureId: lectureId,
+      subjectId: subjectId,
+      status: status,
+    );
+  }
 }
