@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class AuthInputField extends StatelessWidget {
@@ -16,12 +17,13 @@ class AuthInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      cursorColor: AppThemeHelper.colors.primary,
       controller: controller,
       obscureText: isObscure,
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,
-        fillColor: Colors.grey.shade100,
+        fillColor: AppThemeHelper.colors.info.withValues(alpha: 0.1),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide.none,

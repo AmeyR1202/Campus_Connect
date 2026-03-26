@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +11,6 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -22,7 +22,7 @@ class ErrorPage extends StatelessWidget {
                 "This feature is coming soon...",
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: AppThemeHelper.colors.textTertiary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -39,7 +39,7 @@ class ErrorPage extends StatelessWidget {
                     TextSpan(
                       text: "Currently a Solo Dev.\n",
                       style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                        color: Colors.grey.shade500,
+                        color: AppThemeHelper.colors.muted,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
@@ -65,7 +65,7 @@ class ErrorPage extends StatelessWidget {
                     context.go('/home');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: AppThemeHelper.colors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -73,9 +73,9 @@ class ErrorPage extends StatelessWidget {
                   ),
                   child: Text(
                     "Go Home",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: AppThemeHelper.colors.textPrimary,
+                    ),
                   ),
                 ),
               ),

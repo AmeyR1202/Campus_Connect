@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/lecture_stats_chip.dart';
@@ -68,16 +69,20 @@ class SubjectDetailsPage extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: s.percentage >= 75
-                                  ? Colors.green.withValues(alpha: 0.15)
-                                  : Colors.red.withValues(alpha: 0.15),
+                                  ? AppThemeHelper.colors.success.withValues(
+                                      alpha: 0.15,
+                                    )
+                                  : AppThemeHelper.colors.error.withValues(
+                                      alpha: 0.15,
+                                    ),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
                               "Overall: ${s.percentage.toStringAsFixed(1)}%",
                               style: TextStyle(
                                 color: s.percentage >= 75
-                                    ? Colors.green
-                                    : Colors.red,
+                                    ? AppThemeHelper.colors.success
+                                    : AppThemeHelper.colors.error,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -92,9 +97,10 @@ class SubjectDetailsPage extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: s.percentage / 100,
                           minHeight: 8,
-                          backgroundColor: Colors.grey.shade200,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            s.percentage >= 75 ? Colors.green : Colors.red,
+                            s.percentage >= 75
+                                ? AppThemeHelper.colors.success
+                                : AppThemeHelper.colors.error,
                           ),
                         ),
                       ),
@@ -142,16 +148,18 @@ class SubjectDetailsPage extends StatelessWidget {
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.grey.withValues(alpha: 0.3),
+                            color: AppThemeHelper.colors.muted.withValues(
+                              alpha: 0.2,
+                            ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
 
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.history,
-                                color: Colors.black,
+                                color: AppThemeHelper.colors.iconPrimary,
                                 size: 18,
                               ),
                               const SizedBox(width: 4),

@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/attendance/domain/entities/subject_stats.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class LectureStatsChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.green.withValues(alpha: 0.1),
+        color: AppThemeHelper.colors.success.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -27,7 +28,7 @@ class LectureStatsChip extends StatelessWidget {
             value,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontWeight: FontWeight.w700,
-              color: Colors.green,
+              color: AppThemeHelper.colors.success,
             ),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:campus_connect/core/di/service_locator.dart';
 import 'package:campus_connect/core/router/app_router.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
@@ -32,16 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      theme: ThemeData(
-        fontFamily: 'DMSans', // global default
-
-        textTheme: const TextTheme(
-          headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-          bodyMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-          labelSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-          labelMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-      ),
+      theme: AppTheme.light,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );

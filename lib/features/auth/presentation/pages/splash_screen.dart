@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
@@ -66,7 +67,6 @@ class _SplashPageState extends State<SplashPage>
         navigateIfReady();
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: Center(
           child: Stack(
             alignment: Alignment.center,
@@ -85,7 +85,7 @@ class _SplashPageState extends State<SplashPage>
                       alignment: Alignment.centerRight,
                       child: FractionallySizedBox(
                         widthFactor: _revealAnimation.value,
-                        child: Container(color: Colors.white),
+                        child: Container(color: AppThemeHelper.colors.surface), // revealing slide color
                       ),
                     ),
                   );

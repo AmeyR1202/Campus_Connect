@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,7 +11,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final routes = ['/home', '/attendance', 'events', '/profile'];
+  final routes = ['/home', '/attendance', 'timetable', '/profile'];
 
   void onTap(int index) {
     context.go(routes[index]);
@@ -18,13 +19,13 @@ class _MainScreenState extends State<MainScreen> {
 
   int getIndex(String location) {
     if (location.startsWith('/attendance')) return 1;
-    if (location.startsWith('/profile')) return 2;
+    if (location.startsWith('/timetable')) return 2;
     return 0;
   }
 
   Widget _buildNavbar(int currentIndex) {
     return NavigationBar(
-      backgroundColor: Colors.grey.withValues(alpha: 0.1),
+      backgroundColor: AppThemeHelper.colors.surfaceVariant,
       height: 70,
       selectedIndex: currentIndex,
       onDestinationSelected: onTap,
@@ -42,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
         NavigationDestination(
           icon: Icon(Icons.event_available),
           selectedIcon: Icon(Icons.event),
-          label: 'Events',
+          label: 'Timetable',
         ),
         NavigationDestination(
           icon: Icon(Icons.person_outline),
@@ -58,7 +59,6 @@ class _MainScreenState extends State<MainScreen> {
     final location = GoRouterState.of(context).uri.toString();
     final currentIndex = getIndex(location);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: widget.child,
       bottomNavigationBar: _buildNavbar(currentIndex),
     );

@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class AuthSwitchText extends StatelessWidget {
@@ -16,11 +17,14 @@ class AuthSwitchText extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: questionText,
-          style: TextStyle(color: Colors.grey.shade600, fontSize: 15),
+          style: TextStyle(color: AppThemeHelper.colors.info, fontSize: 15),
           children: [
             TextSpan(
               text: actionText,
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: const Color(0xFF2196F3),
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),

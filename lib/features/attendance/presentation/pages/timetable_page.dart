@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/domain/entities/lecture_entity.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
@@ -76,18 +77,18 @@ class _TimetablePageState extends State<TimetablePage> {
     );
   }
 
-  // -----------------------------
-  // Lecture Card
-  // -----------------------------
   Widget _lectureCard(BuildContext context, LectureEntity lecture) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppThemeHelper.colors.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(blurRadius: 8, color: Colors.black.withValues(alpha: 0.05)),
+          BoxShadow(
+            blurRadius: 8,
+            color: AppThemeHelper.colors.textTertiary.withValues(alpha: 0.05),
+          ),
         ],
       ),
       child: Column(
@@ -104,7 +105,7 @@ class _TimetablePageState extends State<TimetablePage> {
           // Time
           Text(
             "${lecture.startTime} - ${lecture.endTime}",
-            style: TextStyle(color: Colors.grey[600]),
+            style: TextStyle(color: AppThemeHelper.colors.info),
           ),
 
           const SizedBox(height: 16),
@@ -115,7 +116,7 @@ class _TimetablePageState extends State<TimetablePage> {
               Expanded(
                 child: _actionButton(
                   text: "Present",
-                  color: Colors.green,
+                  color: AppThemeHelper.colors.success,
                   onTap: () => _markAttendance(
                     context,
                     lecture,
@@ -127,7 +128,7 @@ class _TimetablePageState extends State<TimetablePage> {
               Expanded(
                 child: _actionButton(
                   text: "Absent",
-                  color: Colors.red,
+                  color: AppThemeHelper.colors.error,
                   onTap: () => _markAttendance(
                     context,
                     lecture,
@@ -142,9 +143,6 @@ class _TimetablePageState extends State<TimetablePage> {
     );
   }
 
-  // -----------------------------
-  // Button
-  // -----------------------------
   Widget _actionButton({
     required String text,
     required Color color,
@@ -161,9 +159,6 @@ class _TimetablePageState extends State<TimetablePage> {
     );
   }
 
-  // -----------------------------
-  // Attendance Logic
-  // -----------------------------
   void _markAttendance(
     BuildContext context,
     LectureEntity lecture,
@@ -186,9 +181,6 @@ class _TimetablePageState extends State<TimetablePage> {
     );
   }
 
-  // -----------------------------
-  // Empty State
-  // -----------------------------
   Widget _buildEmptyState() {
     return const Center(
       child: Text("No lectures today", style: TextStyle(fontSize: 16)),

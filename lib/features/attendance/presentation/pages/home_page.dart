@@ -1,4 +1,6 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/theme/feature_colors.dart';
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/widgets/drawer.dart';
 import 'package:campus_connect/core/widgets/empty_state_widget.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
@@ -44,7 +46,6 @@ class _HomePageState extends State<HomePage> {
 
     final username = sessionUser?.username ?? "User";
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Hey, $username!',
@@ -53,7 +54,6 @@ class _HomePageState extends State<HomePage> {
             fontWeight: FontWeight.w700,
           ),
         ),
-        backgroundColor: Colors.white,
         centerTitle: false,
       ),
       endDrawer: AppDrawer(),
@@ -112,14 +112,14 @@ class _HomePageState extends State<HomePage> {
                         title: 'Overall Attendance',
                         value: '${overallPercentage.toStringAsFixed(1)}%',
                         icon: Icons.check_circle,
-                        color: Colors.green,
+                        color: AppThemeHelper.colors.success,
                         onPressed: () {},
                       ),
                       AttendanceStatsCard(
                         title: "Safe to Bunk",
                         value: "$safeCount Subject(s)",
                         icon: Icons.check_circle,
-                        color: Colors.green,
+                        color: AppThemeHelper.colors.success,
                         onPressed: () {
                           context.push('/subject-details', extra: "safe");
                         },
@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                         title: "In Danger",
                         value: "$dangerCount Subject(s)",
                         icon: Icons.warning,
-                        color: Colors.red,
+                        color: AppThemeHelper.colors.error,
                         onPressed: () {
                           context.push('/subject-details', extra: "danger");
                         },
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                         title: "GPA",
                         value: '--/10',
                         icon: Icons.grade,
-                        color: Colors.blueGrey,
+                        color: AppThemeHelper.colors.info,
                         onPressed: () {},
                       ),
                     ],
@@ -174,38 +174,31 @@ class _HomePageState extends State<HomePage> {
                   title: "Lost & Found",
                   subtitle: "2 new items",
                   icon: Icons.search,
-                  color: Colors.blue,
+                  color: FeatureColors.lostFound,
                   onTap: () => context.go('/lost&found'),
                 ),
-                FeatureCard(
-                  title: "Timetable",
-                  subtitle: "View schedule",
-                  icon: Icons.event,
-                  color: Colors.purple,
-                  onTap: () => context.push('/timetable'),
-                ),
+
                 FeatureCard(
                   title: "Events",
                   subtitle: "3 upcoming",
                   icon: Icons.event,
-                  color: Colors.purple,
+                  color: FeatureColors.timetable,
                   onTap: () => context.go('/events'),
                 ),
                 FeatureCard(
-                  // title: "Discussions",
-                  title: "Attendance",
+                  title: "Discussions",
                   subtitle: "5 active threads",
                   icon: Icons.forum,
-                  color: Colors.orange,
+                  color: FeatureColors.discussions,
                   onTap: () {
-                    // context.go('/attendance', extra: s.subectId),
+                    context.go('/discussions');
                   },
                 ),
                 FeatureCard(
                   title: "Blogs",
                   subtitle: "Latest posts",
                   icon: Icons.article,
-                  color: Colors.teal,
+                  color: FeatureColors.blogs,
                   onTap: () => context.go('/blogs'),
                 ),
               ]),
@@ -251,7 +244,9 @@ class _HomePageState extends State<HomePage> {
                                   : (isSafe
                                         ? "Can bunk ${s.canBunk}"
                                         : "Must attend ${s.mustAttend}"),
-                              statusColor: isSafe ? Colors.green : Colors.red,
+                              statusColor: isSafe
+                                  ? AppThemeHelper.colors.success
+                                  : AppThemeHelper.colors.error,
                             ),
                           );
                         }).toList(),

@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class AuthSubmitButton extends StatelessWidget {
@@ -26,7 +27,7 @@ class AuthSubmitButton extends StatelessWidget {
           buttonLabel,
           style: TextStyle(
             fontSize: 18,
-            color: Colors.white,
+            color: AppThemeHelper.colors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),

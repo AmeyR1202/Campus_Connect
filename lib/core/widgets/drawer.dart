@@ -9,7 +9,6 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.white,
       child: SafeArea(
         child: Column(
           children: [

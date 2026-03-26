@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +38,7 @@ class _SubjectHistoryPageState extends State<SubjectHistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Text(
           "${widget.subjectId.toUpperCase()} History",
           style: Theme.of(context).textTheme.headlineLarge,
@@ -68,7 +67,7 @@ class _SubjectHistoryPageState extends State<SubjectHistoryPage> {
               final lecture = history[index];
 
               return Card(
-                color: Colors.grey.shade200,
+                color: AppThemeHelper.colors.surfaceVariant,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -183,10 +182,10 @@ String _getLabel(AttendanceStatus status) {
 Color _getColor(AttendanceStatus status) {
   switch (status) {
     case AttendanceStatus.present:
-      return Colors.green;
+      return AppThemeHelper.colors.success;
     case AttendanceStatus.absent:
-      return Colors.red;
+      return AppThemeHelper.colors.error;
     case AttendanceStatus.cancelled:
-      return Colors.grey;
+      return AppThemeHelper.colors.surfaceVariant;
   }
 }

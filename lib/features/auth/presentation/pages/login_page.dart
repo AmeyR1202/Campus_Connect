@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
@@ -49,7 +50,6 @@ class _LoginPageState extends State<LoginPage> {
         }
 
         return Scaffold(
-          backgroundColor: Colors.white,
           body: SafeArea(
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -78,7 +78,9 @@ class _LoginPageState extends State<LoginPage> {
                           Text(
                             "Enter your email and password to log in",
                             style: Theme.of(context).textTheme.labelMedium!
-                                .copyWith(color: Colors.grey),
+                                .copyWith(
+                                  color: AppThemeHelper.colors.textSecondary,
+                                ),
                           ),
                           const SizedBox(height: 20),
 
@@ -104,7 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                                 TextSpan(
                                   text: '(at least 6 characters)',
                                   style: Theme.of(context).textTheme.labelSmall!
-                                      .copyWith(color: Colors.grey),
+                                      .copyWith(
+                                        color:
+                                            AppThemeHelper.colors.textSecondary,
+                                      ),
                                 ),
                               ],
                             ),
@@ -129,7 +134,9 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               "Forgot Password ?",
                               style: Theme.of(context).textTheme.bodyMedium!
-                                  .copyWith(color: Colors.blue.shade600),
+                                  .copyWith(
+                                    color: AppThemeHelper.colors.primary,
+                                  ),
                             ),
                           ),
 

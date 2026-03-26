@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class AppDropdown<T> extends StatelessWidget {
@@ -24,9 +25,9 @@ class AppDropdown<T> extends StatelessWidget {
         Text(label, style: Theme.of(context).textTheme.labelMedium),
         const SizedBox(height: 8),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          padding: EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: AppThemeHelper.colors.info.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
           child: DropdownButtonHideUnderline(

@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +9,6 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -24,9 +24,9 @@ class WelcomePage extends StatelessWidget {
               SizedBox(height: 10),
               Text(
                 "The ultimate super app for your campus.",
-                style: Theme.of(
-                  context,
-                ).textTheme.labelSmall!.copyWith(color: Colors.grey),
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  color: AppThemeHelper.colors.muted,
+                ),
               ),
               Spacer(),
               Align(

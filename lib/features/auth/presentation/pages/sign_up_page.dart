@@ -81,7 +81,6 @@ class _SignUpPageState extends State<SignUpPage> {
         return Stack(
           children: [
             Scaffold(
-              backgroundColor: Colors.white,
               body: SafeArea(
                 child: LayoutBuilder(
                   builder: (context, constraints) {

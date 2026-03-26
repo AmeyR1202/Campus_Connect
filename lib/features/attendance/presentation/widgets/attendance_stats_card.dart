@@ -40,7 +40,10 @@ class AttendanceStatsCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF9E9E9E),
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(

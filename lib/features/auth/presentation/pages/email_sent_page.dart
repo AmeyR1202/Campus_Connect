@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,8 +8,6 @@ class EmailSentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-
       body: SafeArea(
         child: Column(
           children: [
@@ -22,14 +21,14 @@ class EmailSentPage extends StatelessWidget {
                       height: 80,
                       width: 80,
                       child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          color: Colors.blue,
+                        decoration: BoxDecoration(
+                          color: AppThemeHelper.colors.primary,
                           shape: BoxShape.circle,
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Icon(
                             Icons.check,
-                            color: Colors.white,
+                            color: AppThemeHelper.colors.textPrimary,
                             size: 40,
                           ),
                         ),
@@ -50,9 +49,9 @@ class EmailSentPage extends StatelessWidget {
                       child: Text(
                         'A verification email has been sent to your email address. Please check your inbox.',
                         textAlign: TextAlign.center,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelSmall!.copyWith(color: Colors.grey),
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: AppThemeHelper.colors.info,
+                        ),
                       ),
                     ),
                   ],
@@ -71,7 +70,7 @@ class EmailSentPage extends StatelessWidget {
                     context.go('/login');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: AppThemeHelper.colors.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -83,12 +82,15 @@ class EmailSentPage extends StatelessWidget {
                       Text(
                         'Continue to Login',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.white,
+                          color: AppThemeHelper.colors.textPrimary,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.arrow_forward, color: Colors.white),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: AppThemeHelper.colors.textPrimary,
+                      ),
                     ],
                   ),
                 ),
