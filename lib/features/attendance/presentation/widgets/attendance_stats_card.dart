@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class AttendanceStatsCard extends StatelessWidget {
@@ -40,9 +41,9 @@ class AttendanceStatsCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: Color(0xFF9E9E9E),
+                    color: AppThemeHelper.colors.muted,
                   ),
                 ),
                 const SizedBox(height: 4),
