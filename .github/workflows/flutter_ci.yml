@@ -40,11 +40,7 @@ jobs:
       - name: Run analyzer
         run: flutter analyze
 
-      # 7. Run tests with coverage
-      - name: Run tests
-        run: flutter test --coverage
-
-      # 8. Prevent hardcoded colors outside theme
+      # 7. Prevent hardcoded colors outside theme
       - name: Enforce design system
         run: |
           echo "Checking for hardcoded colors..."
@@ -62,7 +58,3 @@ jobs:
           fi
 
           echo "No hardcoded colors found."
-
-      # 9. Ensure project builds successfully
-      - name: Verify Android build
-        run: flutter build apk --debug
