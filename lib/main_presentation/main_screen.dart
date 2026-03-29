@@ -11,7 +11,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final routes = ['/home', '/attendance', 'timetable', '/profile'];
+  final routes = ['/home', '/attendance', '/timetable', '/profile'];
 
   void onTap(int index) {
     context.go(routes[index]);
@@ -20,6 +20,7 @@ class _MainScreenState extends State<MainScreen> {
   int getIndex(String location) {
     if (location.startsWith('/attendance')) return 1;
     if (location.startsWith('/timetable')) return 2;
+    if (location.startsWith('/timetable')) return 3;
     return 0;
   }
 

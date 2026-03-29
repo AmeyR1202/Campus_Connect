@@ -47,7 +47,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       });
     } on TimeoutException {
-      emit(AuthUnauthenticated()); // show as logout if not fetched in 10 secs
+      sessionCubit.clearSession();
+      emit(AuthUnauthenticated());
     } catch (e) {
       emit(AuthError(e.toString()));
     }
