@@ -15,6 +15,7 @@ class TimetableRepositoryImpl implements TimetableRepository {
   Future<Either<Failure, List<LectureEntity>>> getTimetable({
     required String branch,
     required int semester,
+    required DateTime date,
   }) async {
     try {
       final List<LectureModel> models = await datasource.getTimetable(
@@ -22,12 +23,11 @@ class TimetableRepositoryImpl implements TimetableRepository {
         semester: semester,
       );
 
-      final now = DateTime.now();
-      final todayDay = DateFormat('EEE').format(now); // Mon, Tue, Wed
+      final todayDay = DateFormat('EEE').format(date); // Mon, Tue, Wed
 
       final entities = models
           .where((m) => m.day == todayDay)
-          .map((m) => m.toEntity(now))
+          .map((m) => m.toEntity(date))
           .toList();
 
       return right(entities);

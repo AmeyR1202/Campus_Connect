@@ -1,12 +1,17 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
+import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/domain/entities/lecture_entity.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_state.dart';
+import 'package:campus_connect/features/attendance/presentation/widgets/date_selector.dart';
+import 'package:campus_connect/features/attendance/presentation/widgets/lecture_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,161 +24,47 @@ class TimetablePage extends StatefulWidget {
 
 class _TimetablePageState extends State<TimetablePage> {
   late String userId;
-  String branch = 'IT';
-  int semester = 6;
+
+  final String branch = 'IT';
+  final int semester = 6;
+
+  DateTime selectedDate = DateTime.now();
+  late List<DateTime> weekDates;
 
   @override
   void initState() {
     super.initState();
 
     final session = context.read<SessionCubit>().state;
-
     userId = session.user!.id;
-    branch = branch;
-    semester = semester;
+    context.read<AttendanceBloc>().add(
+      FetchAllSubjectsStatsEvent(userId: userId),
+    );
+    // Last 7 days including today
+    weekDates = List.generate(7, (index) {
+      return DateTime.now().subtract(Duration(days: 6 - index));
+    });
 
+    _fetchTimetableForDate(selectedDate);
+  }
+
+  void _fetchTimetableForDate(DateTime date) {
     context.read<TimetableBloc>().add(
-      FetchTimetableEvent(branch: branch, semester: semester),
+      FetchTimetableEvent(branch: branch, semester: semester, date: date),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Today's Lectures"), centerTitle: true),
-      body: BlocBuilder<TimetableBloc, TimetableState>(
-        builder: (context, state) {
-          return Stack(
-            children: [
-              if (state.lectures == null)
-                const SizedBox()
-              else if (state.lectures!.isEmpty)
-                _buildEmptyState()
-              else
-                _buildLectureList(state.lectures!),
-
-              if (state.isLoading)
-                const Center(child: CircularProgressIndicator()),
-
-              if (state.error != null) Center(child: Text(state.error!)),
-            ],
-          );
-        },
-      ),
-    );
-  }
-
-  // -----------------------------
-  // Lecture List
-  // -----------------------------
-  Widget _buildLectureList(List<LectureEntity> lectures) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: lectures.length,
-      itemBuilder: (context, index) {
-        final lecture = lectures[index];
-        return _lectureCard(context, lecture);
-      },
-    );
-  }
-
-  Widget _lectureCard(BuildContext context, LectureEntity lecture) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppThemeHelper.colors.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 8,
-            color: AppThemeHelper.colors.textTertiary.withValues(alpha: 0.05),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Subject
-          Text(
-            lecture.subjectName,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Time
-          Text(
-            "${lecture.startTime} - ${lecture.endTime}",
-            style: TextStyle(color: AppThemeHelper.colors.info),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Buttons
-          Row(
-            children: [
-              Expanded(
-                child: _actionButton(
-                  text: "Present",
-                  color: AppThemeHelper.colors.success,
-                  onTap: () => _markAttendance(
-                    context,
-                    lecture,
-                    AttendanceStatus.present,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _actionButton(
-                  text: "Absent",
-                  color: AppThemeHelper.colors.error,
-                  onTap: () => _markAttendance(
-                    context,
-                    lecture,
-                    AttendanceStatus.absent,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _actionButton({
-    required String text,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      onPressed: onTap,
-      child: Text(text),
-    );
-  }
-
-  void _markAttendance(
-    BuildContext context,
-    LectureEntity lecture,
-    AttendanceStatus status,
-  ) {
-    final now = DateTime.now();
+  void _markAttendance(LectureEntity lecture, AttendanceStatus status) {
+    final d = lecture.date;
 
     final lectureId =
-        "${now.year}${now.month}${now.day}_${lecture.startTime}_${lecture.subjectId}";
+        "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_${lecture.subjectId}";
 
     final entity = AttendanceEntity(
       lectureId: lectureId,
       subjectId: lecture.subjectId,
       status: status,
-      markedAt: now,
+      markedAt: lecture.date,
     );
 
     context.read<AttendanceBloc>().add(
@@ -181,9 +72,63 @@ class _TimetablePageState extends State<TimetablePage> {
     );
   }
 
-  Widget _buildEmptyState() {
-    return const Center(
-      child: Text("No lectures today", style: TextStyle(fontSize: 16)),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Timetable",
+          style: TextStyle(color: AppThemeHelper.colors.textTertiary),
+        ),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          /// Date Selector
+          DateSelectorWidget(
+            dates: weekDates,
+            selectedDate: selectedDate,
+            onDateSelected: (date) {
+              setState(() => selectedDate = date);
+              _fetchTimetableForDate(date);
+            },
+          ),
+
+          /// Content
+          Expanded(
+            child: BlocBuilder<TimetableBloc, TimetableState>(
+              builder: (context, timetableState) {
+                if (timetableState.isLoading) {
+                  return const Center(child: Loader());
+                }
+
+                if (timetableState.error != null) {
+                  return Center(child: Text(timetableState.error!));
+                }
+
+                if (timetableState.lectures == null ||
+                    timetableState.lectures!.isEmpty) {
+                  return const Center(
+                    child: Text("No lectures found for this date."),
+                  );
+                }
+
+                return BlocBuilder<AttendanceBloc, AttendanceState>(
+                  builder: (context, attendanceState) {
+                    return LectureListWidget(
+                      lectures: timetableState.lectures!,
+                      attendance: attendanceState.attendance ?? [],
+                      onMark: (lecture, status) {
+                        _markAttendance(lecture, status);
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
