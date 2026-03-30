@@ -1,5 +1,4 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
-import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';

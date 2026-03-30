@@ -58,21 +58,6 @@ class _HomePageState extends State<HomePage> {
                 );
               }
 
-              // final safeCount = subjects
-              //     .where((s) => s.percentage >= 75)
-              //     .length;
-
-              // final dangerCount = subjects
-              //     .where((s) => s.percentage < 75)
-              //     .length;
-
-              // final totalClasses = subjects.fold(0, (sum, s) => sum + s.total);
-
-              // final totalAttended = subjects.fold(
-              //   0,
-              //   (sum, s) => sum + s.attended,
-              // );
-
               final totalClasses = stats.fold(0, (sum, s) => sum + s.total);
               final totalAttended = stats.fold(0, (sum, s) => sum + s.attended);
               final safeCount = stats.where((s) => s.percentage > 75).length;
@@ -101,7 +86,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       AttendanceStatsCard(
                         title: "Safe to Bunk",
-                        value: "$safeCount Subject(s)",
+                        value: safeCount > 1
+                            ? "$safeCount Subjects"
+                            : "$safeCount Subject",
                         icon: Icons.check_circle,
                         color: AppThemeHelper.colors.success,
                         onPressed: () {
@@ -110,7 +97,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       AttendanceStatsCard(
                         title: "In Danger",
-                        value: "$dangerCount Subject(s)",
+                        value: dangerCount > 1
+                            ? "$dangerCount Subjects"
+                            : "$dangerCount Subject",
                         icon: Icons.warning,
                         color: AppThemeHelper.colors.error,
                         onPressed: () {

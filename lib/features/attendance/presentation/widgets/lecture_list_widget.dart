@@ -36,8 +36,6 @@ class LectureListWidget extends StatelessWidget {
         if (matches.isNotEmpty) {
           attendanceRecord = matches.first;
         }
-        print("LectureId: $lectureId");
-        print("Attendance IDs: ${attendance.map((e) => e.lectureId).toList()}");
         return LectureCardWidget(
           lecture: lecture,
           attendance: attendanceRecord,
