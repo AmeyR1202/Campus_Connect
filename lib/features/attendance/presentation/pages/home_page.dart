@@ -5,6 +5,9 @@ import 'package:campus_connect/core/widgets/empty_state_widget.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_bloc.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_event.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_state.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/attendance_stats_card.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/feature_cards.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/subject_card.dart';
@@ -36,6 +39,10 @@ class _HomePageState extends State<HomePage> {
     final userId = sessionUser.id;
     context.read<AttendanceBloc>().add(
       FetchAllSubjectsStatsEvent(userId: userId),
+    );
+
+    context.read<TimetableBloc>().add(
+      FetchTimetableEvent(branch: 'IT', semester: 6, date: DateTime.now()),
     );
   }
 
@@ -106,12 +113,21 @@ class _HomePageState extends State<HomePage> {
                           context.push('/subject-details', extra: "danger");
                         },
                       ),
-                      AttendanceStatsCard(
-                        title: "GPA",
-                        value: '--/10',
-                        icon: Icons.grade,
-                        color: AppThemeHelper.colors.info,
-                        onPressed: () {},
+                      BlocBuilder<TimetableBloc, TimetableState>(
+                        builder: (context, timetableState) {
+                          final count = timetableState.lectures?.length ?? 0;
+                          final isLoading = timetableState.isLoading;
+
+                          return AttendanceStatsCard(
+                            title: "Today's Lectures",
+                            value: isLoading ? '...' : '$count Lectures',
+                            icon: Icons.calendar_today,
+                            color: AppThemeHelper.colors.info,
+                            onPressed: () {
+                              context.push('/timetable');
+                            },
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -207,7 +223,7 @@ class _HomePageState extends State<HomePage> {
 
                           return GestureDetector(
                             onTap: () {
-                              context.push('/attendance', extra: s.subjectId);
+                              context.push('/subjects/${s.subjectId}/history');
                             },
                             child: SubjectCard(
                               subjectName: s.subjectId.toUpperCase(),

@@ -1,3 +1,4 @@
+import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/add_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_attendance_usecase.dart';
@@ -28,7 +29,13 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     AddAttendanceEvent event,
     Emitter<AttendanceState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true));
+    final updatedList = List<AttendanceEntity>.from(state.attendance ?? []);
+
+    updatedList.removeWhere((e) => e.lectureId == event.entity.lectureId);
+    updatedList.add(event.entity);
+
+    // emitting the updated list first then syncing to the BE
+    emit(state.copyWith(attendance: updatedList, isLoading: true));
 
     final result = await addAttendance(
       userId: event.userId,
