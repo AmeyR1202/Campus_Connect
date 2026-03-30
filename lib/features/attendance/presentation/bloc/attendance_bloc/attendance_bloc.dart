@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/add_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecase/get_dashboard_stats_usecase.dart';
@@ -19,7 +20,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     required this.getAttendance,
     required this.updateLectureUseCase,
   }) : super(AttendanceState()) {
-    on<AddAttendanceEvent>(_onAddAttendance);
+    on<AddAttendanceEvent>(
+      _onAddAttendance,
+      transformer: restartable(),
+    ); // didn't use droppable because it ignores new until done
     on<FetchAllSubjectsStatsEvent>(_onFetchAllSubjectsStatsEvent);
     on<FetchAttendanceEvent>(_onFetchAttendance);
     on<UpdateLectureEvent>(_onUpdateLecture);
@@ -29,12 +33,22 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     AddAttendanceEvent event,
     Emitter<AttendanceState> emit,
   ) async {
+    print('Event Called');
+    final previousState = state;
+
     final updatedList = List<AttendanceEntity>.from(state.attendance ?? []);
+
+    final existing = updatedList
+        .where((e) => e.lectureId == event.entity.lectureId)
+        .toList();
+
+    if (existing.isNotEmpty && existing.first.status == event.entity.status) {
+      return; // skipping duplicates
+    }
 
     updatedList.removeWhere((e) => e.lectureId == event.entity.lectureId);
     updatedList.add(event.entity);
 
-    // emitting the updated list first then syncing to the BE
     emit(state.copyWith(attendance: updatedList, isLoading: true));
 
     final result = await addAttendance(
@@ -43,9 +57,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     );
 
     result.fold(
-      (failure) =>
-          emit(state.copyWith(isLoading: false, error: failure.message)),
+      (failure) {
+        emit(previousState.copyWith(error: failure.message, isLoading: false));
+      },
       (_) {
+        print('Write executed');
+        emit(state.copyWith(isLoading: false));
         add(FetchAllSubjectsStatsEvent(userId: event.userId));
       },
     );
