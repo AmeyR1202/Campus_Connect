@@ -10,8 +10,12 @@ class GetAttendanceUsecase {
 
   Future<Either<Failure, List<AttendanceEntity>>> call({
     required String userId,
-    required String subjectId,
+    String? subjectId,
   }) {
-    return repository.getAttendance(userId: userId, subjectId: subjectId);
+    if (subjectId != null) {
+      return repository.getAttendance(userId: userId, subjectId: subjectId);
+    } else {
+      return repository.getAllAttendance(userId: userId);
+    }
   }
 }

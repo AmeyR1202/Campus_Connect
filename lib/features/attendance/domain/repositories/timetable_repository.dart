@@ -6,5 +6,6 @@ abstract class TimetableRepository {
   Future<Either<Failure, List<LectureEntity>>> getTimetable({
     required String branch,
     required int semester,
+    required DateTime date,
   });
 }

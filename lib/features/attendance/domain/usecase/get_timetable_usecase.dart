@@ -11,7 +11,12 @@ class GetTimetableUsecase {
   Future<Either<Failure, List<LectureEntity>>> call({
     required String branch,
     required int semester,
+    required DateTime date,
   }) {
-    return repository.getTimetable(branch: branch, semester: semester);
+    return repository.getTimetable(
+      branch: branch,
+      semester: semester,
+      date: date,
+    );
   }
 }

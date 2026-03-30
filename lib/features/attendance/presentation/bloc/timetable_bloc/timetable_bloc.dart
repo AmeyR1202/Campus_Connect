@@ -20,6 +20,7 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
     final result = await getTimetableUsecase(
       branch: event.branch,
       semester: event.semester,
+      date: event.date,
     );
 
     result.fold(

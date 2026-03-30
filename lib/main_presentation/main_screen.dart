@@ -1,5 +1,8 @@
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
+import 'package:campus_connect/core/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class MainScreen extends StatefulWidget {
@@ -11,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final routes = ['/home', '/attendance', 'timetable', '/profile'];
+  final routes = ['/home', '/attendance', '/timetable', '/profile'];
 
   void onTap(int index) {
     context.go(routes[index]);
@@ -20,12 +23,13 @@ class _MainScreenState extends State<MainScreen> {
   int getIndex(String location) {
     if (location.startsWith('/attendance')) return 1;
     if (location.startsWith('/timetable')) return 2;
+    if (location.startsWith('/timetable')) return 3;
     return 0;
   }
 
   Widget _buildNavbar(int currentIndex) {
     return NavigationBar(
-      backgroundColor: AppThemeHelper.colors.surfaceVariant,
+      indicatorColor: AppThemeHelper.colors.primary.withValues(alpha: 0.2),
       height: 70,
       selectedIndex: currentIndex,
       onDestinationSelected: onTap,
@@ -56,9 +60,24 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final sessionUser = context.watch<SessionCubit>().state.user;
+
+    final username = sessionUser?.username ?? "User";
     final location = GoRouterState.of(context).uri.toString();
     final currentIndex = getIndex(location);
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: AppThemeHelper.colors.iconPrimary),
+        title: Text(
+          'Hey, $username!',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: false,
+      ),
+      endDrawer: AppDrawer(),
       body: widget.child,
       bottomNavigationBar: _buildNavbar(currentIndex),
     );

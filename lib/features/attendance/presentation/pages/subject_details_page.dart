@@ -14,6 +14,7 @@ class SubjectDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: AppThemeHelper.colors.iconPrimary),
         title: Text(
           filter == "safe" ? "Safe Subjects" : "Danger Subjects",
           style: Theme.of(context).textTheme.headlineLarge,

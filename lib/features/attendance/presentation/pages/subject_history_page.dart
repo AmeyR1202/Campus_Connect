@@ -39,6 +39,7 @@ class _SubjectHistoryPageState extends State<SubjectHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: AppThemeHelper.colors.iconPrimary),
         title: Text(
           "${widget.subjectId.toUpperCase()} History",
           style: Theme.of(context).textTheme.headlineLarge,

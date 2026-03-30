@@ -26,6 +26,7 @@ dependencies:
   flutter_svg: ^2.2.4
   google_fonts: ^8.0.2
   intl: ^0.20.2
+  bloc_concurrency: ^0.3.0
 
 dev_dependencies:
   flutter_test:
