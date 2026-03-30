@@ -5,9 +5,9 @@ abstract class AttendanceEvent extends Equatable {}
 
 class FetchAttendanceEvent extends AttendanceEvent {
   final String userId;
-  final String subjectId;
+  final String? subjectId;
 
-  FetchAttendanceEvent({required this.userId, required this.subjectId});
+  FetchAttendanceEvent({required this.userId, this.subjectId});
 
   @override
   List<Object?> get props => [userId, subjectId];

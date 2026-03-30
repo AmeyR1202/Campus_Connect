@@ -33,7 +33,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     AddAttendanceEvent event,
     Emitter<AttendanceState> emit,
   ) async {
-    print('Event Called');
     final previousState = state;
 
     final updatedList = List<AttendanceEntity>.from(state.attendance ?? []);
@@ -61,7 +60,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         emit(previousState.copyWith(error: failure.message, isLoading: false));
       },
       (_) {
-        print('Write executed');
         emit(state.copyWith(isLoading: false));
         add(FetchAllSubjectsStatsEvent(userId: event.userId));
       },

@@ -9,8 +9,8 @@ import 'package:campus_connect/features/attendance/presentation/bloc/timetable_b
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_state.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/attendance_stats_card.dart';
+import 'package:campus_connect/features/attendance/presentation/widgets/bunker_planner.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/feature_cards.dart';
-import 'package:campus_connect/features/attendance/presentation/widgets/subject_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -48,205 +48,221 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          BlocBuilder<AttendanceBloc, AttendanceState>(
-            builder: (context, state) {
-              final stats = state.subjectStats;
-              // print(stats);
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<AttendanceBloc, AttendanceState>(
+                builder: (context, state) {
+                  final stats = state.subjectStats;
+                  // print(stats);
 
-              if (stats.isEmpty) {
-                return SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: EmptyStateWidget(),
-                  ),
-                );
-              }
+                  if (stats.isEmpty) {
+                    return EmptyStateWidget();
+                  }
 
-              final totalClasses = stats.fold(0, (sum, s) => sum + s.total);
-              final totalAttended = stats.fold(0, (sum, s) => sum + s.attended);
-              final safeCount = stats.where((s) => s.percentage > 75).length;
-              final dangerCount = stats.where((s) => s.percentage < 75).length;
+                  final totalClasses = stats.fold(0, (sum, s) => sum + s.total);
+                  final totalAttended = stats.fold(
+                    0,
+                    (sum, s) => sum + s.attended,
+                  );
+                  final safeSubjects = stats.where((s) => s.percentage >= 75).toList();
+                  final dangerSubjects = stats.where((s) => s.percentage < 75).toList();
+                  
+                  final safeCount = safeSubjects.length;
+                  final dangerCount = dangerSubjects.length;
 
-              final overallPercentage = totalClasses == 0
-                  ? 0.0
-                  : (totalAttended / totalClasses) * 100;
-              return SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 2.5,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                  final overallPercentage = totalClasses == 0
+                      ? 0.0
+                      : (totalAttended / totalClasses) * 100;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AttendanceStatsCard(
-                        title: 'Overall Attendance',
-                        value: '${overallPercentage.toStringAsFixed(1)}%',
-                        icon: Icons.check_circle,
-                        color: AppThemeHelper.colors.success,
-                        onPressed: () {},
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 2.5,
+                              child: AttendanceStatsCard(
+                                title: 'Overall Attendance',
+                                value:
+                                    '${overallPercentage.toStringAsFixed(1)}%',
+                                icon: Icons.check_circle,
+                                color: AppThemeHelper.colors.success,
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 2.5,
+                              child: AttendanceStatsCard(
+                                title: "Safe to Bunk",
+                                value: safeCount > 1
+                                    ? "$safeCount Subjects"
+                                    : "$safeCount Subject",
+                                icon: Icons.check_circle,
+                                color: AppThemeHelper.colors.success,
+                                onPressed: () {
+                                  context.push(
+                                    '/subject-details',
+                                    extra: "safe",
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      AttendanceStatsCard(
-                        title: "Safe to Bunk",
-                        value: safeCount > 1
-                            ? "$safeCount Subjects"
-                            : "$safeCount Subject",
-                        icon: Icons.check_circle,
-                        color: AppThemeHelper.colors.success,
-                        onPressed: () {
-                          context.push('/subject-details', extra: "safe");
-                        },
-                      ),
-                      AttendanceStatsCard(
-                        title: "In Danger",
-                        value: dangerCount > 1
-                            ? "$dangerCount Subjects"
-                            : "$dangerCount Subject",
-                        icon: Icons.warning,
-                        color: AppThemeHelper.colors.error,
-                        onPressed: () {
-                          context.push('/subject-details', extra: "danger");
-                        },
-                      ),
-                      BlocBuilder<TimetableBloc, TimetableState>(
-                        builder: (context, timetableState) {
-                          final count = timetableState.lectures?.length ?? 0;
-                          final isLoading = timetableState.isLoading;
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 2.5,
+                              child: AttendanceStatsCard(
+                                title: "In Danger",
+                                value: dangerCount > 1
+                                    ? "$dangerCount Subjects"
+                                    : "$dangerCount Subject",
+                                icon: Icons.warning,
+                                color: AppThemeHelper.colors.error,
+                                onPressed: () {
+                                  context.push(
+                                    '/subject-details',
+                                    extra: "danger",
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 2.5,
+                              child: BlocBuilder<TimetableBloc, TimetableState>(
+                                builder: (context, timetableState) {
+                                  final count =
+                                      timetableState.lectures?.length ?? 0;
+                                  final isLoading = timetableState.isLoading;
 
-                          return AttendanceStatsCard(
-                            title: "Today's Lectures",
-                            value: isLoading ? '...' : '$count Lectures',
-                            icon: Icons.calendar_today,
-                            color: AppThemeHelper.colors.info,
-                            onPressed: () {
-                              context.push('/timetable');
-                            },
-                          );
-                        },
+                                  return AttendanceStatsCard(
+                                    title: "Today's Lectures",
+                                    value: isLoading
+                                        ? '...'
+                                        : '$count Lectures',
+                                    icon: Icons.calendar_today,
+                                    color: AppThemeHelper.colors.info,
+                                    onPressed: () {
+                                      context.push('/timetable');
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Bunk Planning',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      BunkPlannerCard(
+                        safeSubjects: safeSubjects,
+                        dangerSubjects: dangerSubjects,
                       ),
                     ],
-                  ),
-                ),
-              );
-            },
-          ),
-
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+              Text(
                 'Campus Features',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   fontWeight: FontWeight.w700,
                   fontSize: 22,
                 ),
               ),
-            ),
-          ),
+              SizedBox(height: 10),
 
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 2.2,
-              ),
-              delegate: SliverChildListDelegate([
-                FeatureCard(
-                  title: "Lost & Found",
-                  subtitle: "2 new items",
-                  icon: Icons.search,
-                  color: Feature.lostFound,
-                  onTap: () => context.go('/lost&found'),
-                ),
-
-                FeatureCard(
-                  title: "Events",
-                  subtitle: "3 upcoming",
-                  icon: Icons.event,
-                  color: Feature.timetable,
-                  onTap: () => context.go('/events'),
-                ),
-                FeatureCard(
-                  title: "Discussions",
-                  subtitle: "5 active threads",
-                  icon: Icons.forum,
-                  color: Feature.discussions,
-                  onTap: () {
-                    context.go('/discussions');
-                  },
-                ),
-                FeatureCard(
-                  title: "Blogs",
-                  subtitle: "Latest posts",
-                  icon: Icons.article,
-                  color: Feature.blogs,
-                  onTap: () => context.go('/blogs'),
-                ),
-              ]),
-            ),
-          ),
-
-          BlocBuilder<AttendanceBloc, AttendanceState>(
-            builder: (context, state) {
-              final stats = state.subjectStats;
-
-              if (stats.isEmpty) {
-                return const SliverToBoxAdapter(child: SizedBox.shrink());
-              }
-              return SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        'Subjects',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22,
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AspectRatio(
+                          aspectRatio: 2.2,
+                          child: FeatureCard(
+                            title: "Lost & Found",
+                            subtitle: "2 new items",
+                            icon: Icons.search,
+                            color: Feature.lostFound,
+                            onTap: () => context.go('/lost&found'),
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: stats.map((s) {
-                          final isSafe = s.percentage >= 75;
-
-                          return GestureDetector(
-                            onTap: () {
-                              context.push('/subjects/${s.subjectId}/history');
-                            },
-                            child: SubjectCard(
-                              subjectName: s.subjectId.toUpperCase(),
-                              percentage: s.percentage,
-                              statusText: s.total == 0
-                                  ? "Start tracking"
-                                  : (isSafe
-                                        ? "Can bunk ${s.canBunk}"
-                                        : "Must attend ${s.mustAttend}"),
-                              statusColor: isSafe
-                                  ? AppThemeHelper.colors.success
-                                  : AppThemeHelper.colors.error,
-                            ),
-                          );
-                        }).toList(),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: AspectRatio(
+                          aspectRatio: 2.2,
+                          child: FeatureCard(
+                            title: "Events",
+                            subtitle: "3 upcoming",
+                            icon: Icons.event,
+                            color: Feature.timetable,
+                            onTap: () => context.go('/events'),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AspectRatio(
+                          aspectRatio: 2.2,
+                          child: FeatureCard(
+                            title: "Discussions",
+                            subtitle: "5 active threads",
+                            icon: Icons.forum,
+                            color: Feature.discussions,
+                            onTap: () {
+                              context.go('/discussions');
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: AspectRatio(
+                          aspectRatio: 2.2,
+                          child: FeatureCard(
+                            title: "Blogs",
+                            subtitle: "Latest posts",
+                            icon: Icons.article,
+                            color: Feature.blogs,
+                            onTap: () => context.go('/blogs'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

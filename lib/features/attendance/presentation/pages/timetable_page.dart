@@ -39,6 +39,9 @@ class _TimetablePageState extends State<TimetablePage> {
     context.read<AttendanceBloc>().add(
       FetchAllSubjectsStatsEvent(userId: userId),
     );
+    context.read<AttendanceBloc>().add(
+      FetchAttendanceEvent(userId: userId), // Fetches all attendance records globally
+    );
     // Last 7 days including today
     weekDates = List.generate(7, (index) {
       return DateTime.now().subtract(Duration(days: 6 - index));
