@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
@@ -16,11 +17,11 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = isOutlined ? Colors.transparent : color;
+    final backgroundColor = isOutlined ? AppThemeHelper.colors.surface : color;
 
     final borderColor = color;
 
-    final textColor = isOutlined ? color : Colors.white;
+    final textColor = isOutlined ? color : AppThemeHelper.colors.surface;
 
     return SizedBox(
       height: 48,

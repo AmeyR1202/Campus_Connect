@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildNavbar(int currentIndex) {
     return NavigationBar(
-      backgroundColor: AppThemeHelper.colors.surfaceVariant,
+      indicatorColor: AppThemeHelper.colors.primary.withValues(alpha: 0.2),
       height: 70,
       selectedIndex: currentIndex,
       onDestinationSelected: onTap,

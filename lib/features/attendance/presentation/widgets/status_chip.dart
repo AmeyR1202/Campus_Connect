@@ -19,7 +19,6 @@ class StatusChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.red),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

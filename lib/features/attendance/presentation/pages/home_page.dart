@@ -69,9 +69,13 @@ class _HomePageState extends State<HomePage> {
                     0,
                     (sum, s) => sum + s.attended,
                   );
-                  final safeSubjects = stats.where((s) => s.percentage >= 75).toList();
-                  final dangerSubjects = stats.where((s) => s.percentage < 75).toList();
-                  
+                  final safeSubjects = stats
+                      .where((s) => s.percentage >= 75)
+                      .toList();
+                  final dangerSubjects = stats
+                      .where((s) => s.percentage < 75)
+                      .toList();
+
                   final safeCount = safeSubjects.length;
                   final dangerCount = dangerSubjects.length;
 

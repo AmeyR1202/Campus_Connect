@@ -61,7 +61,7 @@ class DateSelectorWidget extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       color: isSelected
-                          ? Colors.white
+                          ? AppThemeHelper.colors.background
                           : AppThemeHelper.colors.textTertiary,
                       fontWeight: FontWeight.w500,
                     ),
@@ -76,7 +76,7 @@ class DateSelectorWidget extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: isSelected
-                          ? Colors.white
+                          ? AppThemeHelper.colors.background
                           : AppThemeHelper.colors.textTertiary,
                     ),
                   ),
@@ -89,7 +89,7 @@ class DateSelectorWidget extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       color: isSelected
-                          ? Colors.white
+                          ? AppThemeHelper.colors.background
                           : AppThemeHelper.colors.textTertiary,
                     ),
                   ),

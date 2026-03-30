@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
@@ -40,7 +41,9 @@ class _TimetablePageState extends State<TimetablePage> {
       FetchAllSubjectsStatsEvent(userId: userId),
     );
     context.read<AttendanceBloc>().add(
-      FetchAttendanceEvent(userId: userId), // Fetches all attendance records globally
+      FetchAttendanceEvent(
+        userId: userId,
+      ), // Fetches all attendance records globally
     );
     // Last 7 days including today
     weekDates = List.generate(7, (index) {
@@ -77,15 +80,16 @@ class _TimetablePageState extends State<TimetablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Timetable",
-          style: TextStyle(color: AppThemeHelper.colors.textTertiary),
-        ),
-        centerTitle: true,
-      ),
       body: Column(
         children: [
+          Text(
+            "Timetable",
+            style: AppTheme.light.textTheme.headlineLarge?.copyWith(
+              color: AppThemeHelper.colors.textTertiary,
+            ),
+          ),
+          SizedBox(height: 20),
+
           /// Date Selector
           DateSelectorWidget(
             dates: weekDates,
