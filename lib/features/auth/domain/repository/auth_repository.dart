@@ -1,5 +1,6 @@
 import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/auth/domain/entities/user_entity.dart';
+import 'package:campus_connect/features/auth/domain/enums/batch.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';
 import 'package:campus_connect/features/auth/domain/enums/year.dart';
@@ -13,6 +14,7 @@ abstract class AuthRepository {
     required Branch branch,
     required Year year,
     required Semester semester,
+    required Batch batch,
   });
 
   Future<Either<Failure, UserEntity>> login({

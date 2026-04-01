@@ -1,3 +1,4 @@
+import 'package:campus_connect/features/auth/domain/enums/batch.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';
 import 'package:campus_connect/features/auth/domain/enums/year.dart';
@@ -17,6 +18,7 @@ class UserModel with _$UserModel {
     required String branch,
     required String semester,
     required String year,
+    required String batch,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -30,6 +32,7 @@ class UserModel with _$UserModel {
       branch: json['branch'] ?? '',
       semester: json['semester'] ?? '',
       year: json['year'] ?? '',
+      batch: json['batch'] ?? '',
     );
   }
 
@@ -45,6 +48,7 @@ class UserModel with _$UserModel {
       branch: _mapBranch(branch),
       currentSemester: _mapSemester(semester),
       year: _mapYear(year),
+      batch: _mapBatch(batch),
     );
   }
 }
@@ -59,4 +63,8 @@ Semester _mapSemester(String value) {
 
 Year _mapYear(String value) {
   return Year.values.firstWhere((e) => e.name == value);
+}
+
+Batch _mapBatch(String value) {
+  return Batch.values.firstWhere((e) => e.name == value);
 }

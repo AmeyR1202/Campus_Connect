@@ -14,6 +14,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       branch: json['branch'] as String,
       semester: json['semester'] as String,
       year: json['year'] as String,
+      batch: json['batch'] as String,
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'branch': instance.branch,
       'semester': instance.semester,
       'year': instance.year,
+      'batch': instance.batch,
     };

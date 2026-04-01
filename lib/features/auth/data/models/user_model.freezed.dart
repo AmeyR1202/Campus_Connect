@@ -27,6 +27,7 @@ mixin _$UserModel {
   String get branch => throw _privateConstructorUsedError;
   String get semester => throw _privateConstructorUsedError;
   String get year => throw _privateConstructorUsedError;
+  String get batch => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $UserModelCopyWith<$Res> {
     String branch,
     String semester,
     String year,
+    String batch,
   });
 }
 
@@ -74,6 +76,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? branch = null,
     Object? semester = null,
     Object? year = null,
+    Object? batch = null,
   }) {
     return _then(
       _value.copyWith(
@@ -101,6 +104,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
                 ? _value.year
                 : year // ignore: cast_nullable_to_non_nullable
                       as String,
+            batch: null == batch
+                ? _value.batch
+                : batch // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -123,6 +130,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
     String branch,
     String semester,
     String year,
+    String batch,
   });
 }
 
@@ -146,6 +154,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? branch = null,
     Object? semester = null,
     Object? year = null,
+    Object? batch = null,
   }) {
     return _then(
       _$UserModelImpl(
@@ -173,6 +182,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
             ? _value.year
             : year // ignore: cast_nullable_to_non_nullable
                   as String,
+        batch: null == batch
+            ? _value.batch
+            : batch // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -188,6 +201,7 @@ class _$UserModelImpl extends _UserModel {
     required this.branch,
     required this.semester,
     required this.year,
+    required this.batch,
   }) : super._();
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -205,10 +219,12 @@ class _$UserModelImpl extends _UserModel {
   final String semester;
   @override
   final String year;
+  @override
+  final String batch;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, username: $username, createdAt: $createdAt, branch: $branch, semester: $semester, year: $year)';
+    return 'UserModel(id: $id, username: $username, createdAt: $createdAt, branch: $branch, semester: $semester, year: $year, batch: $batch)';
   }
 
   @override
@@ -224,13 +240,22 @@ class _$UserModelImpl extends _UserModel {
             (identical(other.branch, branch) || other.branch == branch) &&
             (identical(other.semester, semester) ||
                 other.semester == semester) &&
-            (identical(other.year, year) || other.year == year));
+            (identical(other.year, year) || other.year == year) &&
+            (identical(other.batch, batch) || other.batch == batch));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, username, createdAt, branch, semester, year);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    username,
+    createdAt,
+    branch,
+    semester,
+    year,
+    batch,
+  );
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -254,6 +279,7 @@ abstract class _UserModel extends UserModel {
     required final String branch,
     required final String semester,
     required final String year,
+    required final String batch,
   }) = _$UserModelImpl;
   const _UserModel._() : super._();
 
@@ -272,6 +298,8 @@ abstract class _UserModel extends UserModel {
   String get semester;
   @override
   String get year;
+  @override
+  String get batch;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.

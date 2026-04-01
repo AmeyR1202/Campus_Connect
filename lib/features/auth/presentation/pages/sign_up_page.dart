@@ -1,11 +1,13 @@
 import 'package:campus_connect/core/widgets/dropdown.dart';
 import 'package:campus_connect/core/widgets/snackbar.dart';
+import 'package:campus_connect/features/auth/domain/enums/batch.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';
 import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
+import 'package:campus_connect/features/auth/presentation/extensions/batch_extension.dart';
 import 'package:campus_connect/features/auth/presentation/extensions/branch_extension.dart';
 import 'package:campus_connect/features/auth/presentation/extensions/semester_extension.dart';
 import 'package:campus_connect/features/auth/presentation/extensions/year_extension.dart';
@@ -31,6 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Branch? selectedBranch;
   Year? selectedYear;
   Semester? selectedSemester;
+  Batch? selectedBatch;
 
   @override
   void dispose() {
@@ -43,7 +46,8 @@ class _SignUpPageState extends State<SignUpPage> {
   void _onSignup() {
     if (selectedBranch == null ||
         selectedYear == null ||
-        selectedSemester == null) {
+        selectedSemester == null ||
+        selectedBatch == null) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Please select all fields")));
@@ -59,6 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
         branch: selectedBranch!,
         year: selectedYear!,
         semester: selectedSemester!,
+        batch: selectedBatch!,
       ),
     );
   }
@@ -203,6 +208,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                         setState(
                                           () => selectedSemester = value,
                                         );
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: AppDropdown<Batch>(
+                                      label: "Batch",
+                                      getLabel: (s) => s.displayBatch,
+                                      value: selectedBatch,
+                                      items: Batch.values,
+                                      onChanged: (value) {
+                                        setState(() => selectedBatch = value);
                                       },
                                     ),
                                   ),

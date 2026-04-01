@@ -14,6 +14,7 @@ class FirestoreUserDatasource {
     required String branch,
     required String year,
     required String semester,
+    required String batch,
   }) async {
     try {
       await firestore.collection('users').doc(uid).set({
@@ -22,6 +23,7 @@ class FirestoreUserDatasource {
         'branch': branch,
         'semester': semester,
         'year': year,
+        'batch': batch,
         'createdAt': FieldValue.serverTimestamp(),
       });
     } on FirebaseException catch (e) {

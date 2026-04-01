@@ -3,6 +3,7 @@ import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
 import 'package:campus_connect/features/auth/data/datasources/firestore_user_datasource.dart';
 import 'package:campus_connect/features/auth/domain/entities/user_entity.dart';
+import 'package:campus_connect/features/auth/domain/enums/batch.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';
 import 'package:campus_connect/features/auth/domain/enums/year.dart';
@@ -93,6 +94,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required Branch branch,
     required Year year,
     required Semester semester,
+    required Batch batch,
   }) async {
     try {
       final credential = await authDatasource.signUp(
@@ -114,6 +116,7 @@ class AuthRepositoryImpl implements AuthRepository {
         year: year.name,
         semester: semester.name,
         branch: branch.name,
+        batch: batch.name,
       );
 
       return Right(null);

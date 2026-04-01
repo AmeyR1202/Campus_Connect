@@ -1,3 +1,4 @@
+import 'package:campus_connect/features/auth/domain/enums/batch.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';
 import 'package:campus_connect/features/auth/domain/enums/year.dart';
@@ -12,6 +13,7 @@ class UserEntity extends Equatable {
   final Semester currentSemester;
   final Branch branch;
   final Year year;
+  final Batch batch;
 
   const UserEntity({
     required this.id,
@@ -22,6 +24,7 @@ class UserEntity extends Equatable {
     required this.currentSemester,
     required this.branch,
     required this.year,
+    required this.batch,
   });
 
   @override
@@ -34,5 +37,6 @@ class UserEntity extends Equatable {
     currentSemester,
     branch,
     year,
+    batch,
   ];
 }

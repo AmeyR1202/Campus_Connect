@@ -83,6 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       branch: event.branch,
       semester: event.semester,
       year: event.year,
+      batch: event.batch,
     );
 
     result.fold(
