@@ -5,7 +5,7 @@ import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:campus_connect/firebase_options.dart';
+import 'package:campus_connect/core/firebase/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

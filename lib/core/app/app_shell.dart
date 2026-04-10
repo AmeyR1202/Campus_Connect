@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class MainScreen extends StatefulWidget {
+class AppShell extends StatefulWidget {
   final Widget child;
-  const MainScreen({super.key, required this.child});
+  const AppShell({super.key, required this.child});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<AppShell> createState() => _AppShellState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _AppShellState extends State<AppShell> {
   final routes = ['/home', '/attendance', '/timetable', '/profile'];
 
   void onTap(int index) {
