@@ -1,3 +1,4 @@
+import 'package:campus_connect/features/auth/domain/enums/batch.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
 import 'package:campus_connect/features/auth/domain/enums/semester.dart';
 import 'package:campus_connect/features/auth/domain/enums/year.dart';
@@ -29,6 +30,7 @@ class SignupRequested extends AuthEvent {
   final Branch branch;
   final Year year;
   final Semester semester;
+  final Batch batch;
 
   const SignupRequested({
     required this.username,
@@ -37,6 +39,7 @@ class SignupRequested extends AuthEvent {
     required this.branch,
     required this.year,
     required this.semester,
+    required this.batch,
   });
 
   @override
