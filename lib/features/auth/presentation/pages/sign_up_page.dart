@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/widgets/dropdown.dart';
+import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/core/widgets/snackbar.dart';
 import 'package:campus_connect/features/auth/domain/enums/batch.dart';
 import 'package:campus_connect/features/auth/domain/enums/branch.dart';
@@ -182,8 +183,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       },
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
-
+                                  const SizedBox(width: 15),
                                   Expanded(
                                     child: AppDropdown<Year>(
                                       label: "Year",
@@ -195,8 +195,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                       },
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
-
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              Row(
+                                children: [
                                   Expanded(
                                     child: AppDropdown<Semester>(
                                       label: "Semester",
@@ -210,6 +213,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       },
                                     ),
                                   ),
+                                  const SizedBox(width: 15),
                                   Expanded(
                                     child: AppDropdown<Batch>(
                                       label: "Batch",
@@ -257,9 +261,7 @@ class _SignUpPageState extends State<SignUpPage> {
             if (isLoading)
               Container(
                 color: Color.fromRGBO(0, 0, 0, 0.1),
-                child: const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                ),
+                child: const Center(child: Loader()),
               ),
           ],
         );
