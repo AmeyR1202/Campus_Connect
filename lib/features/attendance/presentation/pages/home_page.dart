@@ -5,12 +5,12 @@ import 'package:campus_connect/core/widgets/empty_state_widget.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
-import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_bloc.dart';
-import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_event.dart';
-import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_state.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/attendance_stats_card.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/bunker_planner.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/feature_cards.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     );
 
     context.read<TimetableBloc>().add(
-      FetchTimetableEvent(branch: 'IT', semester: 6, date: DateTime.now()),
+      GetLecturesForDayEvent(userId: userId, date: DateTime.now()),
     );
   }
 

@@ -1,9 +1,9 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
-import 'package:campus_connect/features/attendance/domain/usecase/add_attendance_usecase.dart';
-import 'package:campus_connect/features/attendance/domain/usecase/get_dashboard_stats_usecase.dart';
-import 'package:campus_connect/features/attendance/domain/usecase/get_attendance_usecase.dart';
-import 'package:campus_connect/features/attendance/domain/usecase/update_lecture_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/add_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/update_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,13 +12,13 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final AddAttendanceUsecase addAttendance;
   final GetAttendanceUsecase getAttendance;
   final GetDashboardStatsUsecase dashboardStats;
-  final UpdateLectureUsecase updateLectureUseCase;
+  final UpdateAttendanceUsecase updateAttendanceUsecase;
 
   AttendanceBloc({
     required this.dashboardStats,
     required this.addAttendance,
     required this.getAttendance,
-    required this.updateLectureUseCase,
+    required this.updateAttendanceUsecase,
   }) : super(AttendanceState()) {
     on<AddAttendanceEvent>(
       _onAddAttendance,
@@ -106,7 +106,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   ) async {
     emit(state.copyWith(isLoading: true));
 
-    final result = await updateLectureUseCase(
+    final result = await updateAttendanceUsecase(
       userId: event.userId,
       subjectId: event.subjectId,
       lectureId: event.lectureId,

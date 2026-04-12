@@ -3,15 +3,15 @@ import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
-import 'package:campus_connect/features/attendance/domain/entities/lecture_entity.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
-import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_bloc.dart';
-import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_event.dart';
-import 'package:campus_connect/features/attendance/presentation/bloc/timetable_bloc/timetable_state.dart';
-import 'package:campus_connect/features/attendance/presentation/widgets/date_selector.dart';
-import 'package:campus_connect/features/attendance/presentation/widgets/lecture_list_widget.dart';
+import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_state.dart';
+import 'package:campus_connect/features/timetable/presentation/widgets/date_selector.dart';
+import 'package:campus_connect/features/timetable/presentation/widgets/lecture_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -55,12 +55,12 @@ class _TimetablePageState extends State<TimetablePage> {
 
   void _fetchTimetableForDate(DateTime date) {
     context.read<TimetableBloc>().add(
-      FetchTimetableEvent(branch: branch, semester: semester, date: date),
+      GetLecturesForDayEvent(userId: userId, date: date),
     );
   }
 
   void _markAttendance(LectureEntity lecture, AttendanceStatus status) {
-    final d = lecture.date;
+    final d = selectedDate;
 
     final lectureId =
         "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_${lecture.subjectId}";
@@ -69,7 +69,7 @@ class _TimetablePageState extends State<TimetablePage> {
       lectureId: lectureId,
       subjectId: lecture.subjectId,
       status: status,
-      markedAt: lecture.date,
+      markedAt: selectedDate,
     );
 
     context.read<AttendanceBloc>().add(
@@ -127,6 +127,7 @@ class _TimetablePageState extends State<TimetablePage> {
                       onMark: (lecture, status) {
                         _markAttendance(lecture, status);
                       },
+                      selectedDate: DateTime.now(),
                     );
                   },
                 );

@@ -32,7 +32,7 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
 
     //optimistic
     emit(
-      state.copyWith(lectures: [...state.lectures, event.entity], error: null),
+      state.copyWith(lectures: [...?state.lectures, event.entity], error: null),
     );
 
     final result = await addLecture(userId: event.userId, entity: event.entity);
@@ -53,12 +53,13 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
     DeleteLectureEvent event,
     Emitter<TimetableState> emit,
   ) async {
+    if (state.lectures == null) return;
     final previousLectures = state.lectures;
 
     //optimistic deleting
     emit(
       state.copyWith(
-        lectures: state.lectures
+        lectures: state.lectures!
             .where((l) => l.lectureId != event.lectureId)
             .toList(),
         error: null,
@@ -96,9 +97,11 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
     UpdateLectureEvent event,
     Emitter<TimetableState> emit,
   ) async {
+    if (state.lectures == null) return;
+
     final previousLectures = state.lectures;
 
-    final updatedList = state.lectures.map((l) {
+    final updatedList = state.lectures!.map((l) {
       if (l.lectureId == event.entity.lectureId) {
         return event.entity;
       }

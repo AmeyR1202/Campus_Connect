@@ -3,10 +3,10 @@ import 'package:campus_connect/features/attendance/domain/entities/attendance_en
 import 'package:campus_connect/features/attendance/domain/repositories/attendance_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
-class UpdateLectureUsecase {
+class UpdateAttendanceUsecase {
   final AttendanceRepository repository;
 
-  UpdateLectureUsecase(this.repository);
+  UpdateAttendanceUsecase(this.repository);
 
   Future<Either<Failure, void>> call({
     required String userId,

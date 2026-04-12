@@ -2,7 +2,7 @@ import 'package:campus_connect/core/router/page_transitions.dart';
 import 'package:campus_connect/core/widgets/error_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/subject_details_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/subject_history_page.dart';
-import 'package:campus_connect/features/attendance/presentation/pages/timetable_page.dart';
+import 'package:campus_connect/features/timetable/presentation/pages/timetable_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/email_sent_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/home_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/login_page.dart';

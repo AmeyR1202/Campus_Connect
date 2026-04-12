@@ -1,8 +1,8 @@
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
-import 'package:campus_connect/features/attendance/domain/entities/lecture_entity.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/action_button.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/status_chip.dart';
+import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
 import 'package:flutter/material.dart';
 
 class LectureCardWidget extends StatelessWidget {

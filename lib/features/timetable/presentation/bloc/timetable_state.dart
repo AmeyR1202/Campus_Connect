@@ -2,18 +2,14 @@ import 'package:campus_connect/features/timetable/domain/entities/lecture_entity
 import 'package:equatable/equatable.dart';
 
 class TimetableState extends Equatable {
-  final List<LectureEntity> lectures;
+  final List<LectureEntity>? lectures;
   final bool isLoading;
   final String? error;
 
-  const TimetableState({
-    required this.lectures,
-    required this.isLoading,
-    this.error,
-  });
+  const TimetableState({this.lectures, required this.isLoading, this.error});
 
   factory TimetableState.initial() {
-    return const TimetableState(lectures: [], isLoading: false, error: null);
+    return const TimetableState(lectures: null, isLoading: false, error: null);
   }
 
   TimetableState copyWith({

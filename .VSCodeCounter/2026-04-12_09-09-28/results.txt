@@ -1,0 +1,171 @@
+Date : 2026-04-12 09:09:28
+Directory : /Users/ameyrakhe/Documents/Projects/campus_connect/lib
+Total : 93 files,  5214 codes, 161 comments, 757 blanks, all 6132 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         93 |      5,214 |        161 |        757 |      6,132 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                               | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                  |         93 |      5,214 |        161 |        757 |      6,132 |
+| . (Files)                                                                                                                          |          1 |         38 |          0 |          4 |         42 |
+| core                                                                                                                               |         20 |        736 |         27 |        112 |        875 |
+| core/app                                                                                                                           |          1 |         77 |          0 |          9 |         86 |
+| core/di                                                                                                                            |          1 |         87 |         11 |         21 |        119 |
+| core/errors                                                                                                                        |          2 |         26 |          0 |         10 |         36 |
+| core/firebase                                                                                                                      |          1 |         59 |         12 |          5 |         76 |
+| core/router                                                                                                                        |          2 |         84 |          0 |          6 |         90 |
+| core/session                                                                                                                       |          2 |         27 |          2 |         11 |         40 |
+| core/theme                                                                                                                         |          5 |        135 |          0 |         25 |        160 |
+| core/widgets                                                                                                                       |          6 |        241 |          2 |         25 |        268 |
+| features                                                                                                                           |         72 |      4,440 |        134 |        641 |      5,215 |
+| features/attendance                                                                                                                |         23 |      1,710 |         54 |        238 |      2,002 |
+| features/attendance/data                                                                                                           |          4 |        355 |         29 |         52 |        436 |
+| features/attendance/data/datasource                                                                                                |          1 |         79 |          0 |         10 |         89 |
+| features/attendance/data/models                                                                                                    |          2 |        226 |         29 |         32 |        287 |
+| features/attendance/data/repository                                                                                                |          1 |         50 |          0 |         10 |         60 |
+| features/attendance/domain                                                                                                         |          7 |        169 |          0 |         42 |        211 |
+| features/attendance/domain/entities                                                                                                |          2 |         42 |          0 |          8 |         50 |
+| features/attendance/domain/repositories                                                                                            |          1 |         22 |          0 |          5 |         27 |
+| features/attendance/domain/usecases                                                                                                |          4 |        105 |          0 |         29 |        134 |
+| features/attendance/presentation                                                                                                   |         12 |      1,186 |         25 |        144 |      1,355 |
+| features/attendance/presentation/bloc                                                                                              |          3 |        189 |         19 |         50 |        258 |
+| features/attendance/presentation/bloc/attendance_bloc                                                                              |          3 |        189 |         19 |         50 |        258 |
+| features/attendance/presentation/pages                                                                                             |          3 |        600 |          6 |         48 |        654 |
+| features/attendance/presentation/widgets                                                                                           |          6 |        397 |          0 |         46 |        443 |
+| features/auth                                                                                                                      |         32 |      1,664 |         40 |        248 |      1,952 |
+| features/auth/data                                                                                                                 |          6 |        554 |         30 |         84 |        668 |
+| features/auth/data/datasources                                                                                                     |          2 |         97 |          0 |         17 |        114 |
+| features/auth/data/models                                                                                                          |          3 |        338 |         30 |         44 |        412 |
+| features/auth/data/repositories                                                                                                    |          1 |        119 |          0 |         23 |        142 |
+| features/auth/domain                                                                                                               |         11 |        146 |          2 |         32 |        180 |
+| features/auth/domain/entities                                                                                                      |          1 |         39 |          0 |          4 |         43 |
+| features/auth/domain/enums                                                                                                         |          4 |          4 |          0 |          4 |          8 |
+| features/auth/domain/repository                                                                                                    |          1 |         24 |          0 |          5 |         29 |
+| features/auth/domain/usecases                                                                                                      |          4 |         69 |          0 |         17 |         86 |
+| features/auth/domain/validators                                                                                                    |          1 |         10 |          2 |          2 |         14 |
+| features/auth/presentation                                                                                                         |         15 |        964 |          8 |        132 |      1,104 |
+| features/auth/presentation/bloc                                                                                                    |          3 |        160 |          0 |         36 |        196 |
+| features/auth/presentation/extensions                                                                                              |          4 |         53 |          0 |          8 |         61 |
+| features/auth/presentation/pages                                                                                                   |          5 |        647 |          8 |         78 |        733 |
+| features/auth/presentation/widgets                                                                                                 |          3 |        104 |          0 |         10 |        114 |
+| features/timetable                                                                                                                 |         17 |      1,066 |         40 |        155 |      1,261 |
+| features/timetable/data                                                                                                            |          4 |        458 |         25 |         50 |        533 |
+| features/timetable/data/datasources                                                                                                |          1 |         71 |          0 |          9 |         80 |
+| features/timetable/data/models                                                                                                     |          2 |        308 |         25 |         32 |        365 |
+| features/timetable/data/repository                                                                                                 |          1 |         79 |          0 |          9 |         88 |
+| features/timetable/domain                                                                                                          |          6 |        105 |          0 |         25 |        130 |
+| features/timetable/domain/entities                                                                                                 |          1 |         29 |          0 |          4 |         33 |
+| features/timetable/domain/repository                                                                                               |          1 |         21 |          0 |          5 |         26 |
+| features/timetable/domain/usecases                                                                                                 |          4 |         55 |          0 |         16 |         71 |
+| features/timetable/presentation                                                                                                    |          7 |        503 |         15 |         80 |        598 |
+| features/timetable/presentation/bloc                                                                                               |          3 |        147 |          6 |         33 |        186 |
+| features/timetable/presentation/pages                                                                                              |          1 |        118 |          3 |         20 |        141 |
+| features/timetable/presentation/widgets                                                                                            |          3 |        238 |          6 |         27 |        271 |
++------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                                           | language | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/app/app_shell.dart                                                     | Dart     |         77 |          0 |          9 |         86 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/di/service_locator.dart                                                | Dart     |         87 |         11 |         21 |        119 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/errors/app_exception.dart                                              | Dart     |         10 |          0 |          4 |         14 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/errors/failures.dart                                                   | Dart     |         16 |          0 |          6 |         22 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/firebase/firebase_options.dart                                         | Dart     |         59 |         12 |          5 |         76 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/router/app_router.dart                                                 | Dart     |         62 |          0 |          3 |         65 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/router/page_transitions.dart                                           | Dart     |         22 |          0 |          3 |         25 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/session/session_cubit.dart                                             | Dart     |         12 |          2 |          6 |         20 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/session/session_state.dart                                             | Dart     |         15 |          0 |          5 |         20 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/theme/app_colors.dart                                                  | Dart     |         70 |          0 |         11 |         81 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/theme/app_theme.dart                                                   | Dart     |         34 |          0 |          3 |         37 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/theme/feature_colors.dart                                              | Dart     |          7 |          0 |          2 |          9 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/theme/theme_helper.dart                                                | Dart     |          5 |          0 |          2 |          7 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/theme/theme_variants.dart                                              | Dart     |         19 |          0 |          7 |         26 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/widgets/drawer.dart                                                    | Dart     |         41 |          0 |          3 |         44 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/widgets/dropdown.dart                                                  | Dart     |         53 |          0 |          4 |         57 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/widgets/empty_state_widget.dart                                        | Dart     |         51 |          0 |          8 |         59 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/widgets/error_page.dart                                                | Dart     |         82 |          2 |          5 |         89 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/widgets/loader.dart                                                    | Dart     |          8 |          0 |          3 |         11 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/core/widgets/snackbar.dart                                                  | Dart     |          6 |          0 |          2 |          8 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/data/datasource/firestore_attendance_datasource.dart    | Dart     |         79 |          0 |         10 |         89 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/data/models/attendance_model.dart                       | Dart     |         46 |          4 |          8 |         58 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/data/models/attendance_model.freezed.dart               | Dart     |        180 |         25 |         24 |        229 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/data/repository/attendance_repository_impl.dart         | Dart     |         50 |          0 |         10 |         60 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/domain/entities/attendance_entity.dart                  | Dart     |         16 |          0 |          5 |         21 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/domain/entities/subject_stats.dart                      | Dart     |         26 |          0 |          3 |         29 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/domain/repositories/attendance_repository.dart          | Dart     |         22 |          0 |          5 |         27 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/domain/usecases/add_attendance_usecase.dart             | Dart     |         14 |          0 |          4 |         18 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/domain/usecases/get_attendance_usecase.dart             | Dart     |         18 |          0 |          4 |         22 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart        | Dart     |         52 |          0 |         17 |         69 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/domain/usecases/update_attendance_usecase.dart          | Dart     |         21 |          0 |          4 |         25 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart  | Dart     |        111 |          2 |         20 |        133 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart | Dart     |         37 |          0 |         14 |         51 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart | Dart     |         41 |         17 |         16 |         74 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/pages/home_page.dart                       | Dart     |        257 |          1 |         16 |        274 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/pages/subject_details_page.dart            | Dart     |        176 |          0 |         11 |        187 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/pages/subject_history_page.dart            | Dart     |        167 |          5 |         21 |        193 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/widgets/action_button.dart                 | Dart     |         37 |          0 |          7 |         44 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/widgets/attendance_stats_card.dart         | Dart     |         65 |          0 |          5 |         70 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/widgets/bunker_planner.dart                | Dart     |        159 |          0 |         22 |        181 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/widgets/feature_cards.dart                 | Dart     |         63 |          0 |          5 |         68 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/widgets/lecture_stats_chip.dart            | Dart     |         36 |          0 |          3 |         39 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/attendance/presentation/widgets/status_chip.dart                   | Dart     |         37 |          0 |          4 |         41 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/data/datasources/firebase_auth_datasource.dart                | Dart     |         52 |          0 |          8 |         60 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/data/datasources/firestore_user_datasource.dart               | Dart     |         45 |          0 |          9 |         54 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/data/models/user_model.dart                                   | Dart     |         60 |          0 |         11 |         71 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/data/models/user_model.freezed.dart                           | Dart     |        257 |         26 |         28 |        311 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/data/models/user_model.g.dart                                 | Dart     |         21 |          4 |          5 |         30 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/data/repositories/auth_repository_impl.dart                   | Dart     |        119 |          0 |         23 |        142 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/entities/user_entity.dart                              | Dart     |         39 |          0 |          4 |         43 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/enums/batch.dart                                       | Dart     |          1 |          0 |          1 |          2 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/enums/branch.dart                                      | Dart     |          1 |          0 |          1 |          2 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/enums/semester.dart                                    | Dart     |          1 |          0 |          1 |          2 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/enums/year.dart                                        | Dart     |          1 |          0 |          1 |          2 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/repository/auth_repository.dart                        | Dart     |         24 |          0 |          5 |         29 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/usecases/get_current_user_usecase.dart                 | Dart     |         11 |          0 |          4 |         15 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/usecases/log_in_usecase.dart                           | Dart     |         14 |          0 |          4 |         18 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/usecases/log_out_usecase.dart                          | Dart     |         10 |          0 |          4 |         14 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/usecases/sign_up_usecase.dart                          | Dart     |         34 |          0 |          5 |         39 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/domain/validators/email_validator.dart                        | Dart     |         10 |          2 |          2 |         14 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/bloc/auth_bloc.dart                              | Dart     |         97 |          0 |         11 |        108 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/bloc/auth_event.dart                             | Dart     |         39 |          0 |         11 |         50 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/bloc/auth_state.dart                             | Dart     |         24 |          0 |         14 |         38 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/extensions/batch_extension.dart                  | Dart     |         15 |          0 |          2 |         17 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/extensions/branch_extension.dart                 | Dart     |         17 |          0 |          2 |         19 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/extensions/semester_extension.dart               | Dart     |          6 |          0 |          2 |          8 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/extensions/year_extension.dart                   | Dart     |         15 |          0 |          2 |         17 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/pages/email_sent_page.dart                       | Dart     |         95 |          2 |          8 |        105 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/pages/login_page.dart                            | Dart     |        157 |          0 |         24 |        181 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/pages/sign_up_page.dart                          | Dart     |        244 |          0 |         28 |        272 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/pages/splash_screen.dart                         | Dart     |         89 |          6 |         15 |        110 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/pages/welcome_page.dart                          | Dart     |         62 |          0 |          3 |         65 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/widgets/auth_input_field.dart                    | Dart     |         38 |          0 |          3 |         41 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/widgets/auth_submit_button.dart                  | Dart     |         35 |          0 |          3 |         38 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/auth/presentation/widgets/auth_switch_text.dart                    | Dart     |         31 |          0 |          4 |         35 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/data/datasources/firestore_timetable_datasource.dart     | Dart     |         71 |          0 |          9 |         80 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/data/models/lecture_model.dart                           | Dart     |         49 |          0 |          7 |         56 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/data/models/lecture_model.freezed.dart                   | Dart     |        259 |         25 |         25 |        309 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/data/repository/timetable_repository_impl.dart           | Dart     |         79 |          0 |          9 |         88 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/domain/entities/lecture_entity.dart                      | Dart     |         29 |          0 |          4 |         33 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/domain/repository/timetable_repository.dart              | Dart     |         21 |          0 |          5 |         26 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/domain/usecases/add_lecture_usecase.dart                 | Dart     |         14 |          0 |          4 |         18 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/domain/usecases/delete_lecture_usecase.dart              | Dart     |         13 |          0 |          4 |         17 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/domain/usecases/get_lectures_for_day_usecase.dart        | Dart     |         14 |          0 |          4 |         18 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/domain/usecases/update_lecture_usecase.dart              | Dart     |         14 |          0 |          4 |         18 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/presentation/bloc/timetable_bloc.dart                    | Dart     |        101 |          6 |         17 |        124 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/presentation/bloc/timetable_event.dart                   | Dart     |         22 |          0 |         10 |         32 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/presentation/bloc/timetable_state.dart                   | Dart     |         24 |          0 |          6 |         30 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/presentation/pages/timetable_page.dart                   | Dart     |        118 |          3 |         20 |        141 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/presentation/widgets/date_selector.dart                  | Dart     |         91 |          3 |         11 |        105 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/presentation/widgets/lecture_card_widget.dart            | Dart     |        105 |          3 |          8 |        116 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/features/timetable/presentation/widgets/lecture_list_widget.dart            | Dart     |         42 |          0 |          8 |         50 |
+| /Users/ameyrakhe/Documents/Projects/campus_connect/lib/main.dart                                                                   | Dart     |         38 |          0 |          4 |         42 |
+| Total                                                                                                                              |          |      5,214 |        161 |        757 |      6,132 |
++------------------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
