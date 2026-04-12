@@ -123,7 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 controller: usernameController,
                               ),
 
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
 
                               Text(
                                 "Email",
@@ -136,7 +136,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 controller: emailController,
                               ),
 
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
 
                               Text.rich(
                                 TextSpan(
@@ -168,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   });
                                 },
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
 
                               Row(
                                 children: [
@@ -197,7 +197,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 10),
                               Row(
                                 children: [
                                   Expanded(

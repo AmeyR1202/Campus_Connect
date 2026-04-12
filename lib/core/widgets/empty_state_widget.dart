@@ -39,13 +39,13 @@ class EmptyStateWidget extends StatelessWidget {
 
           ElevatedButton(
             onPressed: () {
-              context.go('/attendance');
+              context.go('/timetable');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppThemeHelper.colors.primary,
             ),
             child: Text(
-              "Go to Attendance",
+              "Go to Timetable",
               style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 color: AppThemeHelper.colors.textPrimary,
               ),
