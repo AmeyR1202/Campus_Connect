@@ -31,11 +31,20 @@ final GoRouter router = GoRouter(
 
     GoRoute(path: '/splash', builder: (context, state) => SplashPage()),
     GoRoute(path: '/welcome', builder: (context, state) => WelcomePage()),
-    GoRoute(path: '/login', builder: (context, state) => LoginPage()),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) {
+        final email = state.extra as String? ?? '';
+        return LoginPage(userEmail: email);
+      },
+    ),
     GoRoute(path: '/signup', builder: (context, state) => SignUpPage()),
     GoRoute(
       path: '/email-success',
-      builder: (context, state) => EmailSentPage(),
+      builder: (context, state) {
+        final userEmail = state.extra as String? ?? '';
+        return EmailSentPage(userEmail: userEmail);
+      },
     ),
     GoRoute(
       path: '/subject-details',

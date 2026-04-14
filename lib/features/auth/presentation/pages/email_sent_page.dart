@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class EmailSentPage extends StatelessWidget {
-  const EmailSentPage({super.key});
+  final String userEmail;
+  const EmailSentPage({super.key, required this.userEmail});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class EmailSentPage extends StatelessWidget {
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.go('/login');
+                    context.go('/login', extra: userEmail);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppThemeHelper.colors.primary,

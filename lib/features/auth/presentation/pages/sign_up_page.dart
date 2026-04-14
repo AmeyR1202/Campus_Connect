@@ -73,7 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthVerificationEmailSent) {
-          context.go('/email-success');
+          context.go('/email-success', extra: emailController.text.trim());
         }
         if (state is AuthError) {
           snackbar(context, state.message);

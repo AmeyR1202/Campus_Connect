@@ -6,17 +6,20 @@ class AuthInputField extends StatelessWidget {
   final String hintText;
   final bool isObscure;
   final VoidCallback? onToggle;
+  final bool autofocus;
   const AuthInputField({
     super.key,
     required this.hintText,
     this.isObscure = false,
     this.onToggle,
+    this.autofocus = false,
     required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autofocus: autofocus,
       cursorColor: AppThemeHelper.colors.primary,
       controller: controller,
       obscureText: isObscure,

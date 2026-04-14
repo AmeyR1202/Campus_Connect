@@ -11,14 +11,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final String userEmail;
+  const LoginPage({super.key, required this.userEmail});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
+  late final emailController = TextEditingController(text: widget.userEmail);
   final passwordController = TextEditingController();
   bool obscurePassword = true;
 
@@ -118,6 +119,8 @@ class _LoginPageState extends State<LoginPage> {
 
                           AuthInputField(
                             hintText: "Enter your password",
+                            autofocus:
+                                true, // by default enabled as email field is auto entered
                             isObscure: obscurePassword,
                             controller: passwordController,
                             onToggle: () {
