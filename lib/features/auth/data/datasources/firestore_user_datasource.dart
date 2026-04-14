@@ -11,20 +11,11 @@ class FirestoreUserDatasource {
     required String uid,
     required String username,
     required String email,
-    required String branch,
-    required String year,
-    required String semester,
-    required String batch,
   }) async {
     try {
       await firestore.collection('users').doc(uid).set({
         'username': username,
         'email': email,
-        'branch': branch,
-        'semester': semester,
-        'year': year,
-        'createdAt': FieldValue.serverTimestamp(),
-        'batch': batch,
       });
     } on FirebaseException catch (e) {
       throw ServerException(e.message.toString());

@@ -1,17 +1,8 @@
-import 'package:campus_connect/core/widgets/dropdown.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/core/widgets/snackbar.dart';
-import 'package:campus_connect/features/auth/domain/enums/batch.dart';
-import 'package:campus_connect/features/auth/domain/enums/branch.dart';
-import 'package:campus_connect/features/auth/domain/enums/semester.dart';
-import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
-import 'package:campus_connect/features/auth/presentation/extensions/batch_extension.dart';
-import 'package:campus_connect/features/auth/presentation/extensions/branch_extension.dart';
-import 'package:campus_connect/features/auth/presentation/extensions/semester_extension.dart';
-import 'package:campus_connect/features/auth/presentation/extensions/year_extension.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_button.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_switch_text.dart';
@@ -31,10 +22,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool obscurePassword = true;
-  Branch? selectedBranch;
-  Year? selectedYear;
-  Semester? selectedSemester;
-  Batch? selectedBatch;
 
   @override
   void dispose() {
@@ -45,25 +32,23 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _onSignup() {
-    if (selectedBranch == null ||
-        selectedYear == null ||
-        selectedSemester == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Please select all fields")));
+    final username = usernameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
 
+    if (username.isEmpty || email.isEmpty) {
+      snackbar(context, "Username and Email cannot be empty");
       return;
     }
-
+    if (password.length < 6) {
+      snackbar(context, "Password must be at least 6 characters long");
+      return;
+    }
     context.read<AuthBloc>().add(
       SignupRequested(
         username: usernameController.text.trim(),
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        branch: selectedBranch!,
-        year: selectedYear!,
-        semester: selectedSemester!,
-        batch: selectedBatch!,
       ),
     );
   }
@@ -169,64 +154,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                 },
                               ),
                               const SizedBox(height: 10),
-
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: AppDropdown<Branch>(
-                                      label: "Branch",
-                                      getLabel: (s) => s.displayBranch,
-                                      value: selectedBranch,
-                                      items: Branch.values,
-                                      onChanged: (value) {
-                                        setState(() => selectedBranch = value);
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  Expanded(
-                                    child: AppDropdown<Year>(
-                                      label: "Year",
-                                      getLabel: (s) => s.displayYear,
-                                      value: selectedYear,
-                                      items: Year.values,
-                                      onChanged: (value) {
-                                        setState(() => selectedYear = value);
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: AppDropdown<Semester>(
-                                      label: "Semester",
-                                      getLabel: (s) => s.displayName,
-                                      value: selectedSemester,
-                                      items: Semester.values,
-                                      onChanged: (value) {
-                                        setState(
-                                          () => selectedSemester = value,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 15),
-                                  Expanded(
-                                    child: AppDropdown<Batch>(
-                                      label: "Batch",
-                                      getLabel: (s) => s.displayBatch,
-                                      value: selectedBatch,
-                                      items: Batch.values,
-                                      onChanged: (value) {
-                                        setState(() => selectedBatch = value);
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
 
                               const SizedBox(height: 30),
 

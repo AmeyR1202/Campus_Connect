@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/log_in_usecase.dart';
@@ -80,10 +79,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       email: event.email,
       username: event.username,
       password: event.password,
-      branch: event.branch,
-      semester: event.semester,
-      year: event.year,
-      batch: event.batch,
     );
 
     result.fold(

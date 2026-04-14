@@ -24,10 +24,6 @@ mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
-  String get branch => throw _privateConstructorUsedError;
-  String get semester => throw _privateConstructorUsedError;
-  String get year => throw _privateConstructorUsedError;
-  String get batch => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,15 +40,7 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
-  $Res call({
-    String id,
-    String username,
-    DateTime createdAt,
-    String branch,
-    String semester,
-    String year,
-    String batch,
-  });
+  $Res call({String id, String username, DateTime createdAt});
 }
 
 /// @nodoc
@@ -73,10 +61,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? id = null,
     Object? username = null,
     Object? createdAt = null,
-    Object? branch = null,
-    Object? semester = null,
-    Object? year = null,
-    Object? batch = null,
   }) {
     return _then(
       _value.copyWith(
@@ -92,22 +76,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
                       as DateTime,
-            branch: null == branch
-                ? _value.branch
-                : branch // ignore: cast_nullable_to_non_nullable
-                      as String,
-            semester: null == semester
-                ? _value.semester
-                : semester // ignore: cast_nullable_to_non_nullable
-                      as String,
-            year: null == year
-                ? _value.year
-                : year // ignore: cast_nullable_to_non_nullable
-                      as String,
-            batch: null == batch
-                ? _value.batch
-                : batch // ignore: cast_nullable_to_non_nullable
-                      as String,
           )
           as $Val,
     );
@@ -123,15 +91,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   ) = __$$UserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    String username,
-    DateTime createdAt,
-    String branch,
-    String semester,
-    String year,
-    String batch,
-  });
+  $Res call({String id, String username, DateTime createdAt});
 }
 
 /// @nodoc
@@ -151,10 +111,6 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? username = null,
     Object? createdAt = null,
-    Object? branch = null,
-    Object? semester = null,
-    Object? year = null,
-    Object? batch = null,
   }) {
     return _then(
       _$UserModelImpl(
@@ -170,22 +126,6 @@ class __$$UserModelImplCopyWithImpl<$Res>
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
                   as DateTime,
-        branch: null == branch
-            ? _value.branch
-            : branch // ignore: cast_nullable_to_non_nullable
-                  as String,
-        semester: null == semester
-            ? _value.semester
-            : semester // ignore: cast_nullable_to_non_nullable
-                  as String,
-        year: null == year
-            ? _value.year
-            : year // ignore: cast_nullable_to_non_nullable
-                  as String,
-        batch: null == batch
-            ? _value.batch
-            : batch // ignore: cast_nullable_to_non_nullable
-                  as String,
       ),
     );
   }
@@ -198,10 +138,6 @@ class _$UserModelImpl extends _UserModel {
     required this.id,
     required this.username,
     required this.createdAt,
-    required this.branch,
-    required this.semester,
-    required this.year,
-    required this.batch,
   }) : super._();
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -213,18 +149,10 @@ class _$UserModelImpl extends _UserModel {
   final String username;
   @override
   final DateTime createdAt;
-  @override
-  final String branch;
-  @override
-  final String semester;
-  @override
-  final String year;
-  @override
-  final String batch;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, username: $username, createdAt: $createdAt, branch: $branch, semester: $semester, year: $year, batch: $batch)';
+    return 'UserModel(id: $id, username: $username, createdAt: $createdAt)';
   }
 
   @override
@@ -236,26 +164,12 @@ class _$UserModelImpl extends _UserModel {
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.branch, branch) || other.branch == branch) &&
-            (identical(other.semester, semester) ||
-                other.semester == semester) &&
-            (identical(other.year, year) || other.year == year) &&
-            (identical(other.batch, batch) || other.batch == batch));
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    username,
-    createdAt,
-    branch,
-    semester,
-    year,
-    batch,
-  );
+  int get hashCode => Object.hash(runtimeType, id, username, createdAt);
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -276,10 +190,6 @@ abstract class _UserModel extends UserModel {
     required final String id,
     required final String username,
     required final DateTime createdAt,
-    required final String branch,
-    required final String semester,
-    required final String year,
-    required final String batch,
   }) = _$UserModelImpl;
   const _UserModel._() : super._();
 
@@ -292,14 +202,6 @@ abstract class _UserModel extends UserModel {
   String get username;
   @override
   DateTime get createdAt;
-  @override
-  String get branch;
-  @override
-  String get semester;
-  @override
-  String get year;
-  @override
-  String get batch;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
