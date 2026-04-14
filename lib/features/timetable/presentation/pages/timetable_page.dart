@@ -64,11 +64,13 @@ class _TimetablePageState extends State<TimetablePage> {
     final d = selectedDate;
 
     final lectureId =
-        "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_{'ameyyyyyy'}";
+        "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_${lecture.subjectName}";
 
     final entity = AttendanceEntity(
       lectureId: lectureId,
-      subjectId: "AMEYYYYYYYY",
+      subjectId: "${lecture.subjectName} (${lecture.type})",
+
+      /// Combining subject name and it's type because DBMS can have DBMS as Lecture and DBMS as Lab so earlier it is used to get tracked as one single thing
       status: status,
       markedAt: selectedDate,
     );

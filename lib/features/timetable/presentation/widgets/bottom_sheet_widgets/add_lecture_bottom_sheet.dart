@@ -81,8 +81,6 @@ class _AddLectureBottomSheetState extends State<AddLectureBottomSheet> {
       AddLectureEvent(userId: widget.userId, entity: entity),
     );
 
-    print("CALLED THE SUBMIT BTN");
-
     Navigator.of(context, rootNavigator: true).pop();
   }
 

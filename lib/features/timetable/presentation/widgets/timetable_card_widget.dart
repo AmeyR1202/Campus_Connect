@@ -1,11 +1,19 @@
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/session_type_chip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TimetableCardWidget extends StatelessWidget {
   final LectureEntity lecture;
-  const TimetableCardWidget({super.key, required this.lecture});
+  
+  const TimetableCardWidget({
+    super.key,
+    required this.lecture,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +63,21 @@ class TimetableCardWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  lecture.subjectName,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      lecture.subjectName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      "(${lecture.type})",
+                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 4),
                 Row(children: [SessionTypeChip(type: lecture.type)]),
@@ -82,8 +99,39 @@ class TimetableCardWidget extends StatelessWidget {
               size: 20,
               color: AppThemeHelper.colors.error,
             ),
-            onPressed: () {},
-            // onPressed: () => _deleteLecture(lecture),
+            onPressed: () => _deleteLecture(context, lecture),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _deleteLecture(BuildContext context, LectureEntity lecture) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Lecture'),
+        content: Text('Remove "${lecture.subjectName}" from your timetable?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              final userId = context.read<SessionCubit>().state.user!.id;
+              context.read<TimetableBloc>().add(
+                DeleteLectureEvent(
+                  userId: userId,
+                  lectureId: lecture.lectureId,
+                ),
+              );
+              Navigator.pop(ctx);
+            },
+            child: Text(
+              'Delete',
+              style: TextStyle(color: AppThemeHelper.colors.error),
+            ),
           ),
         ],
       ),
