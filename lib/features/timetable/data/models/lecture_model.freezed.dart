@@ -23,7 +23,6 @@ mixin _$LectureModel {
   String get startTime => throw _privateConstructorUsedError;
   String get endTime => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
-  String get subjectId => throw _privateConstructorUsedError;
 
   /// Create a copy of LectureModel
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +45,6 @@ abstract class $LectureModelCopyWith<$Res> {
     String startTime,
     String endTime,
     String type,
-    String subjectId,
   });
 }
 
@@ -71,7 +69,6 @@ class _$LectureModelCopyWithImpl<$Res, $Val extends LectureModel>
     Object? startTime = null,
     Object? endTime = null,
     Object? type = null,
-    Object? subjectId = null,
   }) {
     return _then(
       _value.copyWith(
@@ -99,10 +96,6 @@ class _$LectureModelCopyWithImpl<$Res, $Val extends LectureModel>
                 ? _value.type
                 : type // ignore: cast_nullable_to_non_nullable
                       as String,
-            subjectId: null == subjectId
-                ? _value.subjectId
-                : subjectId // ignore: cast_nullable_to_non_nullable
-                      as String,
           )
           as $Val,
     );
@@ -125,7 +118,6 @@ abstract class _$$LectureModelImplCopyWith<$Res>
     String startTime,
     String endTime,
     String type,
-    String subjectId,
   });
 }
 
@@ -149,7 +141,6 @@ class __$$LectureModelImplCopyWithImpl<$Res>
     Object? startTime = null,
     Object? endTime = null,
     Object? type = null,
-    Object? subjectId = null,
   }) {
     return _then(
       _$LectureModelImpl(
@@ -177,10 +168,6 @@ class __$$LectureModelImplCopyWithImpl<$Res>
             ? _value.type
             : type // ignore: cast_nullable_to_non_nullable
                   as String,
-        subjectId: null == subjectId
-            ? _value.subjectId
-            : subjectId // ignore: cast_nullable_to_non_nullable
-                  as String,
       ),
     );
   }
@@ -196,7 +183,6 @@ class _$LectureModelImpl extends _LectureModel with DiagnosticableTreeMixin {
     required this.startTime,
     required this.endTime,
     required this.type,
-    required this.subjectId,
   }) : super._();
 
   @override
@@ -211,12 +197,10 @@ class _$LectureModelImpl extends _LectureModel with DiagnosticableTreeMixin {
   final String endTime;
   @override
   final String type;
-  @override
-  final String subjectId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LectureModel(lectureId: $lectureId, subjectName: $subjectName, day: $day, startTime: $startTime, endTime: $endTime, type: $type, subjectId: $subjectId)';
+    return 'LectureModel(lectureId: $lectureId, subjectName: $subjectName, day: $day, startTime: $startTime, endTime: $endTime, type: $type)';
   }
 
   @override
@@ -229,8 +213,7 @@ class _$LectureModelImpl extends _LectureModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('day', day))
       ..add(DiagnosticsProperty('startTime', startTime))
       ..add(DiagnosticsProperty('endTime', endTime))
-      ..add(DiagnosticsProperty('type', type))
-      ..add(DiagnosticsProperty('subjectId', subjectId));
+      ..add(DiagnosticsProperty('type', type));
   }
 
   @override
@@ -246,9 +229,7 @@ class _$LectureModelImpl extends _LectureModel with DiagnosticableTreeMixin {
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.subjectId, subjectId) ||
-                other.subjectId == subjectId));
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
@@ -260,7 +241,6 @@ class _$LectureModelImpl extends _LectureModel with DiagnosticableTreeMixin {
     startTime,
     endTime,
     type,
-    subjectId,
   );
 
   /// Create a copy of LectureModel
@@ -280,7 +260,6 @@ abstract class _LectureModel extends LectureModel {
     required final String startTime,
     required final String endTime,
     required final String type,
-    required final String subjectId,
   }) = _$LectureModelImpl;
   const _LectureModel._() : super._();
 
@@ -296,8 +275,6 @@ abstract class _LectureModel extends LectureModel {
   String get endTime;
   @override
   String get type;
-  @override
-  String get subjectId;
 
   /// Create a copy of LectureModel
   /// with the given fields replaced by the non-null parameter values.

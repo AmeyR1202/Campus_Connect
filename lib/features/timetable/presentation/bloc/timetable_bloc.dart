@@ -1,3 +1,4 @@
+import 'package:campus_connect/features/timetable/domain/usecases/get_all_lectures_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/add_lecture_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/delete_lecture_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/get_lectures_for_day_usecase.dart';
@@ -11,17 +12,20 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
   final UpdateLectureUsecase updateLecture;
   final DeleteLectureUsecase deleteLecture;
   final GetLecturesForDayUsecase getLectures;
+  final GetAllLecturesUsecase getAllLectures;
 
   TimetableBloc({
     required this.addLecture,
     required this.updateLecture,
     required this.deleteLecture,
     required this.getLectures,
+    required this.getAllLectures,
   }) : super(TimetableState.initial()) {
     on<AddLectureEvent>(_onAddLecture);
     on<UpdateLectureEvent>(_onUpdateLecture);
     on<DeleteLectureEvent>(_onDeleteLecture);
     on<GetLecturesForDayEvent>(_onGetLectures);
+    on<GetAllLecturesEvent>(_onGetAllLectures);
   }
 
   Future<void> _onAddLecture(
@@ -82,6 +86,24 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
     emit(state.copyWith(isLoading: true, error: null));
 
     final result = await getLectures(userId: event.userId, date: event.date);
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(isLoading: false, error: failure.message));
+      },
+      (lectures) {
+        emit(state.copyWith(isLoading: false, lectures: lectures));
+      },
+    );
+  }
+
+  Future<void> _onGetAllLectures(
+    GetAllLecturesEvent event,
+    Emitter<TimetableState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true, error: null));
+
+    final result = await getAllLectures(userId: event.userId);
 
     result.fold(
       (failure) {

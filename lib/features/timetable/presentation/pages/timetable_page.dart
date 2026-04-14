@@ -64,11 +64,11 @@ class _TimetablePageState extends State<TimetablePage> {
     final d = selectedDate;
 
     final lectureId =
-        "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_${lecture.subjectId}";
+        "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_{'ameyyyyyy'}";
 
     final entity = AttendanceEntity(
       lectureId: lectureId,
-      subjectId: lecture.subjectId,
+      subjectId: "AMEYYYYYYYY",
       status: status,
       markedAt: selectedDate,
     );
@@ -81,61 +81,63 @@ class _TimetablePageState extends State<TimetablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Text(
-            "Timetable",
-            style: AppTheme.light.textTheme.headlineLarge?.copyWith(
-              color: AppThemeHelper.colors.textTertiary,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text(
+              "Timetable",
+              style: AppTheme.light.textTheme.headlineLarge?.copyWith(
+                color: AppThemeHelper.colors.textTertiary,
+              ),
             ),
-          ),
-          SizedBox(height: 20),
+            SizedBox(height: 20),
 
-          /// Date Selector
-          DateSelectorWidget(
-            dates: weekDates,
-            selectedDate: selectedDate,
-            onDateSelected: (date) {
-              setState(() => selectedDate = date);
-              _fetchTimetableForDate(date);
-            },
-          ),
-
-          /// Content
-          Expanded(
-            child: BlocBuilder<TimetableBloc, TimetableState>(
-              builder: (context, timetableState) {
-                if (timetableState.isLoading) {
-                  return const Center(child: Loader());
-                }
-
-                if (timetableState.error != null) {
-                  return Center(child: Text(timetableState.error!));
-                }
-
-                if (timetableState.lectures == null ||
-                    timetableState.lectures!.isEmpty) {
-                  return const Center(
-                    child: Text("No lectures found for this date."),
-                  );
-                }
-
-                return BlocBuilder<AttendanceBloc, AttendanceState>(
-                  builder: (context, attendanceState) {
-                    return LectureListWidget(
-                      lectures: timetableState.lectures!,
-                      attendance: attendanceState.attendance ?? [],
-                      onMark: (lecture, status) {
-                        _markAttendance(lecture, status);
-                      },
-                      selectedDate: DateTime.now(),
-                    );
-                  },
-                );
+            /// Date Selector
+            DateSelectorWidget(
+              dates: weekDates,
+              selectedDate: selectedDate,
+              onDateSelected: (date) {
+                setState(() => selectedDate = date);
+                _fetchTimetableForDate(date);
               },
             ),
-          ),
-        ],
+
+            /// Content
+            Expanded(
+              child: BlocBuilder<TimetableBloc, TimetableState>(
+                builder: (context, timetableState) {
+                  if (timetableState.isLoading) {
+                    return const Center(child: Loader());
+                  }
+
+                  if (timetableState.error != null) {
+                    return Center(child: Text(timetableState.error!));
+                  }
+
+                  if (timetableState.lectures == null ||
+                      timetableState.lectures!.isEmpty) {
+                    return const Center(
+                      child: Text("No lectures found for this date."),
+                    );
+                  }
+
+                  return BlocBuilder<AttendanceBloc, AttendanceState>(
+                    builder: (context, attendanceState) {
+                      return LectureListWidget(
+                        lectures: timetableState.lectures!,
+                        attendance: attendanceState.attendance ?? [],
+                        onMark: (lecture, status) {
+                          _markAttendance(lecture, status);
+                        },
+                        selectedDate: DateTime.now(),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(

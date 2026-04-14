@@ -28,7 +28,7 @@ class LectureListWidget extends StatelessWidget {
         final d = selectedDate;
 
         final lectureId =
-            "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_${lecture.subjectId}";
+            "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_}";
         AttendanceEntity? attendanceRecord;
 
         final matches = attendance

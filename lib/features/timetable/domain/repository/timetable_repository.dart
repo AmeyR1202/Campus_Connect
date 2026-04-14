@@ -8,6 +8,10 @@ abstract class TimetableRepository {
     required DateTime date,
   });
 
+  Future<Either<Failure, List<LectureEntity>>> getAllLectures({
+    required String userId,
+  });
+
   Future<Either<Failure, void>> updateLecture({
     required String userId,
     required LectureEntity entity,

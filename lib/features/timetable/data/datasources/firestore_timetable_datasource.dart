@@ -30,6 +30,22 @@ class FirestoreTimetableDatasource {
     }
   }
 
+  Future<List<LectureModel>> getAllLectures(String userId) async {
+    try {
+      final result = await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('lectures')
+          .get();
+
+      return result.docs
+          .map((doc) => LectureModel.fromMap(doc.data(), doc.id))
+          .toList();
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message.toString());
+    }
+  }
+
   Future<void> addLecture(
     String userId,
     String lectureId,

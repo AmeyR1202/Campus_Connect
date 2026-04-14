@@ -13,7 +13,6 @@ class LectureModel with _$LectureModel {
     required String startTime,
     required String endTime,
     required String type,
-    required String subjectId,
   }) = _LectureModel;
 
   const LectureModel._();
@@ -22,7 +21,6 @@ class LectureModel with _$LectureModel {
     return LectureModel(
       lectureId: lectureId,
       subjectName: map['subjectName'] ?? '',
-      subjectId: map['subjectId'] ?? '',
       day: map['day'] ?? '',
       startTime: map['startTime'] ?? '',
       endTime: map['endTime'] ?? '',
@@ -32,7 +30,6 @@ class LectureModel with _$LectureModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'subjectId': subjectId,
       'subjectName': subjectName,
       'day': day,
       'startTime': startTime,
@@ -44,7 +41,6 @@ class LectureModel with _$LectureModel {
   LectureEntity toEntity() {
     return LectureEntity(
       lectureId: lectureId,
-      subjectId: subjectId,
       subjectName: subjectName,
       day: day,
       startTime: startTime,

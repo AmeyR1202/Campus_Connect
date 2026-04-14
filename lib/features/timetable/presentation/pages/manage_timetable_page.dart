@@ -1,8 +1,9 @@
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
+import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_state.dart';
-import 'package:campus_connect/features/timetable/presentation/widgets/bottom_sheet.dart';
+import 'package:campus_connect/features/timetable/presentation/widgets/bottom_sheet_widgets/add_lecture_bottom_sheet.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/timetable_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,11 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
   void initState() {
     _tabController = TabController(length: weekDays.length, vsync: this);
     super.initState();
+    
+    // Fetch all lectures once so they populate across all tabs
+    context.read<TimetableBloc>().add(
+          GetAllLecturesEvent(userId: widget.userId),
+        );
   }
 
   @override
@@ -64,9 +70,12 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
               if (state.error != null) {
                 return Center(child: Text(state.error!));
               }
-              final lectures = state.lectures;
+              final lectures = state.lectures ?? [];
+              final filteredLectures = lectures
+                  .where((l) => l.day == day)
+                  .toList();
 
-              if (lectures == null || lectures.isEmpty) {
+              if (filteredLectures.isEmpty) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -102,9 +111,9 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(16),
-                itemCount: lectures.length,
+                itemCount: filteredLectures.length,
                 itemBuilder: (context, index) {
-                  final lecture = lectures[index];
+                  final lecture = filteredLectures[index];
                   return TimetableCardWidget(lecture: lecture);
                 },
               );
@@ -115,7 +124,17 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          CustomBottomSheet.show(context);
+          final selectedDay = weekDays[_tabController.index];
+          final timetableBloc = context.read<TimetableBloc>();
+          showModalBottomSheet(
+            context: context,
+            useRootNavigator: true,
+            builder: (_) => BlocProvider.value(
+              value: timetableBloc,
+              child: AddLectureBottomSheet(
+                  day: selectedDay, userId: widget.userId),
+            ),
+          );
         },
         child: const Icon(Icons.add),
       ),

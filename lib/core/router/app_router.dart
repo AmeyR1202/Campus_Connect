@@ -26,13 +26,6 @@ final GoRouter router = GoRouter(
           pageBuilder: (context, state) =>
               buildPageWithTransition(state: state, child: const HomePage()),
         ),
-        GoRoute(
-          path: '/timetable',
-          pageBuilder: (context, state) => buildPageWithTransition(
-            state: state,
-            child: const TimetablePage(),
-          ),
-        ),
       ],
     ),
 
@@ -62,6 +55,11 @@ final GoRouter router = GoRouter(
       path: '/timetable/manage',
       builder: (context, state) =>
           ManageTimetablePage(userId: state.extra as String),
+    ),
+    GoRoute(
+      path: '/timetable',
+      pageBuilder: (context, state) =>
+          buildPageWithTransition(state: state, child: const TimetablePage()),
     ),
   ],
   errorBuilder: (context, state) {

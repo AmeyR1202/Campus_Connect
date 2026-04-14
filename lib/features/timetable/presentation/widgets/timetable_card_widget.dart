@@ -48,54 +48,42 @@ class TimetableCardWidget extends StatelessWidget {
                   color: AppThemeHelper.colors.textSecondary,
                 ),
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      lecture.subjectName,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        SessionTypeChip(type: lecture.type),
-                        const SizedBox(width: 8),
-                        Text(
-                          lecture.subjectId,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppThemeHelper.colors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.edit_outlined,
-                  size: 20,
-                  color: AppThemeHelper.colors.info,
-                ),
-                onPressed: () {},
-                // onPressed: () => _showAddEditSheet(existing: lecture),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.delete_outline_rounded,
-                  size: 20,
-                  color: AppThemeHelper.colors.error,
-                ),
-                onPressed: () {},
-                // onPressed: () => _deleteLecture(lecture),
-              ),
             ],
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  lecture.subjectName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(children: [SessionTypeChip(type: lecture.type)]),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.edit_outlined,
+              size: 20,
+              color: AppThemeHelper.colors.info,
+            ),
+            onPressed: () {},
+            // onPressed: () => _showAddEditSheet(existing: lecture),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.delete_outline_rounded,
+              size: 20,
+              color: AppThemeHelper.colors.error,
+            ),
+            onPressed: () {},
+            // onPressed: () => _deleteLecture(lecture),
           ),
         ],
       ),

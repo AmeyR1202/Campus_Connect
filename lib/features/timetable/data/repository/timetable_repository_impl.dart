@@ -18,7 +18,7 @@ class TimetableRepositoryImpl implements TimetableRepository {
   }) async {
     final model = LectureModel(
       lectureId: entity.lectureId,
-      subjectId: entity.subjectId,
+
       subjectName: entity.subjectName,
       day: entity.day,
       startTime: entity.startTime,
@@ -64,6 +64,22 @@ class TimetableRepositoryImpl implements TimetableRepository {
   }
 
   @override
+  Future<Either<Failure, List<LectureEntity>>> getAllLectures({
+    required String userId,
+  }) async {
+    try {
+      final models = await datasource.getAllLectures(userId);
+
+      final entities = models.map((m) => m.toEntity()).toList()
+        ..sort((a, b) => a.startTime.compareTo(b.startTime));
+
+      return right(entities);
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.message));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> updateLecture({
     required String userId,
     required LectureEntity entity,
@@ -71,7 +87,6 @@ class TimetableRepositoryImpl implements TimetableRepository {
     try {
       final model = LectureModel(
         lectureId: entity.lectureId,
-        subjectId: entity.subjectId,
         subjectName: entity.subjectName,
         day: entity.day,
         startTime: entity.startTime,

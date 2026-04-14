@@ -23,6 +23,12 @@ class GetLecturesForDayEvent extends TimetableEvent {
   GetLecturesForDayEvent({required this.userId, required this.date});
 }
 
+class GetAllLecturesEvent extends TimetableEvent {
+  final String userId;
+
+  GetAllLecturesEvent({required this.userId});
+}
+
 class UpdateLectureEvent extends TimetableEvent {
   final String userId;
   final LectureEntity entity;
