@@ -34,10 +34,10 @@ class SignupRequested extends AuthEvent {
   List<Object?> get props => [username, email, password];
 }
 
-class ForgetPassword extends AuthEvent {
+class ForgetPasswordRequested extends AuthEvent {
   final String email;
 
-  const ForgetPassword({required this.email});
+  const ForgetPasswordRequested({required this.email});
 
   @override
   List<Object?> get props => [email];

@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/theme/app_theme.dart';
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
@@ -106,7 +107,7 @@ class _AddLectureBottomSheetState extends State<AddLectureBottomSheet> {
               height: 4,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: AppThemeHelper.colors.muted,
                 borderRadius: BorderRadius.circular(10),
               ),
             ),

@@ -11,6 +11,7 @@ import 'package:campus_connect/features/auth/data/datasources/firebase_auth_data
 import 'package:campus_connect/features/auth/data/datasources/firestore_user_datasource.dart';
 import 'package:campus_connect/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:campus_connect/features/auth/domain/repository/auth_repository.dart';
+import 'package:campus_connect/features/auth/domain/usecases/forget_password_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/log_in_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/log_out_usecase.dart';
@@ -55,6 +56,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => SignupUsecase(sl()));
   sl.registerLazySingleton(() => GetCurrentUserUsecase(sl()));
   sl.registerLazySingleton(() => LogoutUsecase(sl()));
+  sl.registerLazySingleton(() => ForgetPasswordUsecase(sl()));
 
   // BLoC
 
@@ -65,6 +67,7 @@ Future<void> initDependencies() async {
       getCurrentUserUsecase: sl(),
       logoutUsecase: sl(),
       sessionCubit: sl(),
+      forgetPasswordUsecase: sl(),
     ),
   );
 

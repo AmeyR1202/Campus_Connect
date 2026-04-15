@@ -134,12 +134,21 @@ class _LoginPageState extends State<LoginPage> {
 
                           Align(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              "Forgot Password ?",
-                              style: Theme.of(context).textTheme.bodyMedium!
-                                  .copyWith(
-                                    color: AppThemeHelper.colors.primary,
+                            child: InkWell(
+                              onTap: () {
+                                context.read<AuthBloc>().add(
+                                  ForgetPasswordRequested(
+                                    email: emailController.text.trim(),
                                   ),
+                                );
+                              },
+                              child: Text(
+                                "Forgot Password ?",
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(
+                                      color: AppThemeHelper.colors.primary,
+                                    ),
+                              ),
                             ),
                           ),
 

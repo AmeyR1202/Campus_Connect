@@ -9,11 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TimetableCardWidget extends StatelessWidget {
   final LectureEntity lecture;
-  
-  const TimetableCardWidget({
-    super.key,
-    required this.lecture,
-  });
+
+  const TimetableCardWidget({super.key, required this.lecture});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +72,10 @@ class TimetableCardWidget extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       "(${lecture.type})",
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: AppThemeHelper.colors.muted,
+                      ),
                     ),
                   ],
                 ),

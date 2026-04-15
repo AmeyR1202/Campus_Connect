@@ -34,11 +34,11 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
   void initState() {
     _tabController = TabController(length: weekDays.length, vsync: this);
     super.initState();
-    
+
     // Fetch all lectures once so they populate across all tabs
     context.read<TimetableBloc>().add(
-          GetAllLecturesEvent(userId: widget.userId),
-        );
+      GetAllLecturesEvent(userId: widget.userId),
+    );
   }
 
   @override
@@ -51,7 +51,10 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Timetable", style: TextStyle(color: Colors.black)),
+        title: Text(
+          "Timetable",
+          style: TextStyle(color: AppThemeHelper.colors.textTertiary),
+        ),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
@@ -132,7 +135,9 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
             builder: (_) => BlocProvider.value(
               value: timetableBloc,
               child: AddLectureBottomSheet(
-                  day: selectedDay, userId: widget.userId),
+                day: selectedDay,
+                userId: widget.userId,
+              ),
             ),
           );
         },

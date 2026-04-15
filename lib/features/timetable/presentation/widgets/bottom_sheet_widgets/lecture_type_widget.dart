@@ -43,7 +43,7 @@ class LectureTypeWidget extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isSelected
-                            ? Colors.white
+                            ? AppThemeHelper.colors.surface
                             : AppThemeHelper.colors.textSecondary,
                       ),
                     ),
