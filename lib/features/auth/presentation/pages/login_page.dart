@@ -6,6 +6,7 @@ import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_button.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_switch_text.dart';
+import 'package:campus_connect/features/auth/presentation/widgets/forget_password_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -136,10 +137,11 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () {
-                                context.read<AuthBloc>().add(
-                                  ForgetPasswordRequested(
-                                    email: emailController.text.trim(),
-                                  ),
+                                showModalBottomSheet(
+                                  context: context,
+                                  useRootNavigator: true,
+                                  builder: (context) =>
+                                      ForgetPasswordBottomSheet(),
                                 );
                               },
                               child: Text(
