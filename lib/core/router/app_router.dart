@@ -61,9 +61,8 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/timetable/manage',
-      builder: (context, state) =>
-          ManageTimetablePage(userId: state.extra as String),
+      path: '/manage-timetable',
+      builder: (context, state) => const ManageTimetablePage(),
     ),
     GoRoute(
       path: '/timetable',

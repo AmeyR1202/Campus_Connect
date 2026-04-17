@@ -220,11 +220,13 @@ class _HomePageState extends State<HomePage> {
                         child: AspectRatio(
                           aspectRatio: 2.2,
                           child: FeatureCard(
-                            title: "Events",
-                            subtitle: "3 upcoming",
+                            title: "Timetable",
+                            subtitle: 'Create and edit timetable',
                             icon: Icons.event,
                             color: Feature.timetable,
-                            onTap: () => context.go('/events'),
+                            onTap: () {
+                              context.push('/manage-timetable');
+                            },
                           ),
                         ),
                       ),

@@ -17,7 +17,7 @@ class _AppShellState extends State<AppShell> {
   final routes = ['/home', '/attendance', '/timetable', '/profile'];
 
   void onTap(int index) {
-    context.go(routes[index]);
+    context.push(routes[index]);
   }
 
   int getIndex(String location) {

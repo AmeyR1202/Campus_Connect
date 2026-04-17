@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
@@ -5,12 +6,12 @@ import 'package:campus_connect/features/timetable/presentation/bloc/timetable_ev
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_state.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/bottom_sheet_widgets/add_lecture_bottom_sheet.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/timetable_card_widget.dart';
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ManageTimetablePage extends StatefulWidget {
-  final String userId;
-  const ManageTimetablePage({super.key, required this.userId});
+  const ManageTimetablePage({super.key});
 
   @override
   State<ManageTimetablePage> createState() => _ManageTimetablePageState();
@@ -36,10 +37,10 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
     super.initState();
 
     final cachedLectures = context.read<TimetableBloc>().state.lectures;
-    if (cachedLectures == null) {
-      context.read<TimetableBloc>().add(
-        GetAllLecturesEvent(userId: widget.userId),
-      );
+    final userId = context.read<SessionCubit>().state.user?.id ?? '';
+
+    if (cachedLectures == null && userId.isNotEmpty) {
+      context.read<TimetableBloc>().add(GetAllLecturesEvent(userId: userId));
     }
   }
 
@@ -53,9 +54,12 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(),
         title: Text(
-          "Timetable",
-          style: TextStyle(color: AppThemeHelper.colors.textTertiary),
+          "Manage Timetable",
+          style: AppTheme.light.textTheme.headlineLarge!.copyWith(
+            color: AppThemeHelper.colors.textTertiary,
+          ),
         ),
         bottom: TabBar(
           controller: _tabController,
@@ -128,15 +132,16 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
         onPressed: () {
           final selectedDay = weekDays[_tabController.index];
           final timetableBloc = context.read<TimetableBloc>();
+          final userId = context.read<SessionCubit>().state.user?.id ?? '';
+
+          if (userId.isEmpty) return;
+
           showModalBottomSheet(
             context: context,
             useRootNavigator: true,
             builder: (_) => BlocProvider.value(
               value: timetableBloc,
-              child: AddLectureBottomSheet(
-                day: selectedDay,
-                userId: widget.userId,
-              ),
+              child: AddLectureBottomSheet(day: selectedDay, userId: userId),
             ),
           );
         },

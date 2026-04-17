@@ -10,7 +10,6 @@ import 'package:campus_connect/features/timetable/domain/entities/lecture_entity
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_state.dart';
-import 'package:campus_connect/features/timetable/presentation/pages/manage_timetable_page.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/lecture_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -110,15 +109,6 @@ class _TimetablePageState extends State<TimetablePage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ManageTimetablePage(userId: userId),
-          ),
-        ),
-        child: const Icon(Icons.add),
       ),
     );
   }
