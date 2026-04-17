@@ -44,6 +44,12 @@ class _LoginPageState extends State<LoginPage> {
             context,
           ).showSnackBar(SnackBar(content: Text(state.message)));
         }
+
+        if (state is PasswordResetEmailSent) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Email sent successfully')));
+        }
       },
 
       builder: (context, state) {
@@ -75,14 +81,12 @@ class _LoginPageState extends State<LoginPage> {
                             ).textTheme.headlineLarge!.copyWith(fontSize: 34),
                           ),
 
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 10),
 
                           Text(
                             "Enter your email and password to log in",
                             style: Theme.of(context).textTheme.labelMedium!
-                                .copyWith(
-                                  color: AppThemeHelper.colors.textSecondary,
-                                ),
+                                .copyWith(color: AppThemeHelper.colors.muted),
                           ),
                           const SizedBox(height: 20),
 
@@ -91,13 +95,13 @@ class _LoginPageState extends State<LoginPage> {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
 
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 10),
 
                           AuthInputField(
                             hintText: 'example@gmail.com',
                             controller: emailController,
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 10),
 
                           Text.rich(
                             TextSpan(
@@ -116,12 +120,12 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 10),
 
                           AuthInputField(
                             hintText: "Enter your password",
-                            autofocus:
-                                true, // by default enabled as email field is auto entered
+                            // autofocus:
+                            //     true, // by default enabled as email field is auto entered
                             isObscure: obscurePassword,
                             controller: passwordController,
                             onToggle: () {
@@ -131,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
 
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 10),
 
                           Align(
                             alignment: Alignment.centerRight,
@@ -139,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                               onTap: () {
                                 showModalBottomSheet(
                                   context: context,
+                                  isScrollControlled: true,
                                   useRootNavigator: true,
                                   builder: (context) =>
                                       ForgetPasswordBottomSheet(),
@@ -154,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 28),
+                          const SizedBox(height: 10),
 
                           AuthSubmitButton(
                             buttonLabel: 'Log In',
@@ -168,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
 
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
 
                           InkWell(
                             onTap: () {

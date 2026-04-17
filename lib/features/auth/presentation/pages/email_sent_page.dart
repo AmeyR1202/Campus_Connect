@@ -17,7 +17,6 @@ class EmailSentPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Circle using DecoratedBox instead of Container
                     SizedBox(
                       height: 80,
                       width: 80,

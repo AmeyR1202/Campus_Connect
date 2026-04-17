@@ -42,6 +42,7 @@ flutter:
   assets:
     - assets/images/welcome.svg
     - assets/images/404.svg
+    - assets/images/forget_password.svg
   fonts:
     - family: DMSans
       fonts:

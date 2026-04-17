@@ -112,9 +112,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await forgetPasswordUsecase(email: event.email);
 
     result.fold((failure) => emit(AuthError(failure.message)), (_) {
-      emit(
-        PasswordResetEmailSent(),
-      ); // TODO // NOW emit this state and show screen of email sent successfully
+      emit(PasswordResetEmailSent());
     });
   }
 }
