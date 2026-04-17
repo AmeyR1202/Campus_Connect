@@ -24,6 +24,19 @@ class TimetableState extends Equatable {
     );
   }
 
+  // these are my single source of truth
+  List<LectureEntity> getLecturesForDay(String day) {
+    if (lectures == null) return [];
+    return lectures!.where((l) => l.day == day).toList();
+  }
+
+  List<LectureEntity> get todayLectures {
+    final int weekday = DateTime.now().weekday; // 1 is marked Monday
+    const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    final todayStr = weekDays[weekday - 1];
+    return getLecturesForDay(todayStr);
+  }
+
   @override
   List<Object?> get props => [lectures, isLoading, error];
 }

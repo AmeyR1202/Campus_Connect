@@ -28,7 +28,7 @@ class LectureCardWidget extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             blurRadius: 8,
-            color: AppThemeHelper.colors.textTertiary.withValues(alpha: 0.05),
+            color: AppThemeHelper.colors.muted.withValues(alpha: 0.5),
           ),
         ],
       ),

@@ -35,10 +35,12 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
     _tabController = TabController(length: weekDays.length, vsync: this);
     super.initState();
 
-    // Fetch all lectures once so they populate across all tabs
-    context.read<TimetableBloc>().add(
-      GetAllLecturesEvent(userId: widget.userId),
-    );
+    final cachedLectures = context.read<TimetableBloc>().state.lectures;
+    if (cachedLectures == null) {
+      context.read<TimetableBloc>().add(
+        GetAllLecturesEvent(userId: widget.userId),
+      );
+    }
   }
 
   @override
@@ -73,10 +75,7 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
               if (state.error != null) {
                 return Center(child: Text(state.error!));
               }
-              final lectures = state.lectures ?? [];
-              final filteredLectures = lectures
-                  .where((l) => l.day == day)
-                  .toList();
+              final filteredLectures = state.getLecturesForDay(day);
 
               if (filteredLectures.isEmpty) {
                 return Center(

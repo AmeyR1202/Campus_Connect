@@ -45,7 +45,7 @@ class EmptyStateWidget extends StatelessWidget {
               backgroundColor: AppThemeHelper.colors.primary,
             ),
             child: Text(
-              "Go to Timetable",
+              "Create Timetable",
               style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 color: AppThemeHelper.colors.textPrimary,
               ),

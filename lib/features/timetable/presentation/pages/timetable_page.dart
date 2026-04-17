@@ -11,7 +11,6 @@ import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bl
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_state.dart';
 import 'package:campus_connect/features/timetable/presentation/pages/manage_timetable_page.dart';
-import 'package:campus_connect/features/timetable/presentation/widgets/date_selector.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/lecture_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,42 +25,21 @@ class TimetablePage extends StatefulWidget {
 class _TimetablePageState extends State<TimetablePage> {
   late String userId;
 
-  final String branch = 'IT';
-  final int semester = 6;
-
-  DateTime selectedDate = DateTime.now();
-  late List<DateTime> weekDates;
-
   @override
   void initState() {
     super.initState();
 
     final session = context.read<SessionCubit>().state;
     userId = session.user!.id;
-    context.read<AttendanceBloc>().add(
-      FetchAllSubjectsStatsEvent(userId: userId),
-    );
-    context.read<AttendanceBloc>().add(
-      FetchAttendanceEvent(
-        userId: userId,
-      ), // Fetches all attendance records globally
-    );
-    // Last 7 days including today
-    weekDates = List.generate(7, (index) {
-      return DateTime.now().subtract(Duration(days: 6 - index));
-    });
 
-    _fetchTimetableForDate(selectedDate);
-  }
-
-  void _fetchTimetableForDate(DateTime date) {
-    context.read<TimetableBloc>().add(
-      GetLecturesForDayEvent(userId: userId, date: date),
-    );
+    final cachedLectures = context.read<TimetableBloc>().state.lectures;
+    if (cachedLectures == null) {
+      context.read<TimetableBloc>().add(GetAllLecturesEvent(userId: userId));
+    }
   }
 
   void _markAttendance(LectureEntity lecture, AttendanceStatus status) {
-    final d = selectedDate;
+    final d = DateTime.now();
 
     final lectureId =
         "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_${lecture.subjectName}";
@@ -72,7 +50,7 @@ class _TimetablePageState extends State<TimetablePage> {
 
       /// Combining subject name and it's type because DBMS can have DBMS as Lecture and DBMS as Lab so earlier it is used to get tracked as one single thing
       status: status,
-      markedAt: selectedDate,
+      markedAt: DateTime.now(),
     );
 
     context.read<AttendanceBloc>().add(
@@ -83,27 +61,18 @@ class _TimetablePageState extends State<TimetablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(),
+        title: Text(
+          "Today's Schedule",
+          style: AppTheme.light.textTheme.headlineLarge?.copyWith(
+            color: AppThemeHelper.colors.textTertiary,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Text(
-              "Timetable",
-              style: AppTheme.light.textTheme.headlineLarge?.copyWith(
-                color: AppThemeHelper.colors.textTertiary,
-              ),
-            ),
-            SizedBox(height: 20),
-
-            /// Date Selector
-            DateSelectorWidget(
-              dates: weekDates,
-              selectedDate: selectedDate,
-              onDateSelected: (date) {
-                setState(() => selectedDate = date);
-                _fetchTimetableForDate(date);
-              },
-            ),
-
             /// Content
             Expanded(
               child: BlocBuilder<TimetableBloc, TimetableState>(
@@ -116,8 +85,9 @@ class _TimetablePageState extends State<TimetablePage> {
                     return Center(child: Text(timetableState.error!));
                   }
 
-                  if (timetableState.lectures == null ||
-                      timetableState.lectures!.isEmpty) {
+                  final todayLectures = timetableState.todayLectures;
+
+                  if (todayLectures.isEmpty) {
                     return const Center(
                       child: Text("No lectures found for this date."),
                     );
@@ -126,7 +96,7 @@ class _TimetablePageState extends State<TimetablePage> {
                   return BlocBuilder<AttendanceBloc, AttendanceState>(
                     builder: (context, attendanceState) {
                       return LectureListWidget(
-                        lectures: timetableState.lectures!,
+                        lectures: todayLectures,
                         attendance: attendanceState.attendance ?? [],
                         onMark: (lecture, status) {
                           _markAttendance(lecture, status);
