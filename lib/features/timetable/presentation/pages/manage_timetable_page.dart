@@ -1,5 +1,6 @@
 import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
+import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
@@ -88,24 +89,24 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
                     children: [
                       Icon(
                         Icons.event_busy_rounded,
-                        size: 64,
+                        size: AppSpacing.scale(context, 64),
                         color: AppThemeHelper.colors.textSecondary.withValues(
                           alpha: 0.4,
                         ),
                       ),
-                      SizedBox(height: 16),
+                      SizedBox(height: AppSpacing.md),
                       Text(
                         "No lectures found for $day",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: AppSpacing.scale(context, 16),
                           color: AppThemeHelper.colors.textSecondary,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: AppSpacing.sm),
                       Text(
                         'Tap + to add one',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: AppSpacing.scale(context, 14),
                           color: AppThemeHelper.colors.textSecondary.withValues(
                             alpha: 0.6,
                           ),
@@ -116,7 +117,7 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
                 );
               }
               return ListView.builder(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(AppSpacing.padding(context)),
                 itemCount: filteredLectures.length,
                 itemBuilder: (context, index) {
                   final lecture = filteredLectures[index];

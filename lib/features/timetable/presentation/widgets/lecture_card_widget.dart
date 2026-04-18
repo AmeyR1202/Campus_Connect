@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/theme/theme_helper.dart';
+import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/action_button.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/status_chip.dart';
@@ -20,11 +21,11 @@ class LectureCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: AppSpacing.md),
+      padding: EdgeInsets.all(AppSpacing.padding(context)),
       decoration: BoxDecoration(
         color: AppThemeHelper.colors.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSpacing.radius(context)),
         boxShadow: [
           BoxShadow(
             blurRadius: 8,
@@ -38,18 +39,24 @@ class LectureCardWidget extends StatelessWidget {
           /// Subject
           Text(
             lecture.subjectName,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: AppSpacing.scale(context, 18), 
+              fontWeight: FontWeight.w600
+            ),
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: AppSpacing.sm),
 
           /// Time
           Text(
             "${lecture.startTime} - ${lecture.endTime}",
-            style: TextStyle(color: AppThemeHelper.colors.info),
+            style: TextStyle(
+              color: AppThemeHelper.colors.info,
+              fontSize: AppSpacing.scale(context, 14),
+            ),
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: AppSpacing.md),
 
           /// Actions
           if (attendance == null)
@@ -63,7 +70,7 @@ class LectureCardWidget extends StatelessWidget {
                     onTap: () => onMark(lecture, AttendanceStatus.present),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: AppSpacing.scale(context, 12)),
                 Expanded(
                   child: ActionButton(
                     text: "Mark Absent",
@@ -90,7 +97,7 @@ class LectureCardWidget extends StatelessWidget {
                         : AppThemeHelper.colors.error,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: AppSpacing.scale(context, 12)),
                 Expanded(
                   child: ActionButton(
                     text: attendance!.status == AttendanceStatus.present

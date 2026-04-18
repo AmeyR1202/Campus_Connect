@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -19,23 +20,30 @@ class AttendanceStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double iconSize = MediaQuery.of(context).size.width < 360 ? 18 : 22;
     return InkWell(
       onTap: onPressed,
+      borderRadius: BorderRadius.circular(AppSpacing.radius(context)),
       child: Container(
-        padding: const EdgeInsets.all(16),
-
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.scale(context, 12),
+          vertical: AppSpacing.scale(context, 8),
+        ),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppSpacing.radius(context)),
         ),
         child: Row(
           children: [
             CircleAvatar(
               backgroundColor: color.withValues(alpha: 0.1),
-              child: Icon(icon, color: color, size: iconSize),
+              radius: AppSpacing.scale(context, 18),
+              child: Icon(
+                icon,
+                color: color,
+                size: AppSpacing.scale(context, 20),
+              ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: AppSpacing.scale(context, 8)),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,17 +51,19 @@ class AttendanceStatsCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
+                    maxLines: 1,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: AppSpacing.scale(context, 11),
                       color: AppThemeHelper.colors.muted,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: AppSpacing.scale(context, 2)),
                   Text(
                     value,
-                    style: const TextStyle(
-                      fontSize: 18,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: AppSpacing.scale(context, 16),
                       fontWeight: FontWeight.bold,
                       overflow: TextOverflow.ellipsis,
                     ),
