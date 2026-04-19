@@ -88,7 +88,7 @@ class _TimetablePageState extends State<TimetablePage> {
 
                   if (todayLectures.isEmpty) {
                     return const Center(
-                      child: Text("No lectures found for this date."),
+                      child: Text("No lectures found for Today."),
                     );
                   }
 

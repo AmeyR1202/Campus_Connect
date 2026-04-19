@@ -131,7 +131,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       BlocBuilder<TimetableBloc, TimetableState>(
                         builder: (context, timetableState) {
-                          final count = timetableState.lectures?.length ?? 0;
+                          final todayLecture = timetableState.todayLectures;
+
+                          final count = todayLecture.length;
                           return AttendanceStatsCard(
                             title: "Today's Lectures",
                             value: timetableState.isLoading
