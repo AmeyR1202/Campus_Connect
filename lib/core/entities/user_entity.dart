@@ -15,6 +15,21 @@ class UserEntity extends Equatable {
     required this.createdAt,
   });
 
+  UserEntity copyWith({
+    String? username,
+    String? email,
+    bool? isEmailVerified,
+    DateTime? createdAt,
+  }) {
+    return UserEntity(
+      id: id,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      isEmailVerified: isEmailVerified ?? this.isEmailVerified,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
   @override
   List<Object?> get props => [id, username, email, isEmailVerified, createdAt];
 }

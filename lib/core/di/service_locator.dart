@@ -1,4 +1,6 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/session/session_repository.dart';
+import 'package:campus_connect/core/session/session_repository_impl.dart';
 import 'package:campus_connect/features/attendance/data/datasource/firestore_attendance_datasource.dart';
 import 'package:campus_connect/features/attendance/data/repository/attendance_repository_impl.dart';
 import 'package:campus_connect/features/attendance/domain/repositories/attendance_repository.dart';
@@ -38,7 +40,11 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => FirebaseFirestore.instance);
 
   /// Session Cubit
-  sl.registerLazySingleton(() => SessionCubit());
+  sl.registerLazySingleton<SessionRepository>(
+    () => SessionRepositoryImpl(sl()),
+  );
+
+  sl.registerLazySingleton(() => SessionCubit(sessionRepository: sl()));
 
   /// <------------------------- DI OF AUTHENTICATION FEAT -------------------------->
 

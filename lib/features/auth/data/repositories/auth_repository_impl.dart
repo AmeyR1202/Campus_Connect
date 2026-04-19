@@ -1,10 +1,9 @@
+import 'package:campus_connect/core/entities/user_entity.dart';
 import 'package:campus_connect/core/errors/app_exception.dart';
 import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
 import 'package:campus_connect/features/auth/data/datasources/firestore_user_datasource.dart';
-import 'package:campus_connect/features/auth/domain/entities/user_entity.dart';
 import 'package:campus_connect/features/auth/domain/repository/auth_repository.dart';
-
 import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {

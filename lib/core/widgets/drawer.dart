@@ -1,5 +1,4 @@
-import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +32,7 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () {
-                context.read<AuthBloc>().add(LogoutRequested());
+                context.read<SessionCubit>().logout();
                 context.go('/welcome');
               },
             ),
