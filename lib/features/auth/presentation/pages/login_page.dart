@@ -46,9 +46,9 @@ class _LoginPageState extends State<LoginPage> {
         }
 
         if (state is PasswordResetEmailSent) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Email sent successfully')));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Email sent successfully')),
+          );
         }
       },
 

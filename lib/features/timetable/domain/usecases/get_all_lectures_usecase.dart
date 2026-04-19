@@ -8,9 +8,7 @@ class GetAllLecturesUsecase {
 
   GetAllLecturesUsecase(this.repository);
 
-  Future<Either<Failure, List<LectureEntity>>> call({
-    required String userId,
-  }) {
+  Future<Either<Failure, List<LectureEntity>>> call({required String userId}) {
     return repository.getAllLectures(userId: userId);
   }
 }

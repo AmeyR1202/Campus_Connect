@@ -21,7 +21,8 @@ class ResponsiveBuilder extends StatelessWidget {
       return desktop!;
     }
 
-    if ((device == DeviceType.tablet || device == DeviceType.desktop) && tablet != null) {
+    if ((device == DeviceType.tablet || device == DeviceType.desktop) &&
+        tablet != null) {
       return tablet!;
     }
 

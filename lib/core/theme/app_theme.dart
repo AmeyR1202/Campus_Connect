@@ -13,7 +13,11 @@ class AppTheme {
     fontFamily: 'DMSans',
 
     textTheme: const TextTheme(
-      headlineLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: -0.5),
+      headlineLarge: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        letterSpacing: -0.5,
+      ),
       bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
       labelMedium: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),

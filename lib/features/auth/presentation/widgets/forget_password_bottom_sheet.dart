@@ -68,7 +68,9 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
 
                 if (email.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Email field cannot be empty')),
+                    const SnackBar(
+                      content: Text('Email field cannot be empty'),
+                    ),
                   );
                   return;
                 }

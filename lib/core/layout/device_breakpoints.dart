@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum DeviceType {
-  mobileSmall,
-  mobile,
-  tablet,
-  desktop,
-}
+enum DeviceType { mobileSmall, mobile, tablet, desktop }
 
 class DeviceBreakpoints {
   static DeviceType getDeviceType(BuildContext context) {

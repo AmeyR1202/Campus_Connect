@@ -40,8 +40,8 @@ class LectureCardWidget extends StatelessWidget {
           Text(
             lecture.subjectName,
             style: TextStyle(
-              fontSize: AppSpacing.scale(context, 18), 
-              fontWeight: FontWeight.w600
+              fontSize: AppSpacing.scale(context, 18),
+              fontWeight: FontWeight.w600,
             ),
           ),
 
