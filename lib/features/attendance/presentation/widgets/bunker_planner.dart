@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/attendance/domain/entities/subject_stats.dart';
 import 'package:flutter/material.dart';
@@ -62,10 +63,10 @@ class BunkPlannerCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppSpacing.radius(context)),
         border: Border.all(color: baseColor.withValues(alpha: 0.3)),
       ),
       child: Column(
@@ -77,8 +78,8 @@ class BunkPlannerCard extends StatelessWidget {
               Text(
                 "$bigNumber",
                 style: textTheme.headlineLarge?.copyWith(
-                  fontSize: 48,
-                  fontWeight: FontWeight.w900,
+                  fontSize: 36,
+                  fontWeight: FontWeight.w800,
                   color: baseColor,
                   height: 1,
                 ),

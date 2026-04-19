@@ -6,19 +6,21 @@ import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_button.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_switch_text.dart';
+import 'package:campus_connect/features/auth/presentation/widgets/forget_password_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final String userEmail;
+  const LoginPage({super.key, required this.userEmail});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
+  late final emailController = TextEditingController(text: widget.userEmail);
   final passwordController = TextEditingController();
   bool obscurePassword = true;
 
@@ -41,6 +43,12 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.message)));
+        }
+
+        if (state is PasswordResetEmailSent) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Email sent successfully')),
+          );
         }
       },
 
@@ -73,14 +81,12 @@ class _LoginPageState extends State<LoginPage> {
                             ).textTheme.headlineLarge!.copyWith(fontSize: 34),
                           ),
 
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 10),
 
                           Text(
                             "Enter your email and password to log in",
                             style: Theme.of(context).textTheme.labelMedium!
-                                .copyWith(
-                                  color: AppThemeHelper.colors.textSecondary,
-                                ),
+                                .copyWith(color: AppThemeHelper.colors.muted),
                           ),
                           const SizedBox(height: 20),
 
@@ -89,13 +95,13 @@ class _LoginPageState extends State<LoginPage> {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
 
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 10),
 
                           AuthInputField(
                             hintText: 'example@gmail.com',
                             controller: emailController,
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 10),
 
                           Text.rich(
                             TextSpan(
@@ -114,10 +120,12 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 10),
 
                           AuthInputField(
                             hintText: "Enter your password",
+                            // autofocus:
+                            //     true, // by default enabled as email field is auto entered
                             isObscure: obscurePassword,
                             controller: passwordController,
                             onToggle: () {
@@ -127,20 +135,31 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
 
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 10),
 
                           Align(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              "Forgot Password ?",
-                              style: Theme.of(context).textTheme.bodyMedium!
-                                  .copyWith(
-                                    color: AppThemeHelper.colors.primary,
-                                  ),
+                            child: InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  useRootNavigator: true,
+                                  builder: (context) =>
+                                      const ForgetPasswordBottomSheet(),
+                                );
+                              },
+                              child: Text(
+                                "Forgot Password ?",
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(
+                                      color: AppThemeHelper.colors.primary,
+                                    ),
+                              ),
                             ),
                           ),
 
-                          const SizedBox(height: 28),
+                          const SizedBox(height: 10),
 
                           AuthSubmitButton(
                             buttonLabel: 'Log In',
@@ -154,13 +173,13 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
 
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
 
                           InkWell(
                             onTap: () {
                               context.go('/signup');
                             },
-                            child: AuthSwitchText(
+                            child: const AuthSwitchText(
                               questionText: 'Don\'t have an account? ',
                               actionText: 'Register',
                             ),

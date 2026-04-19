@@ -15,20 +15,20 @@ class WelcomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Spacer(),
+              const Spacer(),
               SvgPicture.asset('assets/images/welcome.svg'),
               Text(
                 "Welcome to Campus Connect",
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 "The ultimate super app for your campus.",
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   color: AppThemeHelper.colors.muted,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(

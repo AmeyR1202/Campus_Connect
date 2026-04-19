@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -21,21 +22,28 @@ class FeatureCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(AppSpacing.radius(context)),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.scale(context, 12),
+          vertical: AppSpacing.scale(context, 8),
+        ),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppSpacing.radius(context)),
         ),
         child: Row(
           children: [
             CircleAvatar(
+              radius: AppSpacing.scale(context, 18),
               backgroundColor: color.withValues(alpha: 0.25),
-              child: Icon(icon, color: color),
+              child: Icon(
+                icon,
+                color: color,
+                size: AppSpacing.scale(context, 20),
+              ),
             ),
-            const SizedBox(width: 12),
-
+            SizedBox(width: AppSpacing.scale(context, 8)),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,21 +51,31 @@ class FeatureCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: AppSpacing.scale(context, 2)),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 12,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: AppThemeHelper.colors.muted,
+                      height: 1.1,
                     ),
                   ),
                 ],
               ),
+            ),
+            SizedBox(width: AppSpacing.scale(context, 4)),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: AppSpacing.scale(context, 14),
+              color: AppThemeHelper.colors.textTertiary,
             ),
           ],
         ),

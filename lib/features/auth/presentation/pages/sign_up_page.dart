@@ -1,14 +1,8 @@
-import 'package:campus_connect/core/widgets/dropdown.dart';
+import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/core/widgets/snackbar.dart';
-import 'package:campus_connect/features/auth/domain/enums/branch.dart';
-import 'package:campus_connect/features/auth/domain/enums/semester.dart';
-import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
-import 'package:campus_connect/features/auth/presentation/extensions/branch_extension.dart';
-import 'package:campus_connect/features/auth/presentation/extensions/semester_extension.dart';
-import 'package:campus_connect/features/auth/presentation/extensions/year_extension.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_button.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/auth_switch_text.dart';
@@ -28,9 +22,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool obscurePassword = true;
-  Branch? selectedBranch;
-  Year? selectedYear;
-  Semester? selectedSemester;
 
   @override
   void dispose() {
@@ -41,24 +32,23 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _onSignup() {
-    if (selectedBranch == null ||
-        selectedYear == null ||
-        selectedSemester == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Please select all fields")));
+    final username = usernameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
 
+    if (username.isEmpty || email.isEmpty) {
+      snackbar(context, "Username and Email cannot be empty");
       return;
     }
-
+    if (password.length < 6) {
+      snackbar(context, "Password must be at least 6 characters long");
+      return;
+    }
     context.read<AuthBloc>().add(
       SignupRequested(
         username: usernameController.text.trim(),
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
-        branch: selectedBranch!,
-        year: selectedYear!,
-        semester: selectedSemester!,
       ),
     );
   }
@@ -68,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthVerificationEmailSent) {
-          context.go('/email-success');
+          context.go('/email-success', extra: emailController.text.trim());
         }
         if (state is AuthError) {
           snackbar(context, state.message);
@@ -118,7 +108,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 controller: usernameController,
                               ),
 
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
 
                               Text(
                                 "Email",
@@ -131,7 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 controller: emailController,
                               ),
 
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
 
                               Text.rich(
                                 TextSpan(
@@ -163,51 +153,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   });
                                 },
                               ),
-                              const SizedBox(height: 20),
-
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: AppDropdown<Branch>(
-                                      label: "Branch",
-                                      getLabel: (s) => s.displayBranch,
-                                      value: selectedBranch,
-                                      items: Branch.values,
-                                      onChanged: (value) {
-                                        setState(() => selectedBranch = value);
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-
-                                  Expanded(
-                                    child: AppDropdown<Year>(
-                                      label: "Year",
-                                      getLabel: (s) => s.displayYear,
-                                      value: selectedYear,
-                                      items: Year.values,
-                                      onChanged: (value) {
-                                        setState(() => selectedYear = value);
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-
-                                  Expanded(
-                                    child: AppDropdown<Semester>(
-                                      label: "Semester",
-                                      getLabel: (s) => s.displayName,
-                                      value: selectedSemester,
-                                      items: Semester.values,
-                                      onChanged: (value) {
-                                        setState(
-                                          () => selectedSemester = value,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              const SizedBox(height: 10),
 
                               const SizedBox(height: 30),
 
@@ -224,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 onTap: () {
                                   context.go('/login');
                                 },
-                                child: AuthSwitchText(
+                                child: const AuthSwitchText(
                                   questionText: 'Already have an account? ',
                                   actionText: 'Log in',
                                 ),
@@ -241,10 +187,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
             if (isLoading)
               Container(
-                color: Color.fromRGBO(0, 0, 0, 0.1),
-                child: const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                ),
+                color: const Color.fromRGBO(0, 0, 0, 0.1),
+                child: const Center(child: Loader()),
               ),
           ],
         );

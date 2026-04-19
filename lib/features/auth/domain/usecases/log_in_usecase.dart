@@ -11,7 +11,7 @@ class LoginUsecase {
   Future<Either<Failure, UserEntity>> call({
     required String email,
     required String password,
-  }) {
-    return authRepository.login(email: email, password: password);
+  }) async {
+    return await authRepository.login(email: email, password: password);
   }
 }

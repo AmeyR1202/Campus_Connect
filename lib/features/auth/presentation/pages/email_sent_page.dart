@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class EmailSentPage extends StatelessWidget {
-  const EmailSentPage({super.key});
+  final String userEmail;
+  const EmailSentPage({super.key, required this.userEmail});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,6 @@ class EmailSentPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Circle using DecoratedBox instead of Container
                     SizedBox(
                       height: 80,
                       width: 80,
@@ -45,7 +45,7 @@ class EmailSentPage extends StatelessWidget {
                     const SizedBox(height: 12),
 
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: Text(
                         'A verification email has been sent to your email address. Please check your inbox.',
                         textAlign: TextAlign.center,
@@ -67,7 +67,7 @@ class EmailSentPage extends StatelessWidget {
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.go('/login');
+                    context.go('/login', extra: userEmail);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppThemeHelper.colors.primary,
@@ -86,7 +86,7 @@ class EmailSentPage extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Icon(
                         Icons.arrow_forward,
                         color: AppThemeHelper.colors.textPrimary,

@@ -11,18 +11,11 @@ class FirestoreUserDatasource {
     required String uid,
     required String username,
     required String email,
-    required String branch,
-    required String year,
-    required String semester,
   }) async {
     try {
       await firestore.collection('users').doc(uid).set({
         'username': username,
         'email': email,
-        'branch': branch,
-        'semester': semester,
-        'year': year,
-        'createdAt': FieldValue.serverTimestamp(),
       });
     } on FirebaseException catch (e) {
       throw ServerException(e.message.toString());
@@ -34,13 +27,13 @@ class FirestoreUserDatasource {
       final docSnapshot = await firestore.collection('users').doc(uid).get();
 
       if (!docSnapshot.exists) {
-        throw ServerException('User profile not found in Firestore');
+        throw const ServerException('User profile not found in Firestore');
       }
 
       final data = docSnapshot.data();
 
       if (data == null) {
-        throw ServerException('User data is null');
+        throw const ServerException('User data is null');
       }
 
       return UserModel.fromFirestore(data, docSnapshot.id);

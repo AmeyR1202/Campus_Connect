@@ -17,7 +17,7 @@ class ErrorPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Spacer(),
+              const Spacer(),
               Text(
                 "This feature is coming soon...",
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -26,9 +26,9 @@ class ErrorPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               SvgPicture.asset('assets/images/404.svg'),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
@@ -55,7 +55,7 @@ class ErrorPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
 
               // 🔘 Button
               SizedBox(

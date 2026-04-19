@@ -1,8 +1,5 @@
 import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/auth/domain/entities/user_entity.dart';
-import 'package:campus_connect/features/auth/domain/enums/branch.dart';
-import 'package:campus_connect/features/auth/domain/enums/semester.dart';
-import 'package:campus_connect/features/auth/domain/enums/year.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class AuthRepository {
@@ -10,9 +7,6 @@ abstract class AuthRepository {
     required String username,
     required String email,
     required String password,
-    required Branch branch,
-    required Year year,
-    required Semester semester,
   });
 
   Future<Either<Failure, UserEntity>> login({
@@ -21,6 +15,8 @@ abstract class AuthRepository {
   });
 
   Future<Either<Failure, UserEntity?>> getCurrentUser();
+
+  Future<Either<Failure, void>> forgetPassword({required String email});
 
   Future<Either<Failure, void>> logout();
 }

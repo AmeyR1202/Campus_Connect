@@ -16,6 +16,8 @@ class AuthSignupSuccess extends AuthState {}
 
 class AuthVerificationEmailSent extends AuthState {}
 
+class PasswordResetEmailSent extends AuthState {}
+
 class AuthAuthenticated extends AuthState {
   final UserEntity user;
 

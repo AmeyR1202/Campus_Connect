@@ -56,4 +56,12 @@ class FirebaseAuthDatasource {
       throw AuthException(e.message.toString());
     }
   }
+
+  Future<void> forgetPassword({required String email}) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message.toString());
+    }
+  }
 }
