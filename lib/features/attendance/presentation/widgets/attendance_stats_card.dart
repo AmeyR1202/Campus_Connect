@@ -52,8 +52,7 @@ class AttendanceStatsCard extends StatelessWidget {
                   Text(
                     title,
                     maxLines: 1,
-                    style: TextStyle(
-                      fontSize: AppSpacing.scale(context, 11),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: AppThemeHelper.colors.muted,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -62,8 +61,7 @@ class AttendanceStatsCard extends StatelessWidget {
                   Text(
                     value,
                     maxLines: 1,
-                    style: TextStyle(
-                      fontSize: AppSpacing.scale(context, 16),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -54,10 +54,8 @@ class FeatureCard extends StatelessWidget {
                     maxLines: 1,
                     softWrap: false,
                     overflow: TextOverflow.visible,
-                    style: TextStyle(
-                      fontSize: AppSpacing.scale(context, 13.5),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.w700,
-                      letterSpacing: -0.2, // Tighter to ensure it fits easily
                     ),
                   ),
                   SizedBox(height: AppSpacing.scale(context, 2)),
@@ -65,8 +63,7 @@ class FeatureCard extends StatelessWidget {
                     subtitle,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: AppSpacing.scale(context, 10.5),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: AppThemeHelper.colors.muted,
                       height: 1.1,
                     ),

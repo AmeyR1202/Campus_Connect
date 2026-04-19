@@ -62,8 +62,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildLayout(BuildContext context, {required bool isTablet}) {
-    // For Tablet, we can afford larger crossAxisExtents or grids.
-    double gridAspectRatio = isTablet ? 1.6 : 2.2;
+    double gridAspectRatio = isTablet ? 1.8 : 2.4;
     double maxFeatureExtent = isTablet ? 300 : 250;
 
     return SingleChildScrollView(
@@ -149,10 +148,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: AppSpacing.md),
                   Text(
                     'Bunk Planning',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: AppSpacing.scale(context, 22),
-                    ),
+                    style: Theme.of(context).textTheme.headlineLarge,
                   ),
                   SizedBox(height: AppSpacing.md),
                   BunkPlannerCard(
@@ -166,10 +162,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: AppSpacing.md),
           Text(
             'Campus Features',
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.w700,
-              fontSize: AppSpacing.scale(context, 22),
-            ),
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
           SizedBox(height: AppSpacing.md),
           GridView(
@@ -192,7 +185,7 @@ class _HomePageState extends State<HomePage> {
               ),
               FeatureCard(
                 title: "Timetable",
-                subtitle: 'Manage schedule',
+                subtitle: 'My schedule',
                 icon: Icons.event,
                 color: Feature.timetable,
                 onTap: () => context.push('/manage-timetable'),
