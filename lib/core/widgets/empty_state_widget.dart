@@ -20,14 +20,14 @@ class EmptyStateWidget extends StatelessWidget {
             size: 50,
             color: AppThemeHelper.colors.primary,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
 
-          Text(
+          const Text(
             "Start tracking your attendance",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
 
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
 
           Text(
             "Mark your lectures to see detailed attendance stats.",
@@ -35,7 +35,7 @@ class EmptyStateWidget extends StatelessWidget {
             style: TextStyle(color: AppThemeHelper.colors.textSecondary),
           ),
 
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
 
           ElevatedButton(
             onPressed: () {

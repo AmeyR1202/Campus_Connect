@@ -27,13 +27,13 @@ class FirestoreUserDatasource {
       final docSnapshot = await firestore.collection('users').doc(uid).get();
 
       if (!docSnapshot.exists) {
-        throw ServerException('User profile not found in Firestore');
+        throw const ServerException('User profile not found in Firestore');
       }
 
       final data = docSnapshot.data();
 
       if (data == null) {
-        throw ServerException('User data is null');
+        throw const ServerException('User data is null');
       }
 
       return UserModel.fromFirestore(data, docSnapshot.id);

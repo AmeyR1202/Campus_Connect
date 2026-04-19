@@ -138,7 +138,7 @@ class SubjectDetailsPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       InkWell(
                         onTap: () {
                           context.push('/subjects/${s.subjectId}/history');

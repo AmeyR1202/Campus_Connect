@@ -40,24 +40,24 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset('assets/images/forget_password.svg'),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "Forget Password",
               style: AppTheme.light.textTheme.headlineLarge,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "Enter your email, we will send you verification code",
               style: AppTheme.light.textTheme.labelSmall!.copyWith(
                 color: AppThemeHelper.colors.muted,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             AuthInputField(
               hintText: "Enter your Email Id",
               controller: controller,
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             AuthSubmitButton(
               buttonLabel: 'Submit',
               onPressed: () {
@@ -68,7 +68,7 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
 
                 if (email.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Email field cannot be empty')),
+                    const SnackBar(content: Text('Email field cannot be empty')),
                   );
                   return;
                 }

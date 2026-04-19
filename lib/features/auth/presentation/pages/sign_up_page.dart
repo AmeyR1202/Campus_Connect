@@ -170,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 onTap: () {
                                   context.go('/login');
                                 },
-                                child: AuthSwitchText(
+                                child: const AuthSwitchText(
                                   questionText: 'Already have an account? ',
                                   actionText: 'Log in',
                                 ),
@@ -187,7 +187,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
             if (isLoading)
               Container(
-                color: Color.fromRGBO(0, 0, 0, 0.1),
+                color: const Color.fromRGBO(0, 0, 0, 0.1),
                 child: const Center(child: Loader()),
               ),
           ],

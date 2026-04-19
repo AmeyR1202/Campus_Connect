@@ -32,7 +32,7 @@ class AppSpacing {
 
   // Smooth scalar for fonts avoiding excessive sizes on tablet
   static double scale(BuildContext context, double base) {
-    double width = MediaQuery.sizeOf(context).width;
+    final double width = MediaQuery.sizeOf(context).width;
     double scaleFactor = width / 375.0;
     scaleFactor = scaleFactor.clamp(0.85, 1.25);
     return base * scaleFactor;

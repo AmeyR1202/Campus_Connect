@@ -22,7 +22,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final firebaseUser = authDatasource.getFirebaseUser();
 
       if (firebaseUser == null) {
-        return Right(null);
+        return const Right(null);
       }
 
       await firebaseUser.reload();
@@ -96,7 +96,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final firebaseUser = credential.user;
 
       if (firebaseUser == null) {
-        return Left(AuthFailure("user creation failed"));
+        return const Left(AuthFailure("user creation failed"));
       }
 
       await authDatasource.sendEmailVerification();
@@ -107,7 +107,7 @@ class AuthRepositoryImpl implements AuthRepository {
         email: email,
       );
 
-      return Right(null);
+      return const Right(null);
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
     } on ServerException catch (e) {
@@ -131,7 +131,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> forgetPassword({required String email}) async {
     try {
       await authDatasource.forgetPassword(email: email);
-      return Right(null);
+      return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on AuthException catch (e) {

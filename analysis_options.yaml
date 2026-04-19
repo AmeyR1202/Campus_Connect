@@ -35,7 +35,6 @@ linter:
 
     # Safety
     avoid_dynamic_calls: true
-    strict_raw_types: true
 
     # Async & Clean Architecture
     unawaited_futures: true

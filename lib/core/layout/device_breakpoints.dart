@@ -9,7 +9,7 @@ enum DeviceType {
 
 class DeviceBreakpoints {
   static DeviceType getDeviceType(BuildContext context) {
-    double width = MediaQuery.sizeOf(context).width;
+    final double width = MediaQuery.sizeOf(context).width;
 
     if (width < 360) return DeviceType.mobileSmall;
     if (width < 600) return DeviceType.mobile;

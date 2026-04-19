@@ -17,7 +17,7 @@ class SessionTypeChip extends StatelessWidget {
         chipColor = AppThemeHelper.colors.success;
     }
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: chipColor.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(8),

@@ -33,7 +33,7 @@ class _AppShellState extends State<AppShell> {
       height: 70,
       selectedIndex: currentIndex,
       onDestinationSelected: onTap,
-      destinations: [
+      destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home_outlined),
           selectedIcon: Icon(Icons.home),
@@ -77,7 +77,7 @@ class _AppShellState extends State<AppShell> {
         ),
         centerTitle: false,
       ),
-      endDrawer: AppDrawer(),
+      endDrawer: const AppDrawer(),
       body: widget.child,
       bottomNavigationBar: _buildNavbar(currentIndex),
     );

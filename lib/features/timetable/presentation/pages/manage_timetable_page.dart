@@ -1,13 +1,13 @@
+import 'package:campus_connect/core/layout/app_spacing.dart';
+import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
-import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:campus_connect/core/widgets/loader.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_state.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/bottom_sheet_widgets/add_lecture_bottom_sheet.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/timetable_card_widget.dart';
-import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -55,7 +55,7 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(),
+        iconTheme: const IconThemeData(),
         title: Text(
           "Manage Timetable",
           style: AppTheme.light.textTheme.headlineLarge!.copyWith(
@@ -94,7 +94,7 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
                           alpha: 0.4,
                         ),
                       ),
-                      SizedBox(height: AppSpacing.md),
+                      const SizedBox(height: AppSpacing.md),
                       Text(
                         "No lectures found for $day",
                         style: TextStyle(
@@ -102,7 +102,7 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
                           color: AppThemeHelper.colors.textSecondary,
                         ),
                       ),
-                      SizedBox(height: AppSpacing.sm),
+                      const SizedBox(height: AppSpacing.sm),
                       Text(
                         'Tap + to add one',
                         style: TextStyle(

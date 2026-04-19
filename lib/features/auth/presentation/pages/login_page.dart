@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         if (state is PasswordResetEmailSent) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('Email sent successfully')));
+          ).showSnackBar(const SnackBar(content: Text('Email sent successfully')));
         }
       },
 
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: 'example@gmail.com',
                             controller: emailController,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           Text.rich(
                             TextSpan(
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                   isScrollControlled: true,
                                   useRootNavigator: true,
                                   builder: (context) =>
-                                      ForgetPasswordBottomSheet(),
+                                      const ForgetPasswordBottomSheet(),
                                 );
                               },
                               child: Text(
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                             onTap: () {
                               context.go('/signup');
                             },
-                            child: AuthSwitchText(
+                            child: const AuthSwitchText(
                               questionText: 'Don\'t have an account? ',
                               actionText: 'Register',
                             ),

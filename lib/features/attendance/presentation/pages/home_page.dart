@@ -62,8 +62,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildLayout(BuildContext context, {required bool isTablet}) {
-    double gridAspectRatio = isTablet ? 1.8 : 2.4;
-    double maxFeatureExtent = isTablet ? 300 : 250;
+    final double gridAspectRatio = isTablet ? 1.8 : 2.4;
+    final double maxFeatureExtent = isTablet ? 300 : 250;
 
     return SingleChildScrollView(
       child: Column(
@@ -147,12 +147,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.md),
                   Text(
                     'Bunk Planning',
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
-                  SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.md),
                   BunkPlannerCard(
                     safeSubjects: safeSubjects,
                     dangerSubjects: dangerSubjects,
@@ -161,12 +161,12 @@ class _HomePageState extends State<HomePage> {
               );
             },
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           Text(
             'Campus Features',
             style: Theme.of(context).textTheme.headlineLarge,
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           GridView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

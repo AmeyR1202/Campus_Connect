@@ -61,7 +61,7 @@ class _TimetablePageState extends State<TimetablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(),
+        iconTheme: const IconThemeData(),
         title: Text(
           "Today's Schedule",
           style: AppTheme.light.textTheme.headlineLarge?.copyWith(

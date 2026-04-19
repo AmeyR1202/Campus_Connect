@@ -22,9 +22,9 @@ import 'package:campus_connect/features/timetable/data/repository/timetable_repo
 import 'package:campus_connect/features/timetable/domain/repository/timetable_repository.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/add_lecture_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/delete_lecture_usecase.dart';
+import 'package:campus_connect/features/timetable/domain/usecases/get_all_lectures_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/get_lectures_for_day_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/update_lecture_usecase.dart';
-import 'package:campus_connect/features/timetable/domain/usecases/get_all_lectures_usecase.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

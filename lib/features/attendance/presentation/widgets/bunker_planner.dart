@@ -1,6 +1,6 @@
+import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/attendance/domain/entities/subject_stats.dart';
-import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 class BunkPlannerCard extends StatelessWidget {
@@ -63,7 +63,7 @@ class BunkPlannerCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(AppSpacing.radius(context)),

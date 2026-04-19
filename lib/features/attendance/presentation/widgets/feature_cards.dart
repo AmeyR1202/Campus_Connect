@@ -1,5 +1,5 @@
-import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/layout/app_spacing.dart';
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class FeatureCard extends StatelessWidget {

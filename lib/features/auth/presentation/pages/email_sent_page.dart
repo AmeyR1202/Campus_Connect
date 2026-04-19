@@ -45,7 +45,7 @@ class EmailSentPage extends StatelessWidget {
                     const SizedBox(height: 12),
 
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: Text(
                         'A verification email has been sent to your email address. Please check your inbox.',
                         textAlign: TextAlign.center,
@@ -86,7 +86,7 @@ class EmailSentPage extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Icon(
                         Icons.arrow_forward,
                         color: AppThemeHelper.colors.textPrimary,

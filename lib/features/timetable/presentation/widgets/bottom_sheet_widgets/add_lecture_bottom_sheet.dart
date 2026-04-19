@@ -143,7 +143,7 @@ class _AddLectureBottomSheetState extends State<AddLectureBottomSheet> {
             },
           ),
 
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           Row(
             children: [
@@ -164,7 +164,7 @@ class _AddLectureBottomSheetState extends State<AddLectureBottomSheet> {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           AddLectureButton(
             onPressed: () {
               _onSubmit();

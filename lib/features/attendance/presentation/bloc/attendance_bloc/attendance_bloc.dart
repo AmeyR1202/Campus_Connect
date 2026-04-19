@@ -1,8 +1,8 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/add_attendance_usecase.dart';
-import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/update_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
@@ -19,7 +19,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     required this.addAttendance,
     required this.getAttendance,
     required this.updateAttendanceUsecase,
-  }) : super(AttendanceState()) {
+  }) : super(const AttendanceState()) {
     on<AddAttendanceEvent>(
       _onAddAttendance,
       transformer: restartable(),
@@ -29,7 +29,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<UpdateLectureEvent>(_onUpdateLecture);
   }
 
-  void _onAddAttendance(
+  Future<void> _onAddAttendance(
     AddAttendanceEvent event,
     Emitter<AttendanceState> emit,
   ) async {
@@ -66,7 +66,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     );
   }
 
-  void _onFetchAttendance(
+  Future<void> _onFetchAttendance(
     FetchAttendanceEvent event,
     Emitter<AttendanceState> emit,
   ) async {

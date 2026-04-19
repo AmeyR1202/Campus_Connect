@@ -21,7 +21,7 @@ class GetDashboardStatsUsecase {
         grouped.putIfAbsent(a.subjectId, () => []).add(a);
       }
 
-      List<SubjectStats> statsList = [];
+      final List<SubjectStats> statsList = [];
 
       grouped.forEach((subjectId, logs) {
         final validLogs = logs

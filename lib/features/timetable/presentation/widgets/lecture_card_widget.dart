@@ -1,5 +1,5 @@
-import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/core/layout/app_spacing.dart';
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/action_button.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/status_chip.dart';
@@ -21,7 +21,7 @@ class LectureCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: AppSpacing.md),
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
       padding: EdgeInsets.all(AppSpacing.padding(context)),
       decoration: BoxDecoration(
         color: AppThemeHelper.colors.surface,
@@ -45,7 +45,7 @@ class LectureCardWidget extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.sm),
 
           /// Time
           Text(
@@ -56,7 +56,7 @@ class LectureCardWidget extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
 
           /// Actions
           if (attendance == null)

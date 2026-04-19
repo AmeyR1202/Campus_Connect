@@ -25,7 +25,7 @@ class AppDropdown<T> extends StatelessWidget {
         Text(label, style: Theme.of(context).textTheme.labelMedium),
         const SizedBox(height: 8),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             color: AppThemeHelper.colors.info.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
