@@ -69,6 +69,12 @@ class AttendanceStatsCard extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(width: AppSpacing.scale(context, 4)),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: AppSpacing.scale(context, 14),
+              color: AppThemeHelper.colors.textTertiary,
+            ),
           ],
         ),
       ),

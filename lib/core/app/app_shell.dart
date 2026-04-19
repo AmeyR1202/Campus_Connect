@@ -14,7 +14,7 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> {
-  final routes = ['/home', '/attendance', '/timetable', '/profile'];
+  final routes = ['/home', '/attendance', '/manage-timetable', '/profile'];
 
   void onTap(int index) {
     context.push(routes[index]);
@@ -22,8 +22,8 @@ class _AppShellState extends State<AppShell> {
 
   int getIndex(String location) {
     if (location.startsWith('/attendance')) return 1;
-    if (location.startsWith('/timetable')) return 2;
-    if (location.startsWith('/timetable')) return 3;
+    if (location.startsWith('/manage-timetable')) return 2;
+    if (location.startsWith('/profile')) return 3;
     return 0;
   }
 

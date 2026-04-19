@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     children: [
                       AttendanceStatsCard(
-                        title: 'Overall Attendance',
+                        title: 'Summary',
                         value: '${overallPercentage.toStringAsFixed(1)}%',
                         icon: Icons.check_circle,
                         color: AppThemeHelper.colors.success,
