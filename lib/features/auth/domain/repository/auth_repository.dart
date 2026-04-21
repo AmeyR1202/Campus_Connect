@@ -1,5 +1,5 @@
+import 'package:campus_connect/core/entities/user_entity.dart';
 import 'package:campus_connect/core/errors/failures.dart';
-import 'package:campus_connect/features/auth/domain/entities/user_entity.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class AuthRepository {

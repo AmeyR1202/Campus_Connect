@@ -25,6 +25,9 @@ class AuthInputField extends StatelessWidget {
       obscureText: isObscure,
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: TextStyle(
+          color: AppThemeHelper.colors.textTertiary.withValues(alpha: 0.5),
+        ),
         filled: true,
         fillColor: AppThemeHelper.colors.info.withValues(alpha: 0.1),
         border: OutlineInputBorder(

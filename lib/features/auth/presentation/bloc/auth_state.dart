@@ -1,4 +1,4 @@
-import 'package:campus_connect/features/auth/domain/entities/user_entity.dart';
+import 'package:campus_connect/core/entities/user_entity.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
