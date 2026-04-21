@@ -5,6 +5,7 @@ import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:campus_connect/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ void main() async {
         BlocProvider(create: (_) => sl<SessionCubit>()),
         BlocProvider(create: (_) => sl<AttendanceBloc>()),
         BlocProvider(create: (_) => sl<TimetableBloc>()),
+        BlocProvider(create: (_) => sl<ProfileBloc>()),
       ],
       child: const MyApp(),
     ),

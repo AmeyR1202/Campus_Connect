@@ -1,6 +1,5 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
-import 'package:campus_connect/core/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -77,7 +76,7 @@ class _AppShellState extends State<AppShell> {
         ),
         centerTitle: false,
       ),
-      endDrawer: const AppDrawer(),
+
       body: widget.child,
       bottomNavigationBar: _buildNavbar(currentIndex),
     );

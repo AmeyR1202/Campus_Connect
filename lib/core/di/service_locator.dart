@@ -19,6 +19,11 @@ import 'package:campus_connect/features/auth/domain/usecases/log_in_usecase.dart
 import 'package:campus_connect/features/auth/domain/usecases/log_out_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:campus_connect/features/profile/data/datasources/profile_datasource.dart';
+import 'package:campus_connect/features/profile/data/repository/profile_repository_impl.dart';
+import 'package:campus_connect/features/profile/domain/repository/profile_repository.dart';
+import 'package:campus_connect/features/profile/domain/usecases/update_username_usecase.dart';
+import 'package:campus_connect/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:campus_connect/features/timetable/data/datasources/firestore_timetable_datasource.dart';
 import 'package:campus_connect/features/timetable/data/repository/timetable_repository_impl.dart';
 import 'package:campus_connect/features/timetable/domain/repository/timetable_repository.dart';
@@ -126,5 +131,15 @@ Future<void> initDependencies() async {
       getLectures: sl(),
       getAllLectures: sl(), // Added to bloc
     ),
+  );
+
+  // Profile Feature
+  sl.registerLazySingleton(() => ProfileDatasource(firestore: sl()));
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(datasource: sl()),
+  );
+  sl.registerLazySingleton(() => UpdateUsernameUsecase(sl()));
+  sl.registerFactory(
+    () => ProfileBloc(updateUsernameUsecase: sl(), sessionCubit: sl()),
   );
 }

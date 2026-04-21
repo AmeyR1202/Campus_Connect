@@ -9,6 +9,7 @@ import 'package:campus_connect/features/auth/presentation/pages/sign_up_page.dar
 import 'package:campus_connect/features/auth/presentation/pages/splash_screen.dart';
 import 'package:campus_connect/features/auth/presentation/pages/welcome_page.dart';
 import 'package:campus_connect/features/home/presentation/pages/home_page.dart';
+import 'package:campus_connect/features/profile/presentation/pages/profile_page.dart';
 import 'package:campus_connect/features/timetable/presentation/pages/manage_timetable_page.dart';
 import 'package:campus_connect/features/timetable/presentation/pages/timetable_page.dart';
 import 'package:go_router/go_router.dart';
@@ -25,6 +26,11 @@ final GoRouter router = GoRouter(
           path: '/home',
           pageBuilder: (context, state) =>
               buildPageWithTransition(state: state, child: const HomePage()),
+        ),
+        GoRoute(
+          path: '/profile',
+          pageBuilder: (context, state) =>
+              buildPageWithTransition(state: state, child: const ProfilePage()),
         ),
       ],
     ),
