@@ -143,6 +143,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       subjectId: event.subjectId,
       attended: event.attended,
       missed: event.missed,
+      cancelled: event.cancelled,
     );
 
     final result = await setBaseStatsUsecase(

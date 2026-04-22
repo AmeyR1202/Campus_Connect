@@ -16,23 +16,11 @@ class EditBaseStatsSheet extends StatefulWidget {
 }
 
 class _EditBaseStatsSheetState extends State<EditBaseStatsSheet> {
-  final attendedController = TextEditingController();
-  final missedController = TextEditingController();
+  int _presentCount = 0;
+  int _absentCount = 0;
+  int _cancelledCount = 0;
 
   Future<void> _submit() async {
-    final attendedStr = attendedController.text.trim();
-    final missedStr = missedController.text.trim();
-
-    if (attendedStr.isEmpty || missedStr.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill out both fields')),
-      );
-      return;
-    }
-
-    final attended = int.tryParse(attendedStr) ?? 0;
-    final missed = int.tryParse(missedStr) ?? 0;
-
     final userId = context.read<SessionCubit>().state.user?.id ?? '';
 
     if (userId.isNotEmpty) {
@@ -40,8 +28,9 @@ class _EditBaseStatsSheetState extends State<EditBaseStatsSheet> {
         SetBaseStatsEvent(
           userId: userId,
           subjectId: widget.subjectId,
-          attended: attended,
-          missed: missed,
+          attended: _presentCount,
+          missed: _absentCount,
+          cancelled: _cancelledCount,
         ),
       );
     }
@@ -50,18 +39,11 @@ class _EditBaseStatsSheetState extends State<EditBaseStatsSheet> {
   }
 
   @override
-  void dispose() {
-    attendedController.dispose();
-    missedController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 16,
-        right: 16,
+        left: 20,
+        right: 20,
         top: 24,
         bottom: MediaQuery.of(context).viewInsets.bottom + 24,
       ),
@@ -73,7 +55,7 @@ class _EditBaseStatsSheetState extends State<EditBaseStatsSheet> {
             child: Container(
               width: 40,
               height: 4,
-              margin: const EdgeInsets.only(bottom: 16),
+              margin: const EdgeInsets.only(bottom: 24),
               decoration: BoxDecoration(
                 color: AppThemeHelper.colors.muted,
                 borderRadius: BorderRadius.circular(10),
@@ -81,47 +63,62 @@ class _EditBaseStatsSheetState extends State<EditBaseStatsSheet> {
             ),
           ),
           Text(
-            'Edit Base Stats',
+            'Edit Past Attendance',
             style: AppTheme.light.textTheme.bodyMedium!.copyWith(
               fontSize: 22,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Input stats from before you started using the app.',
+            'You can track your past attendance as present, absent, and cancelled to accurately sync your history before you started using the app.',
             style: TextStyle(
               fontSize: 14,
               color: AppThemeHelper.colors.textSecondary,
+              height: 1.4,
             ),
           ),
-          const SizedBox(height: 24),
-          _StatField(
-            label: 'Attended Classes',
-            controller: attendedController,
+          const SizedBox(height: 32),
+
+          _StepperRow(
+            label: 'Present',
+            value: _presentCount,
             color: Colors.green,
+            onChanged: (val) => setState(() => _presentCount = val),
           ),
           const SizedBox(height: 16),
-          _StatField(
-            label: 'Missed Classes',
-            controller: missedController,
+
+          _StepperRow(
+            label: 'Absent',
+            value: _absentCount,
             color: Colors.redAccent,
+            onChanged: (val) => setState(() => _absentCount = val),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
+
+          _StepperRow(
+            label: 'Cancelled',
+            value: _cancelledCount,
+            color: AppThemeHelper.colors.primary,
+            onChanged: (val) => setState(() => _cancelledCount = val),
+          ),
+
+          const SizedBox(height: 32),
           SizedBox(
             width: double.infinity,
-            height: 50,
+            height: 54,
             child: ElevatedButton(
               onPressed: _submit,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppThemeHelper.colors.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                 ),
+                elevation: 0,
               ),
               child: const Text(
-                'Save Base Stats',
+                'Save Attendance',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
@@ -132,49 +129,101 @@ class _EditBaseStatsSheetState extends State<EditBaseStatsSheet> {
   }
 }
 
-class _StatField extends StatelessWidget {
+class _StepperRow extends StatelessWidget {
   final String label;
-  final TextEditingController controller;
+  final int value;
   final Color color;
+  final ValueChanged<int> onChanged;
 
-  const _StatField({
+  const _StepperRow({
     required this.label,
-    required this.controller,
+    required this.value,
     required this.color,
+    required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: color,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.05),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.circle, color: color, size: 12),
+              const SizedBox(width: 12),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          controller: controller,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            hintText: 'e.g. 10',
-            filled: true,
-            fillColor: AppThemeHelper.colors.surface,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
+          Row(
+            children: [
+              _StepperButton(
+                icon: Icons.remove,
+                onTap: value > 0 ? () => onChanged(value - 1) : null,
+              ),
+              Container(
+                width: 48,
+                alignment: Alignment.center,
+                child: Text(
+                  value.toString(),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              _StepperButton(
+                icon: Icons.add,
+                onTap: () => onChanged(value + 1),
+              ),
+            ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StepperButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onTap;
+
+  const _StepperButton({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: onTap != null
+              ? AppThemeHelper.colors.textTertiary
+              : AppThemeHelper.colors.muted,
+          borderRadius: BorderRadius.circular(10),
         ),
-      ],
+        child: Icon(
+          icon,
+          size: 20,
+          color: onTap != null
+              ? AppThemeHelper.colors.textPrimary
+              : AppThemeHelper.colors.textPrimary,
+        ),
+      ),
     );
   }
 }

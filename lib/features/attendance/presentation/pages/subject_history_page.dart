@@ -61,100 +61,181 @@ class _SubjectHistoryPageState extends State<SubjectHistoryPage> {
             return const Center(child: Text("No history available"));
           }
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(12),
-            itemCount: history.length,
-            itemBuilder: (context, index) {
-              final lecture = history[index];
-
-              return Card(
-                color: AppThemeHelper.colors.surfaceVariant,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // STATUS ICON
-                      Container(
-                        margin: const EdgeInsets.only(top: 4),
-                        child: Icon(
-                          Icons.circle,
-                          size: 14,
-                          color: _getColor(lecture.status),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.info, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        "You can change the status of every lecture you attended to keep your history tracking accurate.",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppThemeHelper.colors.textSecondary,
+                          height: 1.4,
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: history.length,
+                  itemBuilder: (context, index) {
+                    final lecture = history[index];
 
-                      const SizedBox(width: 12),
-
-                      // CONTENT
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // DATE
-                            Text(
-                              DateFormat(
-                                'EEE, dd MMM yyyy',
-                              ).format(lecture.markedAt),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppThemeHelper.colors.surfaceVariant.withValues(
+                          alpha: 0.5,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: AppThemeHelper.colors.muted.withValues(
+                            alpha: 0.1,
+                          ),
+                          width: 1,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Date & Status Indicator
+                          Row(
+                            children: [
+                              Container(
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: _getColor(lecture.status),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: _getColor(
+                                        lecture.status,
+                                      ).withValues(alpha: 0.3),
+                                      blurRadius: 6,
+                                      spreadRadius: 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    DateFormat(
+                                      'MMM dd, yyyy',
+                                    ).format(lecture.markedAt),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: AppThemeHelper.colors.textTertiary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    _getFullLabel(lecture.status),
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: _getColor(lecture.status),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          // Full Segmented Editor
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: AppThemeHelper.colors.surface,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppThemeHelper.colors.muted.withValues(
+                                  alpha: 0.1,
+                                ),
                               ),
                             ),
-
-                            const SizedBox(height: 4),
-
-                            // STATUS TEXT
-                            Text(
-                              _getFullLabel(lecture.status),
-                              style: TextStyle(
-                                color: _getColor(lecture.status),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            // CHIPS
-                            Wrap(
-                              spacing: 8,
+                            child: Row(
                               children: AttendanceStatus.values.map((status) {
                                 final isSelected = lecture.status == status;
-
-                                return ChoiceChip(
-                                  label: Text(_getLabel(status)),
-                                  selected: isSelected,
-                                  selectedColor: _getColor(
-                                    status,
-                                  ).withValues(alpha: 0.2),
-                                  onSelected: (_) {
-                                    context.read<AttendanceBloc>().add(
-                                      UpdateLectureEvent(
-                                        userId: userId,
-                                        subjectId: widget.subjectId,
-                                        lectureId: lecture.lectureId,
-                                        status: status,
+                                return Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (!isSelected) {
+                                        context.read<AttendanceBloc>().add(
+                                          UpdateLectureEvent(
+                                            userId: userId,
+                                            subjectId: widget.subjectId,
+                                            lectureId: lecture.lectureId,
+                                            status: status,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: AnimatedContainer(
+                                      duration: const Duration(
+                                        milliseconds: 200,
                                       ),
-                                    );
-                                  },
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 8,
+                                      ),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? _getColor(
+                                                status,
+                                              ).withValues(alpha: 0.15)
+                                            : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        _getFullLabel(status),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: isSelected
+                                              ? FontWeight.w700
+                                              : FontWeight.w500,
+                                          color: isSelected
+                                              ? _getColor(status)
+                                              : AppThemeHelper
+                                                    .colors
+                                                    .textSecondary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 );
                               }).toList(),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
+                    ); // Container
+                  },
+                ), // ListView.builder
+              ), // Expanded
+            ],
+          ); // Column
         },
-      ),
-    );
+      ), // BlocBuilder
+    ); // Scaffold
   }
 }
 
@@ -166,17 +247,6 @@ String _getFullLabel(AttendanceStatus status) {
       return "Absent";
     case AttendanceStatus.cancelled:
       return "Cancelled";
-  }
-}
-
-String _getLabel(AttendanceStatus status) {
-  switch (status) {
-    case AttendanceStatus.present:
-      return "P";
-    case AttendanceStatus.absent:
-      return "A";
-    case AttendanceStatus.cancelled:
-      return "C";
   }
 }
 

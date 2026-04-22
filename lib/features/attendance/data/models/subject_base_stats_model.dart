@@ -9,6 +9,7 @@ class SubjectBaseStatsModel with _$SubjectBaseStatsModel {
     required String subjectId,
     required int attended,
     required int missed,
+    required int cancelled,
   }) = _SubjectBaseStatsModel;
 
   const SubjectBaseStatsModel._();
@@ -21,11 +22,17 @@ class SubjectBaseStatsModel with _$SubjectBaseStatsModel {
       subjectId: subjectId,
       attended: map['attended'] as int? ?? 0,
       missed: map['missed'] as int? ?? 0,
+      cancelled: map['cancelled'] as int? ?? 0,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {'subjectId': subjectId, 'attended': attended, 'missed': missed};
+    return {
+      'subjectId': subjectId,
+      'attended': attended,
+      'missed': missed,
+      'cancelled': cancelled,
+    };
   }
 
   SubjectBaseStatsEntity toEntity() {
@@ -33,6 +40,7 @@ class SubjectBaseStatsModel with _$SubjectBaseStatsModel {
       subjectId: subjectId,
       attended: attended,
       missed: missed,
+      cancelled: cancelled,
     );
   }
 
@@ -41,6 +49,7 @@ class SubjectBaseStatsModel with _$SubjectBaseStatsModel {
       subjectId: entity.subjectId,
       attended: entity.attended,
       missed: entity.missed,
+      cancelled: entity.cancelled,
     );
   }
 }

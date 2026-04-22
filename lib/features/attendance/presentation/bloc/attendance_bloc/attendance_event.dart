@@ -54,14 +54,16 @@ class SetBaseStatsEvent extends AttendanceEvent {
   final String subjectId;
   final int attended;
   final int missed;
+  final int cancelled;
 
   SetBaseStatsEvent({
     required this.userId,
     required this.subjectId,
     required this.attended,
     required this.missed,
+    required this.cancelled,
   });
 
   @override
-  List<Object?> get props => [userId, subjectId, attended, missed];
+  List<Object?> get props => [userId, subjectId, attended, missed, cancelled];
 }

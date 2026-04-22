@@ -20,6 +20,7 @@ mixin _$SubjectBaseStatsModel {
   String get subjectId => throw _privateConstructorUsedError;
   int get attended => throw _privateConstructorUsedError;
   int get missed => throw _privateConstructorUsedError;
+  int get cancelled => throw _privateConstructorUsedError;
 
   /// Create a copy of SubjectBaseStatsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -35,7 +36,7 @@ abstract class $SubjectBaseStatsModelCopyWith<$Res> {
     $Res Function(SubjectBaseStatsModel) then,
   ) = _$SubjectBaseStatsModelCopyWithImpl<$Res, SubjectBaseStatsModel>;
   @useResult
-  $Res call({String subjectId, int attended, int missed});
+  $Res call({String subjectId, int attended, int missed, int cancelled});
 }
 
 /// @nodoc
@@ -59,6 +60,7 @@ class _$SubjectBaseStatsModelCopyWithImpl<
     Object? subjectId = null,
     Object? attended = null,
     Object? missed = null,
+    Object? cancelled = null,
   }) {
     return _then(
       _value.copyWith(
@@ -73,6 +75,10 @@ class _$SubjectBaseStatsModelCopyWithImpl<
             missed: null == missed
                 ? _value.missed
                 : missed // ignore: cast_nullable_to_non_nullable
+                      as int,
+            cancelled: null == cancelled
+                ? _value.cancelled
+                : cancelled // ignore: cast_nullable_to_non_nullable
                       as int,
           )
           as $Val,
@@ -89,7 +95,7 @@ abstract class _$$SubjectBaseStatsModelImplCopyWith<$Res>
   ) = __$$SubjectBaseStatsModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String subjectId, int attended, int missed});
+  $Res call({String subjectId, int attended, int missed, int cancelled});
 }
 
 /// @nodoc
@@ -110,6 +116,7 @@ class __$$SubjectBaseStatsModelImplCopyWithImpl<$Res>
     Object? subjectId = null,
     Object? attended = null,
     Object? missed = null,
+    Object? cancelled = null,
   }) {
     return _then(
       _$SubjectBaseStatsModelImpl(
@@ -125,6 +132,10 @@ class __$$SubjectBaseStatsModelImplCopyWithImpl<$Res>
             ? _value.missed
             : missed // ignore: cast_nullable_to_non_nullable
                   as int,
+        cancelled: null == cancelled
+            ? _value.cancelled
+            : cancelled // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -137,6 +148,7 @@ class _$SubjectBaseStatsModelImpl extends _SubjectBaseStatsModel {
     required this.subjectId,
     required this.attended,
     required this.missed,
+    required this.cancelled,
   }) : super._();
 
   @override
@@ -145,10 +157,12 @@ class _$SubjectBaseStatsModelImpl extends _SubjectBaseStatsModel {
   final int attended;
   @override
   final int missed;
+  @override
+  final int cancelled;
 
   @override
   String toString() {
-    return 'SubjectBaseStatsModel(subjectId: $subjectId, attended: $attended, missed: $missed)';
+    return 'SubjectBaseStatsModel(subjectId: $subjectId, attended: $attended, missed: $missed, cancelled: $cancelled)';
   }
 
   @override
@@ -160,11 +174,14 @@ class _$SubjectBaseStatsModelImpl extends _SubjectBaseStatsModel {
                 other.subjectId == subjectId) &&
             (identical(other.attended, attended) ||
                 other.attended == attended) &&
-            (identical(other.missed, missed) || other.missed == missed));
+            (identical(other.missed, missed) || other.missed == missed) &&
+            (identical(other.cancelled, cancelled) ||
+                other.cancelled == cancelled));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, subjectId, attended, missed);
+  int get hashCode =>
+      Object.hash(runtimeType, subjectId, attended, missed, cancelled);
 
   /// Create a copy of SubjectBaseStatsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -184,6 +201,7 @@ abstract class _SubjectBaseStatsModel extends SubjectBaseStatsModel {
     required final String subjectId,
     required final int attended,
     required final int missed,
+    required final int cancelled,
   }) = _$SubjectBaseStatsModelImpl;
   const _SubjectBaseStatsModel._() : super._();
 
@@ -193,6 +211,8 @@ abstract class _SubjectBaseStatsModel extends SubjectBaseStatsModel {
   int get attended;
   @override
   int get missed;
+  @override
+  int get cancelled;
 
   /// Create a copy of SubjectBaseStatsModel
   /// with the given fields replaced by the non-null parameter values.
