@@ -24,7 +24,6 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
     on<AddLectureEvent>(_onAddLecture);
     on<UpdateLectureEvent>(_onUpdateLecture);
     on<DeleteLectureEvent>(_onDeleteLecture);
-    on<GetLecturesForDayEvent>(_onGetLectures);
     on<GetAllLecturesEvent>(_onGetAllLectures);
   }
 
@@ -79,23 +78,6 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
     }, (_) {});
   }
 
-  Future<void> _onGetLectures(
-    GetLecturesForDayEvent event,
-    Emitter<TimetableState> emit,
-  ) async {
-    emit(state.copyWith(isLoading: true, error: null));
-
-    final result = await getLectures(userId: event.userId, date: event.date);
-
-    result.fold(
-      (failure) {
-        emit(state.copyWith(isLoading: false, error: failure.message));
-      },
-      (lectures) {
-        emit(state.copyWith(isLoading: false, lectures: lectures));
-      },
-    );
-  }
 
   Future<void> _onGetAllLectures(
     GetAllLecturesEvent event,

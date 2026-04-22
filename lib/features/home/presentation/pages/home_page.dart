@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
     );
 
     context.read<TimetableBloc>().add(
-      GetLecturesForDayEvent(userId: userId, date: DateTime.now()),
+      GetAllLecturesEvent(userId: userId),
     );
   }
 

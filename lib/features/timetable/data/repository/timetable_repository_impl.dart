@@ -30,6 +30,8 @@ class TimetableRepositoryImpl implements TimetableRepository {
       return right(null);
     } on ServerException catch (e) {
       return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
     }
   }
 
@@ -43,6 +45,8 @@ class TimetableRepositoryImpl implements TimetableRepository {
       return right(null);
     } on ServerException catch (e) {
       return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
     }
   }
 
@@ -60,6 +64,8 @@ class TimetableRepositoryImpl implements TimetableRepository {
       return right(entities);
     } on ServerException catch (e) {
       return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
     }
   }
 
@@ -76,6 +82,8 @@ class TimetableRepositoryImpl implements TimetableRepository {
       return right(entities);
     } on ServerException catch (e) {
       return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
     }
   }
 
@@ -97,6 +105,8 @@ class TimetableRepositoryImpl implements TimetableRepository {
       return right(null);
     } on ServerException catch (e) {
       return left(ServerFailure(e.message));
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
     }
   }
 }
