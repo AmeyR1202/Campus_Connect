@@ -43,9 +43,7 @@ class _HomePageState extends State<HomePage> {
       FetchAllSubjectsStatsEvent(userId: userId),
     );
 
-    context.read<TimetableBloc>().add(
-      GetAllLecturesEvent(userId: userId),
-    );
+    context.read<TimetableBloc>().add(GetAllLecturesEvent(userId: userId));
   }
 
   @override

@@ -1,8 +1,10 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
+import 'package:campus_connect/features/attendance/domain/entities/subject_base_stats_entity.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/add_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/set_base_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/update_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
@@ -13,12 +15,14 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final GetAttendanceUsecase getAttendance;
   final GetDashboardStatsUsecase dashboardStats;
   final UpdateAttendanceUsecase updateAttendanceUsecase;
+  final SetBaseStatsUsecase setBaseStatsUsecase;
 
   AttendanceBloc({
     required this.dashboardStats,
     required this.addAttendance,
     required this.getAttendance,
     required this.updateAttendanceUsecase,
+    required this.setBaseStatsUsecase,
   }) : super(const AttendanceState()) {
     on<AddAttendanceEvent>(
       _onAddAttendance,
@@ -27,6 +31,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<FetchAllSubjectsStatsEvent>(_onFetchAllSubjectsStatsEvent);
     on<FetchAttendanceEvent>(_onFetchAttendance);
     on<UpdateLectureEvent>(_onUpdateLecture);
+    on<SetBaseStatsEvent>(_onSetBaseStats);
   }
 
   Future<void> _onAddAttendance(
@@ -125,6 +130,32 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           ),
         );
 
+        add(FetchAllSubjectsStatsEvent(userId: event.userId));
+      },
+    );
+  }
+
+  Future<void> _onSetBaseStats(
+    SetBaseStatsEvent event,
+    Emitter<AttendanceState> emit,
+  ) async {
+    final entity = SubjectBaseStatsEntity(
+      subjectId: event.subjectId,
+      attended: event.attended,
+      missed: event.missed,
+    );
+
+    final result = await setBaseStatsUsecase(
+      userId: event.userId,
+      entity: entity,
+    );
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(error: failure.message));
+      },
+      (_) {
+        // Refresh dashboard stats to show updated percentages
         add(FetchAllSubjectsStatsEvent(userId: event.userId));
       },
     );

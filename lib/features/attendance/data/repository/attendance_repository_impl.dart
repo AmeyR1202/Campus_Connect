@@ -1,7 +1,9 @@
 import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/attendance/data/datasource/firestore_attendance_datasource.dart';
 import 'package:campus_connect/features/attendance/data/models/attendance_model.dart';
+import 'package:campus_connect/features/attendance/data/models/subject_base_stats_model.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
+import 'package:campus_connect/features/attendance/domain/entities/subject_base_stats_entity.dart';
 import 'package:campus_connect/features/attendance/domain/repositories/attendance_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -55,5 +57,23 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       subjectId: subjectId,
       status: status,
     );
+  }
+
+  @override
+  Future<Either<Failure, void>> setBaseStats({
+    required String userId,
+    required SubjectBaseStatsEntity entity,
+  }) async {
+    final model = SubjectBaseStatsModel.fromEntity(entity);
+    return await datasource.setBaseStats(userId: userId, model: model);
+  }
+
+  @override
+  Future<Either<Failure, List<SubjectBaseStatsEntity>>> getAllBaseStats({
+    required String userId,
+  }) async {
+    final result = await datasource.getAllBaseStats(userId: userId);
+
+    return result.map((models) => models.map((m) => m.toEntity()).toList());
   }
 }

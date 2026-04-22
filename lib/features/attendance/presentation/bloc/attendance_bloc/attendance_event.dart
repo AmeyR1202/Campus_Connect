@@ -48,3 +48,20 @@ class UpdateLectureEvent extends AttendanceEvent {
   @override
   List<Object?> get props => [subjectId, lectureId, status];
 }
+
+class SetBaseStatsEvent extends AttendanceEvent {
+  final String userId;
+  final String subjectId;
+  final int attended;
+  final int missed;
+
+  SetBaseStatsEvent({
+    required this.userId,
+    required this.subjectId,
+    required this.attended,
+    required this.missed,
+  });
+
+  @override
+  List<Object?> get props => [userId, subjectId, attended, missed];
+}

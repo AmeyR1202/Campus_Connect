@@ -7,6 +7,7 @@ import 'package:campus_connect/features/attendance/domain/repositories/attendanc
 import 'package:campus_connect/features/attendance/domain/usecases/add_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/set_base_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/update_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
@@ -102,12 +103,14 @@ Future<void> initDependencies() async {
       getAttendance: sl(),
       dashboardStats: sl(),
       updateAttendanceUsecase: sl(),
+      setBaseStatsUsecase: sl(),
     ),
   );
 
   // usecases
   sl.registerLazySingleton(() => GetDashboardStatsUsecase(sl()));
   sl.registerLazySingleton(() => UpdateAttendanceUsecase(sl()));
+  sl.registerLazySingleton(() => SetBaseStatsUsecase(sl()));
 
   /// <------------------------- DI OF TIMETABLE FEAT -------------------------->
 

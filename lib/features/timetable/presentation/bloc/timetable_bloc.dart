@@ -78,7 +78,6 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
     }, (_) {});
   }
 
-
   Future<void> _onGetAllLectures(
     GetAllLecturesEvent event,
     Emitter<TimetableState> emit,
