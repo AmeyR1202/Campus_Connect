@@ -110,8 +110,12 @@ class _TimetablePageState extends State<TimetablePage> {
                             ),
                             const SizedBox(height: 24),
                             ElevatedButton.icon(
-                              onPressed: () => context.push('/manage-timetable'),
-                              icon: const Icon(Icons.edit_calendar, color: Colors.white),
+                              onPressed: () =>
+                                  context.push('/manage-timetable'),
+                              icon: const Icon(
+                                Icons.edit_calendar,
+                                color: Colors.white,
+                              ),
                               label: const Text(
                                 "Manage Timetable",
                                 style: TextStyle(

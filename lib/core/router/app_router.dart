@@ -30,8 +30,10 @@ final GoRouter router = GoRouter(
         ),
         GoRoute(
           path: '/attendance',
-          pageBuilder: (context, state) =>
-              buildPageWithTransition(state: state, child: const AttendancePage()),
+          pageBuilder: (context, state) => buildPageWithTransition(
+            state: state,
+            child: const AttendancePage(),
+          ),
         ),
         GoRoute(
           path: '/profile',
