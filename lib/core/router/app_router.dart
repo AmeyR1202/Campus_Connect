@@ -1,6 +1,7 @@
 import 'package:campus_connect/core/app/app_shell.dart';
 import 'package:campus_connect/core/router/page_transitions.dart';
 import 'package:campus_connect/core/widgets/error_page.dart';
+import 'package:campus_connect/features/attendance/presentation/pages/attendance_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/subject_details_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/subject_history_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/email_sent_page.dart';
@@ -26,6 +27,11 @@ final GoRouter router = GoRouter(
           path: '/home',
           pageBuilder: (context, state) =>
               buildPageWithTransition(state: state, child: const HomePage()),
+        ),
+        GoRoute(
+          path: '/attendance',
+          pageBuilder: (context, state) =>
+              buildPageWithTransition(state: state, child: const AttendancePage()),
         ),
         GoRoute(
           path: '/profile',

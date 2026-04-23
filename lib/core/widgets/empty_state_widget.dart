@@ -8,6 +8,7 @@ class EmptyStateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: AppThemeHelper.colors.primary.withValues(alpha: 0.2),
@@ -39,7 +40,7 @@ class EmptyStateWidget extends StatelessWidget {
 
           ElevatedButton(
             onPressed: () {
-              context.go('/timetable');
+              context.push('/manage-timetable');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppThemeHelper.colors.primary,

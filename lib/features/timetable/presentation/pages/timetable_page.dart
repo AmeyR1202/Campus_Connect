@@ -13,6 +13,7 @@ import 'package:campus_connect/features/timetable/presentation/bloc/timetable_st
 import 'package:campus_connect/features/timetable/presentation/widgets/lecture_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class TimetablePage extends StatefulWidget {
   const TimetablePage({super.key});
@@ -87,8 +88,48 @@ class _TimetablePageState extends State<TimetablePage> {
                   final todayLectures = timetableState.todayLectures;
 
                   if (todayLectures.isEmpty) {
-                    return const Center(
-                      child: Text("No lectures found for Today."),
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.event_busy,
+                              size: 64,
+                              color: AppThemeHelper.colors.muted,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              "No lectures found for today!\nDid you forget to add them?",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppThemeHelper.colors.textSecondary,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            ElevatedButton.icon(
+                              onPressed: () => context.push('/manage-timetable'),
+                              icon: const Icon(Icons.edit_calendar, color: Colors.white),
+                              label: const Text(
+                                "Manage Timetable",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppThemeHelper.colors.primary,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   }
 
