@@ -36,11 +36,13 @@ class AttendanceState extends Equatable {
   final bool isLoading;
   final List<AttendanceEntity>? attendance;
   final List<SubjectStats> subjectStats;
+  final List<String>? timetableSubjects;
   final String? error;
 
   const AttendanceState({
     this.status = SubjectStatus.initial,
     this.subjectStats = const [],
+    this.timetableSubjects,
     this.isLoading = false,
     this.attendance,
     this.error,
@@ -49,6 +51,7 @@ class AttendanceState extends Equatable {
   AttendanceState copyWith({
     SubjectStatus? status,
     List<SubjectStats>? subjectStats,
+    List<String>? timetableSubjects,
     bool? isLoading,
     List<AttendanceEntity>? attendance,
     String? error,
@@ -57,6 +60,7 @@ class AttendanceState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       status: status ?? this.status,
       subjectStats: subjectStats ?? this.subjectStats,
+      timetableSubjects: timetableSubjects ?? this.timetableSubjects,
       attendance: attendance ?? this.attendance,
       error: error,
     );
@@ -66,6 +70,7 @@ class AttendanceState extends Equatable {
   List<Object?> get props => [
     status,
     subjectStats,
+    timetableSubjects,
     isLoading,
     attendance,
     error,

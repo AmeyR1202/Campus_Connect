@@ -25,11 +25,15 @@ class AddAttendanceEvent extends AttendanceEvent {
 
 class FetchAllSubjectsStatsEvent extends AttendanceEvent {
   final String userId;
+  final List<String>? timetableSubjects;
 
-  FetchAllSubjectsStatsEvent({required this.userId});
+  FetchAllSubjectsStatsEvent({
+    required this.userId,
+    this.timetableSubjects,
+  });
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [userId, timetableSubjects];
 }
 
 class UpdateLectureEvent extends AttendanceEvent {

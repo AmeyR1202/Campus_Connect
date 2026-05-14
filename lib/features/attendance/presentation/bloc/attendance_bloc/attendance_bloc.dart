@@ -93,10 +93,15 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     FetchAllSubjectsStatsEvent event,
     Emitter<AttendanceState> emit,
   ) async {
-    // print("EVENT TRIGGERED");
-    emit(state.copyWith(isLoading: true));
+    // Save timetableSubjects to state if provided, otherwise use existing from state
+    final subjectsToUse = event.timetableSubjects ?? state.timetableSubjects;
+    
+    emit(state.copyWith(isLoading: true, timetableSubjects: subjectsToUse));
 
-    final result = await dashboardStats(userId: event.userId);
+    final result = await dashboardStats(
+      userId: event.userId, 
+      timetableSubjects: subjectsToUse,
+    );
     // print('BLOC RESULT: $result');
     result.fold(
       (failure) =>

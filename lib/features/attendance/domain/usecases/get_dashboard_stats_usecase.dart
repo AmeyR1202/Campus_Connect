@@ -11,6 +11,7 @@ class GetDashboardStatsUsecase {
 
   Future<Either<Failure, List<SubjectStats>>> call({
     required String userId,
+    List<String>? timetableSubjects,
   }) async {
     final attResult = await repository.getAllAttendance(userId: userId);
     if (attResult.isLeft()) {
@@ -26,6 +27,13 @@ class GetDashboardStatsUsecase {
     final baseStatsList = baseResult.getOrElse((l) => []);
 
     final Map<String, List<AttendanceEntity>> grouped = {};
+
+    if (timetableSubjects != null) {
+      for (final subject in timetableSubjects) {
+        grouped[subject] = [];
+      }
+    }
+
     for (var a in attendanceList) {
       grouped.putIfAbsent(a.subjectId, () => []).add(a);
     }

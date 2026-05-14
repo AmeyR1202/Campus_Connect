@@ -39,9 +39,6 @@ class _HomePageState extends State<HomePage> {
     }
 
     final userId = sessionUser.id;
-    context.read<AttendanceBloc>().add(
-      FetchAllSubjectsStatsEvent(userId: userId),
-    );
 
     context.read<TimetableBloc>().add(GetAllLecturesEvent(userId: userId));
   }
@@ -51,9 +48,29 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: EdgeInsets.all(AppSpacing.padding(context)),
       child: Scaffold(
-        body: ResponsiveBuilder(
-          mobile: _buildLayout(context, isTablet: false),
-          tablet: _buildLayout(context, isTablet: true),
+        body: BlocListener<TimetableBloc, TimetableState>(
+          listenWhen: (previous, current) {
+            final finishedLoading = previous.isLoading && !current.isLoading;
+            final lecturesChanged = previous.lectures != current.lectures;
+            return finishedLoading || lecturesChanged;
+          },
+          listener: (context, state) {
+            final sessionUser = context.read<SessionCubit>().state.user;
+            if (sessionUser != null) {
+              final subjects =
+                  state.lectures?.map((e) => e.subjectName).toSet().toList() ?? [];
+              context.read<AttendanceBloc>().add(
+                FetchAllSubjectsStatsEvent(
+                  userId: sessionUser.id,
+                  timetableSubjects: subjects,
+                ),
+              );
+            }
+          },
+          child: ResponsiveBuilder(
+            mobile: _buildLayout(context, isTablet: false),
+            tablet: _buildLayout(context, isTablet: true),
+          ),
         ),
       ),
     );
