@@ -1,69 +1,59 @@
-import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
+import 'package:campus_connect/features/attendance/domain/entities/subject_base_stats_entity.dart';
 import 'package:campus_connect/features/attendance/domain/entities/subject_stats.dart';
-import 'package:campus_connect/features/attendance/domain/repositories/attendance_repository.dart';
-import 'package:fpdart/fpdart.dart';
+
+class _SubjectAccumulator {
+  int baseAttended = 0;
+  int baseMissed = 0;
+  int trackedTotal = 0;
+  int trackedAttended = 0;
+}
 
 class GetDashboardStatsUsecase {
-  final AttendanceRepository repository;
-
-  GetDashboardStatsUsecase(this.repository);
-
-  Future<Either<Failure, List<SubjectStats>>> call({
-    required String userId,
+  List<SubjectStats> call({
+    required List<AttendanceEntity> attendanceList,
+    required List<SubjectBaseStatsEntity> baseStatsList,
     List<String>? timetableSubjects,
-  }) async {
-    final attResult = await repository.getAllAttendance(userId: userId);
-    if (attResult.isLeft()) {
-      return left((attResult as Left).value);
-    }
-
-    final baseResult = await repository.getAllBaseStats(userId: userId);
-    if (baseResult.isLeft()) {
-      return left((baseResult as Left).value);
-    }
-
-    final attendanceList = attResult.getOrElse((l) => []);
-    final baseStatsList = baseResult.getOrElse((l) => []);
-
-    final Map<String, List<AttendanceEntity>> grouped = {};
+  }) {
+    final Map<String, _SubjectAccumulator> grouped = {};
 
     if (timetableSubjects != null) {
       for (final subject in timetableSubjects) {
-        grouped[subject] = [];
+        grouped[subject] = _SubjectAccumulator();
       }
     }
 
-    for (var a in attendanceList) {
-      grouped.putIfAbsent(a.subjectId, () => []).add(a);
+    // 2. Loop over base stats EXACTLY once.
+    for (final base in baseStatsList) {
+      final acc = grouped.putIfAbsent(
+        base.subjectId,
+        () => _SubjectAccumulator(),
+      );
+      acc.baseAttended = base.attended;
+      acc.baseMissed = base.missed;
     }
 
-    final Map<String, int> baseAttended = {};
-    final Map<String, int> baseMissed = {};
-
-    for (var b in baseStatsList) {
-      baseAttended[b.subjectId] = b.attended;
-      baseMissed[b.subjectId] = b.missed;
-      grouped.putIfAbsent(b.subjectId, () => []);
+    // 3. Loop over the attendance logs EXACTLY once.
+    for (final att in attendanceList) {
+      final acc = grouped.putIfAbsent(
+        att.subjectId,
+        () => _SubjectAccumulator(),
+      );
+      if (att.status == AttendanceStatus.present) {
+        acc.trackedAttended++;
+        acc.trackedTotal++;
+      } else if (att.status == AttendanceStatus.absent) {
+        acc.trackedTotal++;
+      }
+      // If cancelled, do nothing.
     }
 
+    // 4. Calculate final percentages using our accumulator!
     final List<SubjectStats> statsList = [];
 
-    grouped.forEach((subjectId, logs) {
-      final validLogs = logs
-          .where((l) => l.status != AttendanceStatus.cancelled)
-          .toList();
-
-      final bAttended = baseAttended[subjectId] ?? 0;
-      final bMissed = baseMissed[subjectId] ?? 0;
-
-      final trackedTotal = validLogs.length;
-      final trackedAttended = validLogs
-          .where((l) => l.status == AttendanceStatus.present)
-          .length;
-
-      final total = trackedTotal + bAttended + bMissed;
-      final attended = trackedAttended + bAttended;
+    grouped.forEach((subjectId, acc) {
+      final total = acc.trackedTotal + acc.baseAttended + acc.baseMissed;
+      final attended = acc.trackedAttended + acc.baseAttended;
 
       final percentage = total == 0 ? 0.0 : (attended / total) * 100;
 
@@ -91,6 +81,6 @@ class GetDashboardStatsUsecase {
       );
     });
 
-    return right(statsList);
+    return statsList;
   }
 }

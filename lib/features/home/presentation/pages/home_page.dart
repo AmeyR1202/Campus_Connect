@@ -58,7 +58,8 @@ class _HomePageState extends State<HomePage> {
             final sessionUser = context.read<SessionCubit>().state.user;
             if (sessionUser != null) {
               final subjects =
-                  state.lectures?.map((e) => e.subjectName).toSet().toList() ?? [];
+                  state.lectures?.map((e) => e.subjectName).toSet().toList() ??
+                  [];
               context.read<AttendanceBloc>().add(
                 FetchAllSubjectsStatsEvent(
                   userId: sessionUser.id,

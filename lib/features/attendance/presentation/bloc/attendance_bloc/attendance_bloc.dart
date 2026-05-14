@@ -2,6 +2,8 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/domain/entities/subject_base_stats_entity.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/add_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_all_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_all_base_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/set_base_stats_usecase.dart';
@@ -16,6 +18,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final GetDashboardStatsUsecase dashboardStats;
   final UpdateAttendanceUsecase updateAttendanceUsecase;
   final SetBaseStatsUsecase setBaseStatsUsecase;
+  final GetAllAttendanceUsecase getAllAttendance;
+  final GetAllBaseStatsUsecase getAllBaseStats;
 
   AttendanceBloc({
     required this.dashboardStats,
@@ -23,6 +27,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     required this.getAttendance,
     required this.updateAttendanceUsecase,
     required this.setBaseStatsUsecase,
+    required this.getAllAttendance,
+    required this.getAllBaseStats,
   }) : super(const AttendanceState()) {
     on<AddAttendanceEvent>(
       _onAddAttendance,
@@ -93,20 +99,38 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     FetchAllSubjectsStatsEvent event,
     Emitter<AttendanceState> emit,
   ) async {
+    final attResult = await getAllAttendance(userId: event.userId);
+    final baseResult = await getAllBaseStats(userId: event.userId);
     // Save timetableSubjects to state if provided, otherwise use existing from state
     final subjectsToUse = event.timetableSubjects ?? state.timetableSubjects;
-    
-    emit(state.copyWith(isLoading: true, timetableSubjects: subjectsToUse));
 
-    final result = await dashboardStats(
-      userId: event.userId, 
+    final String? attError = attResult.fold((l) => l.message, (r) => null);
+    if (attError != null) {
+      emit(state.copyWith(isLoading: false, error: attError));
+      return;
+    }
+    final String? baseError = baseResult.fold((l) => l.message, (r) => null);
+    if (baseError != null) {
+      emit(state.copyWith(isLoading: false, error: baseError));
+      return;
+    }
+
+    final attendanceList = attResult.getOrElse((l) => []);
+    final baseStatsList = baseResult.getOrElse((l) => []);
+    emit(state.copyWith(attendance: attendanceList, baseStats: baseStatsList));
+
+    final subjectStats = dashboardStats(
+      attendanceList: attendanceList,
+      baseStatsList: baseStatsList,
       timetableSubjects: subjectsToUse,
     );
-    // print('BLOC RESULT: $result');
-    result.fold(
-      (failure) =>
-          emit(state.copyWith(isLoading: false, error: failure.message)),
-      (data) => emit(state.copyWith(isLoading: false, subjectStats: data)),
+
+    emit(
+      state.copyWith(
+        isLoading: false,
+        timetableSubjects: subjectsToUse,
+        subjectStats: subjectStats,
+      ),
     );
   }
 

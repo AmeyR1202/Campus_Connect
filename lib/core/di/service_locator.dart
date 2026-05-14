@@ -5,6 +5,8 @@ import 'package:campus_connect/features/attendance/data/datasource/firestore_att
 import 'package:campus_connect/features/attendance/data/repository/attendance_repository_impl.dart';
 import 'package:campus_connect/features/attendance/domain/repositories/attendance_repository.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/add_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_all_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_all_base_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/set_base_stats_usecase.dart';
@@ -96,6 +98,8 @@ Future<void> initDependencies() async {
   // usecases
   sl.registerLazySingleton(() => AddAttendanceUsecase(sl()));
   sl.registerLazySingleton(() => GetAttendanceUsecase(sl()));
+  sl.registerLazySingleton(() => GetAllBaseStatsUsecase(sl()));
+  sl.registerLazySingleton(() => GetAllAttendanceUsecase(sl()));
 
   sl.registerFactory(
     () => AttendanceBloc(
@@ -104,11 +108,13 @@ Future<void> initDependencies() async {
       dashboardStats: sl(),
       updateAttendanceUsecase: sl(),
       setBaseStatsUsecase: sl(),
+      getAllAttendance: sl(),
+      getAllBaseStats: sl(),
     ),
   );
 
   // usecases
-  sl.registerLazySingleton(() => GetDashboardStatsUsecase(sl()));
+  sl.registerLazySingleton(() => GetDashboardStatsUsecase());
   sl.registerLazySingleton(() => UpdateAttendanceUsecase(sl()));
   sl.registerLazySingleton(() => SetBaseStatsUsecase(sl()));
 
