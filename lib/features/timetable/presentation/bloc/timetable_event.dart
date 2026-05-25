@@ -35,3 +35,9 @@ class UpdateLectureEvent extends TimetableEvent {
 
   UpdateLectureEvent({required this.userId, required this.entity});
 }
+
+class SyncDataEvent extends TimetableEvent {
+  final String userId;
+
+  SyncDataEvent({required this.userId});
+}

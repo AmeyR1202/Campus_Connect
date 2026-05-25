@@ -2,9 +2,11 @@ import 'package:campus_connect/features/timetable/domain/usecases/add_lecture_us
 import 'package:campus_connect/features/timetable/domain/usecases/delete_lecture_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/get_all_lectures_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/get_lectures_for_day_usecase.dart';
+import 'package:campus_connect/features/timetable/domain/usecases/sync_timetable_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/update_lecture_usecase.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_event.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
@@ -13,6 +15,7 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
   final DeleteLectureUsecase deleteLecture;
   final GetLecturesForDayUsecase getLectures;
   final GetAllLecturesUsecase getAllLectures;
+  final SyncTimetableUsecase syncData;
 
   TimetableBloc({
     required this.addLecture,
@@ -20,11 +23,13 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
     required this.deleteLecture,
     required this.getLectures,
     required this.getAllLectures,
+    required this.syncData,
   }) : super(TimetableState.initial()) {
     on<AddLectureEvent>(_onAddLecture);
     on<UpdateLectureEvent>(_onUpdateLecture);
     on<DeleteLectureEvent>(_onDeleteLecture);
     on<GetAllLecturesEvent>(_onGetAllLectures);
+    on<SyncDataEvent>(_onSyncData);
   }
 
   Future<void> _onAddLecture(
@@ -122,5 +127,23 @@ class TimetableBloc extends Bloc<TimetableEvent, TimetableState> {
       // Rollback
       emit(state.copyWith(lectures: previousLectures, error: failure.message));
     }, (_) {});
+  }
+
+  Future<void> _onSyncData(
+    SyncDataEvent event,
+    Emitter<TimetableState> emit,
+  ) async {
+    final result = await syncData(userId: event.userId);
+
+    result.match(
+      (failure) {
+        // Silent fail for background sync to avoid spamming the user
+        debugPrint("Background Sync Failed: \${failure.message}");
+      },
+      (_) {
+        // Success! Fetch the latest data to update the UI
+        add(GetAllLecturesEvent(userId: event.userId));
+      },
+    );
   }
 }

@@ -65,10 +65,24 @@ class _AddLectureBottomSheetState extends State<AddLectureBottomSheet> {
     }
 
     final now = DateTime.now();
-    final startDateTime = DateTime(now.year, now.month, now.day, startTime!.hour, startTime!.minute);
-    final endDateTime = DateTime(now.year, now.month, now.day, endTime!.hour, endTime!.minute);
+    final startDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      startTime!.hour,
+      startTime!.minute,
+    );
+    final endDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      endTime!.hour,
+      endTime!.minute,
+    );
 
-    final startStr = _formatTime(startTime!); // Keep using startStr for ID generation to avoid breaking old formats
+    final startStr = _formatTime(
+      startTime!,
+    ); // Keep using startStr for ID generation to avoid breaking old formats
 
     final lectureId = '${widget.day}_${startStr}_${subjectName.hashCode}';
 

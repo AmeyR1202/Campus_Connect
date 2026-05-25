@@ -1,6 +1,7 @@
 import 'package:campus_connect/core/di/service_locator.dart';
 import 'package:campus_connect/core/firebase/firebase_options.dart';
 import 'package:campus_connect/core/router/app_router.dart';
+import 'package:campus_connect/core/services/background_sync_service.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
@@ -15,6 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initDependencies();
+  await BackgroundSyncService.initialize();
   runApp(
     MultiBlocProvider(
       providers: [

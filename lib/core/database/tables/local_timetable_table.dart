@@ -20,10 +20,9 @@ class LocalTimetableTable extends Table {
   DateTimeColumn get updatedAt => dateTime()();
 }
 
-
 /// day, startTime and endTime are acceptable
 /// BUT not ideal long-term.
-/// 
+///
 
 /// <---------Future Problems----------->
 /// sorting lectures

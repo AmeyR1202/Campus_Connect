@@ -37,6 +37,7 @@ import 'package:campus_connect/features/timetable/domain/usecases/add_lecture_us
 import 'package:campus_connect/features/timetable/domain/usecases/delete_lecture_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/get_all_lectures_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/get_lectures_for_day_usecase.dart';
+import 'package:campus_connect/features/timetable/domain/usecases/sync_timetable_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/update_lecture_usecase.dart';
 import 'package:campus_connect/features/timetable/presentation/bloc/timetable_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -137,6 +138,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => GetLecturesForDayUsecase(sl()));
   sl.registerLazySingleton(() => GetAllLecturesUsecase(sl())); // Added
   sl.registerLazySingleton(() => UpdateLectureUsecase(sl()));
+  sl.registerLazySingleton(() => SyncTimetableUsecase(sl()));
 
   sl.registerFactory(
     () => TimetableBloc(
@@ -145,6 +147,7 @@ Future<void> initDependencies() async {
       deleteLecture: sl(),
       getLectures: sl(),
       getAllLectures: sl(), // Added to bloc
+      syncData: sl(),
     ),
   );
 

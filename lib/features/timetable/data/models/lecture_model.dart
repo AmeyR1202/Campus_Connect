@@ -1,5 +1,6 @@
 import 'package:campus_connect/core/database/app_database.dart';
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drift/drift.dart' hide JsonKey;
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -25,19 +26,17 @@ abstract class LectureModel with _$LectureModel {
       subjectName: map['subjectName'] ?? '',
       day: map['day'] ?? '',
       startTime: map['startTime'] is DateTime
-          ? map['startTime']
-          : (map['startTime'] != null &&
-                    map['startTime'].runtimeType.toString() == 'Timestamp'
-                ? map['startTime'].toDate()
-                : DateTime.tryParse(map['startTime'].toString()) ??
-                      DateTime.now()),
+          ? map['startTime'] as DateTime
+          : map['startTime'] is Timestamp
+          ? (map['startTime'] as Timestamp).toDate()
+          : DateTime.tryParse(map['startTime']?.toString() ?? '') ??
+                DateTime.now(),
       endTime: map['endTime'] is DateTime
-          ? map['endTime']
-          : (map['endTime'] != null &&
-                    map['endTime'].runtimeType.toString() == 'Timestamp'
-                ? map['endTime'].toDate()
-                : DateTime.tryParse(map['endTime'].toString()) ??
-                      DateTime.now()),
+          ? map['endTime'] as DateTime
+          : map['endTime'] is Timestamp
+          ? (map['endTime'] as Timestamp).toDate()
+          : DateTime.tryParse(map['endTime']?.toString() ?? '') ??
+                DateTime.now(),
       type: map['type'] ?? '',
     );
   }
