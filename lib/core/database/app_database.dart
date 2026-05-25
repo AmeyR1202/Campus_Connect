@@ -14,6 +14,23 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 3;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        // Development only: Recreate all tables when schema version bumps.
+        // In a production app, you would write step-by-step SQL migrations here.
+        for (final table in allTables) {
+          await m.deleteTable(table.actualTableName);
+        }
+        await m.createAll();
+      },
+    );
+  }
 }
 
 LazyDatabase _openConnection() {

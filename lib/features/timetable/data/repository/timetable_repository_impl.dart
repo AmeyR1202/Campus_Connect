@@ -146,7 +146,6 @@ class TimetableRepositoryImpl implements TimetableRepository {
         await localTimetableDatasource.markAsSynced(entity.lectureId);
       } catch (e) {
         // Fail silently
-        // TODO if(kDebugMode) throw servererror to ui for testing
       }
 
       return right(null);
