@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,215 +9,272 @@ part of 'subject_base_stats_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$SubjectBaseStatsModel {
-  String get subjectId => throw _privateConstructorUsedError;
-  int get attended => throw _privateConstructorUsedError;
-  int get missed => throw _privateConstructorUsedError;
-  int get cancelled => throw _privateConstructorUsedError;
 
-  /// Create a copy of SubjectBaseStatsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SubjectBaseStatsModelCopyWith<SubjectBaseStatsModel> get copyWith =>
-      throw _privateConstructorUsedError;
+ String get subjectId; int get attended; int get missed; int get cancelled;
+/// Create a copy of SubjectBaseStatsModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SubjectBaseStatsModelCopyWith<SubjectBaseStatsModel> get copyWith => _$SubjectBaseStatsModelCopyWithImpl<SubjectBaseStatsModel>(this as SubjectBaseStatsModel, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SubjectBaseStatsModel&&(identical(other.subjectId, subjectId) || other.subjectId == subjectId)&&(identical(other.attended, attended) || other.attended == attended)&&(identical(other.missed, missed) || other.missed == missed)&&(identical(other.cancelled, cancelled) || other.cancelled == cancelled));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,subjectId,attended,missed,cancelled);
+
+@override
+String toString() {
+  return 'SubjectBaseStatsModel(subjectId: $subjectId, attended: $attended, missed: $missed, cancelled: $cancelled)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $SubjectBaseStatsModelCopyWith<$Res> {
-  factory $SubjectBaseStatsModelCopyWith(
-    SubjectBaseStatsModel value,
-    $Res Function(SubjectBaseStatsModel) then,
-  ) = _$SubjectBaseStatsModelCopyWithImpl<$Res, SubjectBaseStatsModel>;
-  @useResult
-  $Res call({String subjectId, int attended, int missed, int cancelled});
-}
+abstract mixin class $SubjectBaseStatsModelCopyWith<$Res>  {
+  factory $SubjectBaseStatsModelCopyWith(SubjectBaseStatsModel value, $Res Function(SubjectBaseStatsModel) _then) = _$SubjectBaseStatsModelCopyWithImpl;
+@useResult
+$Res call({
+ String subjectId, int attended, int missed, int cancelled
+});
 
+
+
+
+}
 /// @nodoc
-class _$SubjectBaseStatsModelCopyWithImpl<
-  $Res,
-  $Val extends SubjectBaseStatsModel
->
+class _$SubjectBaseStatsModelCopyWithImpl<$Res>
     implements $SubjectBaseStatsModelCopyWith<$Res> {
-  _$SubjectBaseStatsModelCopyWithImpl(this._value, this._then);
+  _$SubjectBaseStatsModelCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final SubjectBaseStatsModel _self;
+  final $Res Function(SubjectBaseStatsModel) _then;
 
-  /// Create a copy of SubjectBaseStatsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? subjectId = null,
-    Object? attended = null,
-    Object? missed = null,
-    Object? cancelled = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            subjectId: null == subjectId
-                ? _value.subjectId
-                : subjectId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            attended: null == attended
-                ? _value.attended
-                : attended // ignore: cast_nullable_to_non_nullable
-                      as int,
-            missed: null == missed
-                ? _value.missed
-                : missed // ignore: cast_nullable_to_non_nullable
-                      as int,
-            cancelled: null == cancelled
-                ? _value.cancelled
-                : cancelled // ignore: cast_nullable_to_non_nullable
-                      as int,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of SubjectBaseStatsModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? subjectId = null,Object? attended = null,Object? missed = null,Object? cancelled = null,}) {
+  return _then(_self.copyWith(
+subjectId: null == subjectId ? _self.subjectId : subjectId // ignore: cast_nullable_to_non_nullable
+as String,attended: null == attended ? _self.attended : attended // ignore: cast_nullable_to_non_nullable
+as int,missed: null == missed ? _self.missed : missed // ignore: cast_nullable_to_non_nullable
+as int,cancelled: null == cancelled ? _self.cancelled : cancelled // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SubjectBaseStatsModel].
+extension SubjectBaseStatsModelPatterns on SubjectBaseStatsModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SubjectBaseStatsModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SubjectBaseStatsModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SubjectBaseStatsModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _SubjectBaseStatsModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SubjectBaseStatsModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SubjectBaseStatsModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String subjectId,  int attended,  int missed,  int cancelled)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SubjectBaseStatsModel() when $default != null:
+return $default(_that.subjectId,_that.attended,_that.missed,_that.cancelled);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String subjectId,  int attended,  int missed,  int cancelled)  $default,) {final _that = this;
+switch (_that) {
+case _SubjectBaseStatsModel():
+return $default(_that.subjectId,_that.attended,_that.missed,_that.cancelled);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String subjectId,  int attended,  int missed,  int cancelled)?  $default,) {final _that = this;
+switch (_that) {
+case _SubjectBaseStatsModel() when $default != null:
+return $default(_that.subjectId,_that.attended,_that.missed,_that.cancelled);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$SubjectBaseStatsModelImplCopyWith<$Res>
-    implements $SubjectBaseStatsModelCopyWith<$Res> {
-  factory _$$SubjectBaseStatsModelImplCopyWith(
-    _$SubjectBaseStatsModelImpl value,
-    $Res Function(_$SubjectBaseStatsModelImpl) then,
-  ) = __$$SubjectBaseStatsModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String subjectId, int attended, int missed, int cancelled});
+
+
+class _SubjectBaseStatsModel extends SubjectBaseStatsModel {
+  const _SubjectBaseStatsModel({required this.subjectId, required this.attended, required this.missed, required this.cancelled}): super._();
+  
+
+@override final  String subjectId;
+@override final  int attended;
+@override final  int missed;
+@override final  int cancelled;
+
+/// Create a copy of SubjectBaseStatsModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SubjectBaseStatsModelCopyWith<_SubjectBaseStatsModel> get copyWith => __$SubjectBaseStatsModelCopyWithImpl<_SubjectBaseStatsModel>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SubjectBaseStatsModel&&(identical(other.subjectId, subjectId) || other.subjectId == subjectId)&&(identical(other.attended, attended) || other.attended == attended)&&(identical(other.missed, missed) || other.missed == missed)&&(identical(other.cancelled, cancelled) || other.cancelled == cancelled));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,subjectId,attended,missed,cancelled);
+
+@override
+String toString() {
+  return 'SubjectBaseStatsModel(subjectId: $subjectId, attended: $attended, missed: $missed, cancelled: $cancelled)';
+}
+
+
 }
 
 /// @nodoc
-class __$$SubjectBaseStatsModelImplCopyWithImpl<$Res>
-    extends
-        _$SubjectBaseStatsModelCopyWithImpl<$Res, _$SubjectBaseStatsModelImpl>
-    implements _$$SubjectBaseStatsModelImplCopyWith<$Res> {
-  __$$SubjectBaseStatsModelImplCopyWithImpl(
-    _$SubjectBaseStatsModelImpl _value,
-    $Res Function(_$SubjectBaseStatsModelImpl) _then,
-  ) : super(_value, _then);
+abstract mixin class _$SubjectBaseStatsModelCopyWith<$Res> implements $SubjectBaseStatsModelCopyWith<$Res> {
+  factory _$SubjectBaseStatsModelCopyWith(_SubjectBaseStatsModel value, $Res Function(_SubjectBaseStatsModel) _then) = __$SubjectBaseStatsModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String subjectId, int attended, int missed, int cancelled
+});
 
-  /// Create a copy of SubjectBaseStatsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? subjectId = null,
-    Object? attended = null,
-    Object? missed = null,
-    Object? cancelled = null,
-  }) {
-    return _then(
-      _$SubjectBaseStatsModelImpl(
-        subjectId: null == subjectId
-            ? _value.subjectId
-            : subjectId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        attended: null == attended
-            ? _value.attended
-            : attended // ignore: cast_nullable_to_non_nullable
-                  as int,
-        missed: null == missed
-            ? _value.missed
-            : missed // ignore: cast_nullable_to_non_nullable
-                  as int,
-        cancelled: null == cancelled
-            ? _value.cancelled
-            : cancelled // ignore: cast_nullable_to_non_nullable
-                  as int,
-      ),
-    );
-  }
+
+
+
 }
-
 /// @nodoc
+class __$SubjectBaseStatsModelCopyWithImpl<$Res>
+    implements _$SubjectBaseStatsModelCopyWith<$Res> {
+  __$SubjectBaseStatsModelCopyWithImpl(this._self, this._then);
 
-class _$SubjectBaseStatsModelImpl extends _SubjectBaseStatsModel {
-  const _$SubjectBaseStatsModelImpl({
-    required this.subjectId,
-    required this.attended,
-    required this.missed,
-    required this.cancelled,
-  }) : super._();
+  final _SubjectBaseStatsModel _self;
+  final $Res Function(_SubjectBaseStatsModel) _then;
 
-  @override
-  final String subjectId;
-  @override
-  final int attended;
-  @override
-  final int missed;
-  @override
-  final int cancelled;
-
-  @override
-  String toString() {
-    return 'SubjectBaseStatsModel(subjectId: $subjectId, attended: $attended, missed: $missed, cancelled: $cancelled)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SubjectBaseStatsModelImpl &&
-            (identical(other.subjectId, subjectId) ||
-                other.subjectId == subjectId) &&
-            (identical(other.attended, attended) ||
-                other.attended == attended) &&
-            (identical(other.missed, missed) || other.missed == missed) &&
-            (identical(other.cancelled, cancelled) ||
-                other.cancelled == cancelled));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, subjectId, attended, missed, cancelled);
-
-  /// Create a copy of SubjectBaseStatsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SubjectBaseStatsModelImplCopyWith<_$SubjectBaseStatsModelImpl>
-  get copyWith =>
-      __$$SubjectBaseStatsModelImplCopyWithImpl<_$SubjectBaseStatsModelImpl>(
-        this,
-        _$identity,
-      );
+/// Create a copy of SubjectBaseStatsModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? subjectId = null,Object? attended = null,Object? missed = null,Object? cancelled = null,}) {
+  return _then(_SubjectBaseStatsModel(
+subjectId: null == subjectId ? _self.subjectId : subjectId // ignore: cast_nullable_to_non_nullable
+as String,attended: null == attended ? _self.attended : attended // ignore: cast_nullable_to_non_nullable
+as int,missed: null == missed ? _self.missed : missed // ignore: cast_nullable_to_non_nullable
+as int,cancelled: null == cancelled ? _self.cancelled : cancelled // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
 }
 
-abstract class _SubjectBaseStatsModel extends SubjectBaseStatsModel {
-  const factory _SubjectBaseStatsModel({
-    required final String subjectId,
-    required final int attended,
-    required final int missed,
-    required final int cancelled,
-  }) = _$SubjectBaseStatsModelImpl;
-  const _SubjectBaseStatsModel._() : super._();
 
-  @override
-  String get subjectId;
-  @override
-  int get attended;
-  @override
-  int get missed;
-  @override
-  int get cancelled;
-
-  /// Create a copy of SubjectBaseStatsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SubjectBaseStatsModelImplCopyWith<_$SubjectBaseStatsModelImpl>
-  get copyWith => throw _privateConstructorUsedError;
 }
+
+// dart format on

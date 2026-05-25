@@ -26,4 +26,6 @@ abstract class TimetableRepository {
     required String userId,
     required String lectureId,
   });
+
+  Future<Either<Failure, void>> syncData({required String userId});
 }

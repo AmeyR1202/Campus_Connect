@@ -66,4 +66,11 @@ class TimetableDao extends DatabaseAccessor<AppDatabase>
         ))
         .get();
   }
+
+  // Hard delete
+  Future<void> deleteLectureLocally(String lectureId) async {
+    await (delete(
+      localTimetableTable,
+    )..where((tbl) => tbl.lectureId.equals(lectureId))).go();
+  }
 }

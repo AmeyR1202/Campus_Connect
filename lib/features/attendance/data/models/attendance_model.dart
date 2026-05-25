@@ -4,8 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'attendance_model.freezed.dart';
 
-@Freezed()
-class AttendanceModel with _$AttendanceModel {
+@freezed
+abstract class AttendanceModel with _$AttendanceModel {
   const factory AttendanceModel({
     required String lectureId,
     required String subjectId,

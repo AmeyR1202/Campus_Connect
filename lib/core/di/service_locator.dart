@@ -1,3 +1,5 @@
+import 'package:campus_connect/core/database/app_database.dart';
+import 'package:campus_connect/core/database/daos/timetable_dao.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/session/session_repository.dart';
 import 'package:campus_connect/core/session/session_repository_impl.dart';
@@ -28,6 +30,7 @@ import 'package:campus_connect/features/profile/domain/repository/profile_reposi
 import 'package:campus_connect/features/profile/domain/usecases/update_username_usecase.dart';
 import 'package:campus_connect/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:campus_connect/features/timetable/data/datasources/firestore_timetable_datasource.dart';
+import 'package:campus_connect/features/timetable/data/datasources/local_timetable_datasource.dart';
 import 'package:campus_connect/features/timetable/data/repository/timetable_repository_impl.dart';
 import 'package:campus_connect/features/timetable/domain/repository/timetable_repository.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/add_lecture_usecase.dart';
@@ -123,7 +126,10 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => FirestoreTimetableDatasource(firestore: sl()));
 
   sl.registerLazySingleton<TimetableRepository>(
-    () => TimetableRepositoryImpl(datasource: sl()),
+    () => TimetableRepositoryImpl(
+      datasource: sl(),
+      localTimetableDatasource: sl(),
+    ),
   );
 
   sl.registerLazySingleton(() => AddLectureUsecase(sl()));
@@ -150,5 +156,12 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => UpdateUsernameUsecase(sl()));
   sl.registerFactory(
     () => ProfileBloc(updateUsernameUsecase: sl(), sessionCubit: sl()),
+  );
+
+  // offline
+  sl.registerLazySingleton(() => AppDatabase());
+  sl.registerLazySingleton(() => TimetableDao(sl()));
+  sl.registerLazySingleton<LocalTimetableDatasource>(
+    () => LocalTimetableDatasourceImpl(sl()),
   );
 }

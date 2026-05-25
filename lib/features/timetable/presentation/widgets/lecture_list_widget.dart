@@ -2,6 +2,7 @@ import 'package:campus_connect/features/attendance/domain/entities/attendance_en
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/lecture_card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class LectureListWidget extends StatelessWidget {
   final List<LectureEntity> lectures;
@@ -27,8 +28,9 @@ class LectureListWidget extends StatelessWidget {
 
         final d = selectedDate;
 
+        final startFormatted = DateFormat.jm().format(lecture.startTime).replaceFirst(' ', ' '); // Remove narrow no-break space if any
         final lectureId =
-            "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${lecture.startTime}_${lecture.subjectName}";
+            "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${startFormatted}_${lecture.subjectName}";
         AttendanceEntity? attendanceRecord;
 
         final matches = attendance

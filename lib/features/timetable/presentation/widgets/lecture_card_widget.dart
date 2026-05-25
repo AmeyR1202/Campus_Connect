@@ -5,6 +5,7 @@ import 'package:campus_connect/features/attendance/presentation/widgets/action_b
 import 'package:campus_connect/features/attendance/presentation/widgets/status_chip.dart';
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class LectureCardWidget extends StatelessWidget {
   final LectureEntity lecture;
@@ -49,7 +50,7 @@ class LectureCardWidget extends StatelessWidget {
 
           /// Time
           Text(
-            "${lecture.startTime} - ${lecture.endTime}",
+            "${DateFormat.jm().format(lecture.startTime)} - ${DateFormat.jm().format(lecture.endTime)}",
             style: TextStyle(
               color: AppThemeHelper.colors.info,
               fontSize: AppSpacing.scale(context, 14),

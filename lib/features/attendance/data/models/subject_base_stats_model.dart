@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'subject_base_stats_model.freezed.dart';
 
 @freezed
-class SubjectBaseStatsModel with _$SubjectBaseStatsModel {
+abstract class SubjectBaseStatsModel with _$SubjectBaseStatsModel {
   const factory SubjectBaseStatsModel({
     required String subjectId,
     required int attended,
