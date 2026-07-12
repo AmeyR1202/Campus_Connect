@@ -87,14 +87,25 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   Future<Either<Failure, List<AttendanceEntity>>> getAllAttendance({
     required String userId,
   }) async {
-    // TODO
-    // IMPORTANT: You will need to add a `getAllAttendance` method to your
-    // AttendanceDao and LocalAttendanceDatasource to read this locally!
-    // For now, I'm fetching from remote just so your code compiles.
-    final result = await remoteAttendanceDatasource.getAllAttendance(
-      userId: userId,
-    );
-    return result.map((models) => models.map((m) => m.toEntity()).toList());
+    try {
+      // 1. Map all records from local DB
+      final localData = await localAttendanceDatasource.getAllAttendance();
+
+      // 2. Map Drift data to Domain Entities
+      final entities = localData.map((data) {
+        return AttendanceEntity(
+          lectureId: data.lectureId,
+          subjectId: data.subjectId,
+          status: AttendanceStatus.values.firstWhere(
+            (e) => e.name == data.status,
+          ),
+          markedAt: data.markedAt,
+        );
+      }).toList();
+      return right(entities);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
   }
 
   @override

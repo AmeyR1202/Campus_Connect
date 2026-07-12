@@ -30,4 +30,9 @@ class LocalAttendanceDatasourceImpl implements LocalAttendanceDatasource {
   Future<void> upsertAttendance(LocalAttendanceTableCompanion record) async {
     await database.attendanceDao.upsertAttendance(record);
   }
+
+  @override
+  Future<List<LocalAttendanceTableData>> getAllAttendance() async {
+    return await database.attendanceDao.getAllAttendance();
+  }
 }

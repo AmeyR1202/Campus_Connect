@@ -15,4 +15,6 @@ abstract interface class LocalAttendanceDatasource {
 
   // Updates a record to set isSynced = true.
   Future<void> markAsSynced(String id);
+
+  Future<List<LocalAttendanceTableData>> getAllAttendance();
 }
