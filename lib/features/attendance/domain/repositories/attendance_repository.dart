@@ -34,7 +34,5 @@ abstract class AttendanceRepository {
     required String userId,
   });
 
-  Future<Either<Failure, void>> syncData({
-    required String userId,
-  });
+  Future<Either<Failure, void>> syncData({required String userId});
 }

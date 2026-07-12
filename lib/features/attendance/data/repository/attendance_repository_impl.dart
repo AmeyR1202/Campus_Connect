@@ -180,7 +180,8 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       );
 
       // 3. PUSH PHASE (Base Stats)
-      final unsyncedStats = await localAttendanceDatasource.getUnsyncedBaseStats();
+      final unsyncedStats = await localAttendanceDatasource
+          .getUnsyncedBaseStats();
       for (final local in unsyncedStats) {
         if (!local.isDeleted) {
           try {
@@ -194,29 +195,31 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
               userId: userId,
               model: model,
             );
-            await localAttendanceDatasource.markBaseStatsAsSynced(local.subjectId);
+            await localAttendanceDatasource.markBaseStatsAsSynced(
+              local.subjectId,
+            );
           } catch (_) {}
         }
       }
 
       // 4. PULL PHASE (Base Stats)
-      final remoteStatsResult = await remoteAttendanceDatasource.getAllBaseStats(userId: userId);
-      await remoteStatsResult.fold(
-        (failure) {},
-        (remoteStats) async {
-          final companions = remoteStats.map(
-            (remote) => LocalBaseStatsTableCompanion(
-              subjectId: Value(remote.subjectId),
-              attended: Value(remote.attended),
-              missed: Value(remote.missed),
-              cancelled: Value(remote.cancelled),
-              isSynced: const Value(true),
+      final remoteStatsResult = await remoteAttendanceDatasource
+          .getAllBaseStats(userId: userId);
+      await remoteStatsResult.fold((failure) {}, (remoteStats) async {
+        final companions = remoteStats
+            .map(
+              (remote) => LocalBaseStatsTableCompanion(
+                subjectId: Value(remote.subjectId),
+                attended: Value(remote.attended),
+                missed: Value(remote.missed),
+                cancelled: Value(remote.cancelled),
+                isSynced: const Value(true),
+              ),
             )
-          ).toList();
-          await localAttendanceDatasource.cacheBaseStats(companions);
-        }
-      );
-      
+            .toList();
+        await localAttendanceDatasource.cacheBaseStats(companions);
+      });
+
       return right(null);
     } catch (e) {
       return left(ServerFailure(e.toString()));

@@ -25,7 +25,7 @@ void callbackDispatcher() {
       if (userId != null) {
         final syncTimetable = sl<SyncTimetableUsecase>();
         final syncAttendance = sl<SyncAttendanceDataUsecase>();
-        
+
         await Future.wait([
           syncTimetable.call(userId: userId),
           syncAttendance.call(userId: userId),
