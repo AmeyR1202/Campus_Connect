@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:campus_connect/core/database/daos/attendance_dao.dart';
 import 'package:campus_connect/core/database/daos/timetable_dao.dart';
+import 'package:campus_connect/core/database/tables/local_attendance_table.dart';
 import 'package:campus_connect/core/database/tables/local_timetable_table.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
@@ -8,7 +10,10 @@ import 'package:path_provider/path_provider.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [LocalTimetableTable], daos: [TimetableDao])
+@DriftDatabase(
+  tables: [LocalTimetableTable, LocalAttendanceTable],
+  daos: [TimetableDao, AttendanceDao],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
