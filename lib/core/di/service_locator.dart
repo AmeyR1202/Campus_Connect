@@ -1,9 +1,12 @@
 import 'package:campus_connect/core/database/app_database.dart';
+import 'package:campus_connect/core/database/daos/attendance_dao.dart';
 import 'package:campus_connect/core/database/daos/timetable_dao.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/session/session_repository.dart';
 import 'package:campus_connect/core/session/session_repository_impl.dart';
 import 'package:campus_connect/features/attendance/data/datasource/firestore_attendance_datasource.dart';
+import 'package:campus_connect/features/attendance/data/datasource/local_attendance_datasource.dart';
+import 'package:campus_connect/features/attendance/data/datasource/local_attendance_datasource_impl.dart';
 import 'package:campus_connect/features/attendance/data/repository/attendance_repository_impl.dart';
 import 'package:campus_connect/features/attendance/domain/repositories/attendance_repository.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/add_attendance_usecase.dart';
@@ -12,6 +15,7 @@ import 'package:campus_connect/features/attendance/domain/usecases/get_all_base_
 import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/set_base_stats_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/sync_attendance_data_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/update_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
@@ -96,7 +100,10 @@ Future<void> initDependencies() async {
   );
 
   sl.registerLazySingleton<AttendanceRepository>(
-    () => AttendanceRepositoryImpl(datasource: sl()),
+    () => AttendanceRepositoryImpl(
+      remoteAttendanceDatasource: sl(),
+      localAttendanceDatasource: sl(),
+    ),
   );
 
   // usecases
@@ -104,6 +111,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => GetAttendanceUsecase(sl()));
   sl.registerLazySingleton(() => GetAllBaseStatsUsecase(sl()));
   sl.registerLazySingleton(() => GetAllAttendanceUsecase(sl()));
+  sl.registerLazySingleton(() => SyncAttendanceDataUsecase(sl()));
 
   sl.registerFactory(
     () => AttendanceBloc(
@@ -114,6 +122,7 @@ Future<void> initDependencies() async {
       setBaseStatsUsecase: sl(),
       getAllAttendance: sl(),
       getAllBaseStats: sl(),
+      syncAttendance: sl(),
     ),
   );
 
@@ -164,7 +173,12 @@ Future<void> initDependencies() async {
   // offline
   sl.registerLazySingleton(() => AppDatabase());
   sl.registerLazySingleton(() => TimetableDao(sl()));
+  sl.registerLazySingleton(() => AttendanceDao(sl()));
+
   sl.registerLazySingleton<LocalTimetableDatasource>(
     () => LocalTimetableDatasourceImpl(sl()),
+  );
+  sl.registerLazySingleton<LocalAttendanceDatasource>(
+    () => LocalAttendanceDatasourceImpl(sl()),
   );
 }
