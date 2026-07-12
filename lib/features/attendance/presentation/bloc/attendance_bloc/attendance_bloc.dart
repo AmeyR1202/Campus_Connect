@@ -7,6 +7,7 @@ import 'package:campus_connect/features/attendance/domain/usecases/get_all_base_
 import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/set_base_stats_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/sync_attendance_data_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/update_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
@@ -20,6 +21,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final SetBaseStatsUsecase setBaseStatsUsecase;
   final GetAllAttendanceUsecase getAllAttendance;
   final GetAllBaseStatsUsecase getAllBaseStats;
+  final SyncAttendanceDataUsecase syncAttendance;
 
   AttendanceBloc({
     required this.dashboardStats,
@@ -29,6 +31,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     required this.setBaseStatsUsecase,
     required this.getAllAttendance,
     required this.getAllBaseStats,
+    required this.syncAttendance,
   }) : super(const AttendanceState()) {
     on<AddAttendanceEvent>(
       _onAddAttendance,
@@ -38,6 +41,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<FetchAttendanceEvent>(_onFetchAttendance);
     on<UpdateLectureEvent>(_onUpdateLecture);
     on<SetBaseStatsEvent>(_onSetBaseStats);
+    on<SyncAttendanceDataEvent>(_onSyncAttendanceData);
   }
 
   Future<void> _onAddAttendance(
@@ -186,6 +190,23 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       },
       (_) {
         // Refresh dashboard stats to show updated percentages
+        add(FetchAllSubjectsStatsEvent(userId: event.userId));
+      },
+    );
+  }
+
+  Future<void> _onSyncAttendanceData(
+    SyncAttendanceDataEvent event,
+    Emitter<AttendanceState> emit,
+  ) async {
+    final result = await syncAttendance(userId: event.userId);
+
+    result.match(
+      (failure) {
+        // Silent fail for background sync
+      },
+      (_) {
+        // Success! Re-fetch everything so the UI updates with the newly pulled data
         add(FetchAllSubjectsStatsEvent(userId: event.userId));
       },
     );

@@ -68,3 +68,12 @@ class SetBaseStatsEvent extends AttendanceEvent {
   @override
   List<Object?> get props => [userId, subjectId, attended, missed, cancelled];
 }
+
+class SyncAttendanceDataEvent extends AttendanceEvent {
+  final String userId;
+
+  SyncAttendanceDataEvent({required this.userId});
+
+  @override
+  List<Object?> get props => [userId];
+}

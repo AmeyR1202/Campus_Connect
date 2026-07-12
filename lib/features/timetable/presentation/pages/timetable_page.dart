@@ -112,14 +112,14 @@ class _TimetablePageState extends State<TimetablePage> {
                             ElevatedButton.icon(
                               onPressed: () =>
                                   context.push('/manage-timetable'),
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.edit_calendar,
-                                color: Colors.white,
+                                color: AppThemeHelper.colors.textPrimary,
                               ),
-                              label: const Text(
+                              label: Text(
                                 "Manage Timetable",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppThemeHelper.colors.textPrimary,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

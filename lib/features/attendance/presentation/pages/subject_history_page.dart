@@ -202,7 +202,8 @@ class _SubjectHistoryPageState extends State<SubjectHistoryPage> {
                                             ? _getColor(
                                                 status,
                                               ).withValues(alpha: 0.15)
-                                            : Colors.transparent,
+                                            : AppThemeHelper.colors.surface
+                                                  .withValues(alpha: 0),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Text(

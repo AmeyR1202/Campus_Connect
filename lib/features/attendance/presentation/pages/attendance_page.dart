@@ -20,12 +20,19 @@ class AttendancePage extends StatefulWidget {
 
 class _AttendancePageState extends State<AttendancePage> {
   @override
+  @override
   void initState() {
     super.initState();
     final user = context.read<SessionCubit>().state.user;
     if (user != null) {
+      // 1. Instantly load the page using Local DB cache
       context.read<AttendanceBloc>().add(
         FetchAllSubjectsStatsEvent(userId: user.id),
+      );
+
+      // 2. Trigger the background Sync Engine
+      context.read<AttendanceBloc>().add(
+        SyncAttendanceDataEvent(userId: user.id),
       );
     }
   }

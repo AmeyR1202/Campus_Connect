@@ -33,4 +33,6 @@ abstract class AttendanceRepository {
   Future<Either<Failure, List<SubjectBaseStatsEntity>>> getAllBaseStats({
     required String userId,
   });
+
+  Future<Either<Failure, void>> syncData({required String userId});
 }

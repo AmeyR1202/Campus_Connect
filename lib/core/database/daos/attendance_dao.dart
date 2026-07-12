@@ -35,9 +35,9 @@ class AttendanceDao extends DatabaseAccessor<AppDatabase>
 
   // Returns all records where isSynced == false.
   Future<List<LocalAttendanceTableData>> getUnsyncedRecords() async {
-    return (select(localAttendanceTable)
-          ..where((tbl) => tbl.isSynced.equals(false)))
-        .get();
+    return (select(
+      localAttendanceTable,
+    )..where((tbl) => tbl.isSynced.equals(false))).get();
   }
 
   // Updates a record to set isSynced = true.
@@ -45,5 +45,12 @@ class AttendanceDao extends DatabaseAccessor<AppDatabase>
     await (update(localAttendanceTable)
           ..where((tbl) => tbl.lectureId.equals(lectureId)))
         .write(const LocalAttendanceTableCompanion(isSynced: Value(true)));
+  }
+
+  // Returns ALL attendance records across all subjects
+  Future<List<LocalAttendanceTableData>> getAllAttendance() async {
+    return (select(
+      localAttendanceTable,
+    )..where((tbl) => tbl.isDeleted.equals(false))).get();
   }
 }

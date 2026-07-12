@@ -30,4 +30,35 @@ class LocalAttendanceDatasourceImpl implements LocalAttendanceDatasource {
   Future<void> upsertAttendance(LocalAttendanceTableCompanion record) async {
     await database.attendanceDao.upsertAttendance(record);
   }
+
+  @override
+  Future<List<LocalAttendanceTableData>> getAllAttendance() async {
+    return await database.attendanceDao.getAllAttendance();
+  }
+
+  // --- Base Stats ---
+  @override
+  Future<void> cacheBaseStats(List<LocalBaseStatsTableCompanion> list) async {
+    await database.baseStatsDao.cacheBaseStats(list);
+  }
+
+  @override
+  Future<void> upsertBaseStats(LocalBaseStatsTableCompanion record) async {
+    await database.baseStatsDao.upsertBaseStats(record);
+  }
+
+  @override
+  Future<List<LocalBaseStatsTableData>> getAllBaseStats() async {
+    return await database.baseStatsDao.getAllBaseStats();
+  }
+
+  @override
+  Future<List<LocalBaseStatsTableData>> getUnsyncedBaseStats() async {
+    return await database.baseStatsDao.getUnsyncedRecords();
+  }
+
+  @override
+  Future<void> markBaseStatsAsSynced(String subjectId) async {
+    await database.baseStatsDao.markAsSynced(subjectId);
+  }
 }
