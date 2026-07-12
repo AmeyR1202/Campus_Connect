@@ -83,7 +83,7 @@ class _EditBaseStatsSheetState extends State<EditBaseStatsSheet> {
           _StepperRow(
             label: 'Present',
             value: _presentCount,
-            color: Colors.green,
+            color: AppThemeHelper.colors.success,
             onChanged: (val) => setState(() => _presentCount = val),
           ),
           const SizedBox(height: 16),
@@ -91,7 +91,7 @@ class _EditBaseStatsSheetState extends State<EditBaseStatsSheet> {
           _StepperRow(
             label: 'Absent',
             value: _absentCount,
-            color: Colors.redAccent,
+            color: AppThemeHelper.colors.error,
             onChanged: (val) => setState(() => _absentCount = val),
           ),
           const SizedBox(height: 16),

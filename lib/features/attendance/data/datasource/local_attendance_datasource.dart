@@ -17,4 +17,11 @@ abstract interface class LocalAttendanceDatasource {
   Future<void> markAsSynced(String id);
 
   Future<List<LocalAttendanceTableData>> getAllAttendance();
+
+  // --- Base Stats ---
+  Future<void> cacheBaseStats(List<LocalBaseStatsTableCompanion> list);
+  Future<void> upsertBaseStats(LocalBaseStatsTableCompanion record);
+  Future<List<LocalBaseStatsTableData>> getAllBaseStats();
+  Future<List<LocalBaseStatsTableData>> getUnsyncedBaseStats();
+  Future<void> markBaseStatsAsSynced(String subjectId);
 }

@@ -1,5 +1,6 @@
 import 'package:campus_connect/core/database/app_database.dart';
 import 'package:campus_connect/core/database/daos/attendance_dao.dart';
+import 'package:campus_connect/core/database/daos/base_stats_dao.dart';
 import 'package:campus_connect/core/database/daos/timetable_dao.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/session/session_repository.dart';
@@ -174,6 +175,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => AppDatabase());
   sl.registerLazySingleton(() => TimetableDao(sl()));
   sl.registerLazySingleton(() => AttendanceDao(sl()));
+  sl.registerLazySingleton(() => BaseStatsDao(sl()));
 
   sl.registerLazySingleton<LocalTimetableDatasource>(
     () => LocalTimetableDatasourceImpl(sl()),

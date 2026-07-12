@@ -156,7 +156,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
           }
         }
       }
-      // 2. PULL PHASE
+      // 2. PULL PHASE (Attendance)
       final remoteResult = await remoteAttendanceDatasource.getAllAttendance(
         userId: userId,
       );
@@ -171,15 +171,52 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
                   subjectId: Value(remote.subjectId),
                   status: Value(remote.status),
                   markedAt: Value(remote.markedAt),
-                  isSynced: const Value(
-                    true,
-                  ), // Data from remote is always synced
+                  isSynced: const Value(true),
                 ),
               )
               .toList();
           await localAttendanceDatasource.cacheAttendance(companions);
         },
       );
+
+      // 3. PUSH PHASE (Base Stats)
+      final unsyncedStats = await localAttendanceDatasource.getUnsyncedBaseStats();
+      for (final local in unsyncedStats) {
+        if (!local.isDeleted) {
+          try {
+            final model = SubjectBaseStatsModel(
+              subjectId: local.subjectId,
+              attended: local.attended,
+              missed: local.missed,
+              cancelled: local.cancelled,
+            );
+            await remoteAttendanceDatasource.setBaseStats(
+              userId: userId,
+              model: model,
+            );
+            await localAttendanceDatasource.markBaseStatsAsSynced(local.subjectId);
+          } catch (_) {}
+        }
+      }
+
+      // 4. PULL PHASE (Base Stats)
+      final remoteStatsResult = await remoteAttendanceDatasource.getAllBaseStats(userId: userId);
+      await remoteStatsResult.fold(
+        (failure) {},
+        (remoteStats) async {
+          final companions = remoteStats.map(
+            (remote) => LocalBaseStatsTableCompanion(
+              subjectId: Value(remote.subjectId),
+              attended: Value(remote.attended),
+              missed: Value(remote.missed),
+              cancelled: Value(remote.cancelled),
+              isSynced: const Value(true),
+            )
+          ).toList();
+          await localAttendanceDatasource.cacheBaseStats(companions);
+        }
+      );
+      
       return right(null);
     } catch (e) {
       return left(ServerFailure(e.toString()));
@@ -190,11 +227,20 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   Future<Either<Failure, List<SubjectBaseStatsEntity>>> getAllBaseStats({
     required String userId,
   }) async {
-    final result = await remoteAttendanceDatasource.getAllBaseStats(
-      userId: userId,
-    );
-
-    return result.map((models) => models.map((m) => m.toEntity()).toList());
+    try {
+      final localData = await localAttendanceDatasource.getAllBaseStats();
+      final entities = localData.map((data) {
+        return SubjectBaseStatsEntity(
+          subjectId: data.subjectId,
+          attended: data.attended,
+          missed: data.missed,
+          cancelled: data.cancelled,
+        );
+      }).toList();
+      return right(entities);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
   }
 
   @override
@@ -202,10 +248,32 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
     required String userId,
     required SubjectBaseStatsEntity entity,
   }) async {
-    final model = SubjectBaseStatsModel.fromEntity(entity);
-    return await remoteAttendanceDatasource.setBaseStats(
-      userId: userId,
-      model: model,
-    );
+    try {
+      // 1. SAVE LOCALLY
+      final companion = LocalBaseStatsTableCompanion(
+        subjectId: Value(entity.subjectId),
+        attended: Value(entity.attended),
+        missed: Value(entity.missed),
+        cancelled: Value(entity.cancelled),
+        isSynced: const Value(false),
+      );
+      await localAttendanceDatasource.upsertBaseStats(companion);
+
+      // 2. TRY TO PUSH TO REMOTE
+      try {
+        final model = SubjectBaseStatsModel.fromEntity(entity);
+        await remoteAttendanceDatasource.setBaseStats(
+          userId: userId,
+          model: model,
+        );
+        await localAttendanceDatasource.markBaseStatsAsSynced(entity.subjectId);
+      } catch (e) {
+        // Fail silently
+      }
+
+      return right(null);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
   }
 }

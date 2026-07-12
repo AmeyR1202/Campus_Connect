@@ -1039,6 +1039,420 @@ class LocalAttendanceTableCompanion
   }
 }
 
+class $LocalBaseStatsTableTable extends LocalBaseStatsTable
+    with TableInfo<$LocalBaseStatsTableTable, LocalBaseStatsTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalBaseStatsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _subjectIdMeta = const VerificationMeta(
+    'subjectId',
+  );
+  @override
+  late final GeneratedColumn<String> subjectId = GeneratedColumn<String>(
+    'subject_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _attendedMeta = const VerificationMeta(
+    'attended',
+  );
+  @override
+  late final GeneratedColumn<int> attended = GeneratedColumn<int>(
+    'attended',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _missedMeta = const VerificationMeta('missed');
+  @override
+  late final GeneratedColumn<int> missed = GeneratedColumn<int>(
+    'missed',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _cancelledMeta = const VerificationMeta(
+    'cancelled',
+  );
+  @override
+  late final GeneratedColumn<int> cancelled = GeneratedColumn<int>(
+    'cancelled',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _isSyncedMeta = const VerificationMeta(
+    'isSynced',
+  );
+  @override
+  late final GeneratedColumn<bool> isSynced = GeneratedColumn<bool>(
+    'is_synced',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_synced" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _isDeletedMeta = const VerificationMeta(
+    'isDeleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isDeleted = GeneratedColumn<bool>(
+    'is_deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    subjectId,
+    attended,
+    missed,
+    cancelled,
+    isSynced,
+    isDeleted,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_base_stats_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalBaseStatsTableData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('subject_id')) {
+      context.handle(
+        _subjectIdMeta,
+        subjectId.isAcceptableOrUnknown(data['subject_id']!, _subjectIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_subjectIdMeta);
+    }
+    if (data.containsKey('attended')) {
+      context.handle(
+        _attendedMeta,
+        attended.isAcceptableOrUnknown(data['attended']!, _attendedMeta),
+      );
+    }
+    if (data.containsKey('missed')) {
+      context.handle(
+        _missedMeta,
+        missed.isAcceptableOrUnknown(data['missed']!, _missedMeta),
+      );
+    }
+    if (data.containsKey('cancelled')) {
+      context.handle(
+        _cancelledMeta,
+        cancelled.isAcceptableOrUnknown(data['cancelled']!, _cancelledMeta),
+      );
+    }
+    if (data.containsKey('is_synced')) {
+      context.handle(
+        _isSyncedMeta,
+        isSynced.isAcceptableOrUnknown(data['is_synced']!, _isSyncedMeta),
+      );
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(
+        _isDeletedMeta,
+        isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {subjectId};
+  @override
+  LocalBaseStatsTableData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalBaseStatsTableData(
+      subjectId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}subject_id'],
+      )!,
+      attended: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}attended'],
+      )!,
+      missed: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}missed'],
+      )!,
+      cancelled: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}cancelled'],
+      )!,
+      isSynced: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_synced'],
+      )!,
+      isDeleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_deleted'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalBaseStatsTableTable createAlias(String alias) {
+    return $LocalBaseStatsTableTable(attachedDatabase, alias);
+  }
+}
+
+class LocalBaseStatsTableData extends DataClass
+    implements Insertable<LocalBaseStatsTableData> {
+  final String subjectId;
+  final int attended;
+  final int missed;
+  final int cancelled;
+  final bool isSynced;
+  final bool isDeleted;
+  const LocalBaseStatsTableData({
+    required this.subjectId,
+    required this.attended,
+    required this.missed,
+    required this.cancelled,
+    required this.isSynced,
+    required this.isDeleted,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['subject_id'] = Variable<String>(subjectId);
+    map['attended'] = Variable<int>(attended);
+    map['missed'] = Variable<int>(missed);
+    map['cancelled'] = Variable<int>(cancelled);
+    map['is_synced'] = Variable<bool>(isSynced);
+    map['is_deleted'] = Variable<bool>(isDeleted);
+    return map;
+  }
+
+  LocalBaseStatsTableCompanion toCompanion(bool nullToAbsent) {
+    return LocalBaseStatsTableCompanion(
+      subjectId: Value(subjectId),
+      attended: Value(attended),
+      missed: Value(missed),
+      cancelled: Value(cancelled),
+      isSynced: Value(isSynced),
+      isDeleted: Value(isDeleted),
+    );
+  }
+
+  factory LocalBaseStatsTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalBaseStatsTableData(
+      subjectId: serializer.fromJson<String>(json['subjectId']),
+      attended: serializer.fromJson<int>(json['attended']),
+      missed: serializer.fromJson<int>(json['missed']),
+      cancelled: serializer.fromJson<int>(json['cancelled']),
+      isSynced: serializer.fromJson<bool>(json['isSynced']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'subjectId': serializer.toJson<String>(subjectId),
+      'attended': serializer.toJson<int>(attended),
+      'missed': serializer.toJson<int>(missed),
+      'cancelled': serializer.toJson<int>(cancelled),
+      'isSynced': serializer.toJson<bool>(isSynced),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+    };
+  }
+
+  LocalBaseStatsTableData copyWith({
+    String? subjectId,
+    int? attended,
+    int? missed,
+    int? cancelled,
+    bool? isSynced,
+    bool? isDeleted,
+  }) => LocalBaseStatsTableData(
+    subjectId: subjectId ?? this.subjectId,
+    attended: attended ?? this.attended,
+    missed: missed ?? this.missed,
+    cancelled: cancelled ?? this.cancelled,
+    isSynced: isSynced ?? this.isSynced,
+    isDeleted: isDeleted ?? this.isDeleted,
+  );
+  LocalBaseStatsTableData copyWithCompanion(LocalBaseStatsTableCompanion data) {
+    return LocalBaseStatsTableData(
+      subjectId: data.subjectId.present ? data.subjectId.value : this.subjectId,
+      attended: data.attended.present ? data.attended.value : this.attended,
+      missed: data.missed.present ? data.missed.value : this.missed,
+      cancelled: data.cancelled.present ? data.cancelled.value : this.cancelled,
+      isSynced: data.isSynced.present ? data.isSynced.value : this.isSynced,
+      isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalBaseStatsTableData(')
+          ..write('subjectId: $subjectId, ')
+          ..write('attended: $attended, ')
+          ..write('missed: $missed, ')
+          ..write('cancelled: $cancelled, ')
+          ..write('isSynced: $isSynced, ')
+          ..write('isDeleted: $isDeleted')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(subjectId, attended, missed, cancelled, isSynced, isDeleted);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalBaseStatsTableData &&
+          other.subjectId == this.subjectId &&
+          other.attended == this.attended &&
+          other.missed == this.missed &&
+          other.cancelled == this.cancelled &&
+          other.isSynced == this.isSynced &&
+          other.isDeleted == this.isDeleted);
+}
+
+class LocalBaseStatsTableCompanion
+    extends UpdateCompanion<LocalBaseStatsTableData> {
+  final Value<String> subjectId;
+  final Value<int> attended;
+  final Value<int> missed;
+  final Value<int> cancelled;
+  final Value<bool> isSynced;
+  final Value<bool> isDeleted;
+  final Value<int> rowid;
+  const LocalBaseStatsTableCompanion({
+    this.subjectId = const Value.absent(),
+    this.attended = const Value.absent(),
+    this.missed = const Value.absent(),
+    this.cancelled = const Value.absent(),
+    this.isSynced = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalBaseStatsTableCompanion.insert({
+    required String subjectId,
+    this.attended = const Value.absent(),
+    this.missed = const Value.absent(),
+    this.cancelled = const Value.absent(),
+    this.isSynced = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : subjectId = Value(subjectId);
+  static Insertable<LocalBaseStatsTableData> custom({
+    Expression<String>? subjectId,
+    Expression<int>? attended,
+    Expression<int>? missed,
+    Expression<int>? cancelled,
+    Expression<bool>? isSynced,
+    Expression<bool>? isDeleted,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (subjectId != null) 'subject_id': subjectId,
+      if (attended != null) 'attended': attended,
+      if (missed != null) 'missed': missed,
+      if (cancelled != null) 'cancelled': cancelled,
+      if (isSynced != null) 'is_synced': isSynced,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalBaseStatsTableCompanion copyWith({
+    Value<String>? subjectId,
+    Value<int>? attended,
+    Value<int>? missed,
+    Value<int>? cancelled,
+    Value<bool>? isSynced,
+    Value<bool>? isDeleted,
+    Value<int>? rowid,
+  }) {
+    return LocalBaseStatsTableCompanion(
+      subjectId: subjectId ?? this.subjectId,
+      attended: attended ?? this.attended,
+      missed: missed ?? this.missed,
+      cancelled: cancelled ?? this.cancelled,
+      isSynced: isSynced ?? this.isSynced,
+      isDeleted: isDeleted ?? this.isDeleted,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (subjectId.present) {
+      map['subject_id'] = Variable<String>(subjectId.value);
+    }
+    if (attended.present) {
+      map['attended'] = Variable<int>(attended.value);
+    }
+    if (missed.present) {
+      map['missed'] = Variable<int>(missed.value);
+    }
+    if (cancelled.present) {
+      map['cancelled'] = Variable<int>(cancelled.value);
+    }
+    if (isSynced.present) {
+      map['is_synced'] = Variable<bool>(isSynced.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalBaseStatsTableCompanion(')
+          ..write('subjectId: $subjectId, ')
+          ..write('attended: $attended, ')
+          ..write('missed: $missed, ')
+          ..write('cancelled: $cancelled, ')
+          ..write('isSynced: $isSynced, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1046,8 +1460,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $LocalTimetableTableTable(this);
   late final $LocalAttendanceTableTable localAttendanceTable =
       $LocalAttendanceTableTable(this);
+  late final $LocalBaseStatsTableTable localBaseStatsTable =
+      $LocalBaseStatsTableTable(this);
   late final TimetableDao timetableDao = TimetableDao(this as AppDatabase);
   late final AttendanceDao attendanceDao = AttendanceDao(this as AppDatabase);
+  late final BaseStatsDao baseStatsDao = BaseStatsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1055,6 +1472,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     localTimetableTable,
     localAttendanceTable,
+    localBaseStatsTable,
   ];
 }
 
@@ -1600,6 +2018,241 @@ typedef $$LocalAttendanceTableTableProcessedTableManager =
       LocalAttendanceTableData,
       PrefetchHooks Function()
     >;
+typedef $$LocalBaseStatsTableTableCreateCompanionBuilder =
+    LocalBaseStatsTableCompanion Function({
+      required String subjectId,
+      Value<int> attended,
+      Value<int> missed,
+      Value<int> cancelled,
+      Value<bool> isSynced,
+      Value<bool> isDeleted,
+      Value<int> rowid,
+    });
+typedef $$LocalBaseStatsTableTableUpdateCompanionBuilder =
+    LocalBaseStatsTableCompanion Function({
+      Value<String> subjectId,
+      Value<int> attended,
+      Value<int> missed,
+      Value<int> cancelled,
+      Value<bool> isSynced,
+      Value<bool> isDeleted,
+      Value<int> rowid,
+    });
+
+class $$LocalBaseStatsTableTableFilterComposer
+    extends Composer<_$AppDatabase, $LocalBaseStatsTableTable> {
+  $$LocalBaseStatsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get subjectId => $composableBuilder(
+    column: $table.subjectId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get attended => $composableBuilder(
+    column: $table.attended,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get missed => $composableBuilder(
+    column: $table.missed,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cancelled => $composableBuilder(
+    column: $table.cancelled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isSynced => $composableBuilder(
+    column: $table.isSynced,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDeleted => $composableBuilder(
+    column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalBaseStatsTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocalBaseStatsTableTable> {
+  $$LocalBaseStatsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get subjectId => $composableBuilder(
+    column: $table.subjectId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get attended => $composableBuilder(
+    column: $table.attended,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get missed => $composableBuilder(
+    column: $table.missed,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cancelled => $composableBuilder(
+    column: $table.cancelled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isSynced => $composableBuilder(
+    column: $table.isSynced,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDeleted => $composableBuilder(
+    column: $table.isDeleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalBaseStatsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocalBaseStatsTableTable> {
+  $$LocalBaseStatsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get subjectId =>
+      $composableBuilder(column: $table.subjectId, builder: (column) => column);
+
+  GeneratedColumn<int> get attended =>
+      $composableBuilder(column: $table.attended, builder: (column) => column);
+
+  GeneratedColumn<int> get missed =>
+      $composableBuilder(column: $table.missed, builder: (column) => column);
+
+  GeneratedColumn<int> get cancelled =>
+      $composableBuilder(column: $table.cancelled, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSynced =>
+      $composableBuilder(column: $table.isSynced, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDeleted =>
+      $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+}
+
+class $$LocalBaseStatsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LocalBaseStatsTableTable,
+          LocalBaseStatsTableData,
+          $$LocalBaseStatsTableTableFilterComposer,
+          $$LocalBaseStatsTableTableOrderingComposer,
+          $$LocalBaseStatsTableTableAnnotationComposer,
+          $$LocalBaseStatsTableTableCreateCompanionBuilder,
+          $$LocalBaseStatsTableTableUpdateCompanionBuilder,
+          (
+            LocalBaseStatsTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $LocalBaseStatsTableTable,
+              LocalBaseStatsTableData
+            >,
+          ),
+          LocalBaseStatsTableData,
+          PrefetchHooks Function()
+        > {
+  $$LocalBaseStatsTableTableTableManager(
+    _$AppDatabase db,
+    $LocalBaseStatsTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalBaseStatsTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalBaseStatsTableTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalBaseStatsTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> subjectId = const Value.absent(),
+                Value<int> attended = const Value.absent(),
+                Value<int> missed = const Value.absent(),
+                Value<int> cancelled = const Value.absent(),
+                Value<bool> isSynced = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalBaseStatsTableCompanion(
+                subjectId: subjectId,
+                attended: attended,
+                missed: missed,
+                cancelled: cancelled,
+                isSynced: isSynced,
+                isDeleted: isDeleted,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String subjectId,
+                Value<int> attended = const Value.absent(),
+                Value<int> missed = const Value.absent(),
+                Value<int> cancelled = const Value.absent(),
+                Value<bool> isSynced = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalBaseStatsTableCompanion.insert(
+                subjectId: subjectId,
+                attended: attended,
+                missed: missed,
+                cancelled: cancelled,
+                isSynced: isSynced,
+                isDeleted: isDeleted,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalBaseStatsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LocalBaseStatsTableTable,
+      LocalBaseStatsTableData,
+      $$LocalBaseStatsTableTableFilterComposer,
+      $$LocalBaseStatsTableTableOrderingComposer,
+      $$LocalBaseStatsTableTableAnnotationComposer,
+      $$LocalBaseStatsTableTableCreateCompanionBuilder,
+      $$LocalBaseStatsTableTableUpdateCompanionBuilder,
+      (
+        LocalBaseStatsTableData,
+        BaseReferences<
+          _$AppDatabase,
+          $LocalBaseStatsTableTable,
+          LocalBaseStatsTableData
+        >,
+      ),
+      LocalBaseStatsTableData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1608,4 +2261,6 @@ class $AppDatabaseManager {
       $$LocalTimetableTableTableTableManager(_db, _db.localTimetableTable);
   $$LocalAttendanceTableTableTableManager get localAttendanceTable =>
       $$LocalAttendanceTableTableTableManager(_db, _db.localAttendanceTable);
+  $$LocalBaseStatsTableTableTableManager get localBaseStatsTable =>
+      $$LocalBaseStatsTableTableTableManager(_db, _db.localBaseStatsTable);
 }

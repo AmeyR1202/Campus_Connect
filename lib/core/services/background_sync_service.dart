@@ -1,5 +1,6 @@
 import 'package:campus_connect/core/di/service_locator.dart';
 import 'package:campus_connect/core/firebase/firebase_options.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/sync_attendance_data_usecase.dart';
 import 'package:campus_connect/features/timetable/domain/usecases/sync_timetable_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,8 +23,13 @@ void callbackDispatcher() {
       // Only sync if a user is currently logged in
       final userId = FirebaseAuth.instance.currentUser?.uid;
       if (userId != null) {
-        final syncUsecase = sl<SyncTimetableUsecase>();
-        await syncUsecase.call(userId: userId);
+        final syncTimetable = sl<SyncTimetableUsecase>();
+        final syncAttendance = sl<SyncAttendanceDataUsecase>();
+        
+        await Future.wait([
+          syncTimetable.call(userId: userId),
+          syncAttendance.call(userId: userId),
+        ]);
       }
 
       return Future.value(true);
