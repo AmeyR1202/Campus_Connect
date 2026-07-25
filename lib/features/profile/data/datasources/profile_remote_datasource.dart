@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProfileDatasource {
+class ProfileRemoteDatasource {
   final FirebaseFirestore firestore;
 
-  ProfileDatasource({required this.firestore});
+  ProfileRemoteDatasource({required this.firestore});
 
   Future<void> updateUsername({
     required String userId,

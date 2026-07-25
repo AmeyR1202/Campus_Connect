@@ -1,6 +1,7 @@
 import 'package:campus_connect/core/database/app_database.dart';
 import 'package:campus_connect/core/database/daos/attendance_dao.dart';
 import 'package:campus_connect/core/database/daos/base_stats_dao.dart';
+import 'package:campus_connect/core/database/daos/profile_dao.dart';
 import 'package:campus_connect/core/database/daos/timetable_dao.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/session/session_repository.dart';
@@ -29,9 +30,12 @@ import 'package:campus_connect/features/auth/domain/usecases/log_in_usecase.dart
 import 'package:campus_connect/features/auth/domain/usecases/log_out_usecase.dart';
 import 'package:campus_connect/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:campus_connect/features/profile/data/datasources/profile_datasource.dart';
+import 'package:campus_connect/features/profile/data/datasources/local_profile_datasource_impl.dart';
+import 'package:campus_connect/features/profile/data/datasources/profile_local_datasource.dart';
+import 'package:campus_connect/features/profile/data/datasources/profile_remote_datasource.dart';
 import 'package:campus_connect/features/profile/data/repository/profile_repository_impl.dart';
 import 'package:campus_connect/features/profile/domain/repository/profile_repository.dart';
+import 'package:campus_connect/features/profile/domain/usecases/sync_profile_data_usecase.dart';
 import 'package:campus_connect/features/profile/domain/usecases/update_username_usecase.dart';
 import 'package:campus_connect/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:campus_connect/features/timetable/data/datasources/firestore_timetable_datasource.dart';
@@ -61,7 +65,9 @@ Future<void> initDependencies() async {
     () => SessionRepositoryImpl(sl()),
   );
 
-  sl.registerLazySingleton(() => SessionCubit(sessionRepository: sl()));
+  sl.registerLazySingleton(
+    () => SessionCubit(sessionRepository: sl(), profileLocalDatasource: sl()),
+  );
 
   /// <------------------------- DI OF AUTHENTICATION FEAT -------------------------->
 
@@ -162,9 +168,17 @@ Future<void> initDependencies() async {
   );
 
   // Profile Feature
-  sl.registerLazySingleton(() => ProfileDatasource(firestore: sl()));
+  sl.registerLazySingleton<ProfileRemoteDatasource>(
+    () => ProfileRemoteDatasource(firestore: sl()),
+  );
+  sl.registerLazySingleton<ProfileLocalDatasource>(
+    () => LocalProfileDatasourceImpl(dao: sl()),
+  );
   sl.registerLazySingleton<ProfileRepository>(
-    () => ProfileRepositoryImpl(datasource: sl()),
+    () => ProfileRepositoryImpl(localDatasource: sl(), remoteDatasource: sl()),
+  );
+  sl.registerLazySingleton(
+    () => SyncProfileDataUsecase(localDatasource: sl(), remoteDatasource: sl()),
   );
   sl.registerLazySingleton(() => UpdateUsernameUsecase(sl()));
   sl.registerFactory(
@@ -176,6 +190,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => TimetableDao(sl()));
   sl.registerLazySingleton(() => AttendanceDao(sl()));
   sl.registerLazySingleton(() => BaseStatsDao(sl()));
+  sl.registerLazySingleton(() => ProfileDao(sl()));
 
   sl.registerLazySingleton<LocalTimetableDatasource>(
     () => LocalTimetableDatasourceImpl(sl()),

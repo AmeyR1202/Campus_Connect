@@ -1453,6 +1453,276 @@ class LocalBaseStatsTableCompanion
   }
 }
 
+class $LocalProfileTableTable extends LocalProfileTable
+    with TableInfo<$LocalProfileTableTable, LocalProfileTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProfileTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _usernameMeta = const VerificationMeta(
+    'username',
+  );
+  @override
+  late final GeneratedColumn<String> username = GeneratedColumn<String>(
+    'username',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isSyncedMeta = const VerificationMeta(
+    'isSynced',
+  );
+  @override
+  late final GeneratedColumn<bool> isSynced = GeneratedColumn<bool>(
+    'is_synced',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_synced" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [userId, username, isSynced];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_profile_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProfileTableData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('username')) {
+      context.handle(
+        _usernameMeta,
+        username.isAcceptableOrUnknown(data['username']!, _usernameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_usernameMeta);
+    }
+    if (data.containsKey('is_synced')) {
+      context.handle(
+        _isSyncedMeta,
+        isSynced.isAcceptableOrUnknown(data['is_synced']!, _isSyncedMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {userId};
+  @override
+  LocalProfileTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProfileTableData(
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user_id'],
+      )!,
+      username: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}username'],
+      )!,
+      isSynced: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_synced'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalProfileTableTable createAlias(String alias) {
+    return $LocalProfileTableTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProfileTableData extends DataClass
+    implements Insertable<LocalProfileTableData> {
+  final String userId;
+  final String username;
+  final bool isSynced;
+  const LocalProfileTableData({
+    required this.userId,
+    required this.username,
+    required this.isSynced,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['user_id'] = Variable<String>(userId);
+    map['username'] = Variable<String>(username);
+    map['is_synced'] = Variable<bool>(isSynced);
+    return map;
+  }
+
+  LocalProfileTableCompanion toCompanion(bool nullToAbsent) {
+    return LocalProfileTableCompanion(
+      userId: Value(userId),
+      username: Value(username),
+      isSynced: Value(isSynced),
+    );
+  }
+
+  factory LocalProfileTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProfileTableData(
+      userId: serializer.fromJson<String>(json['userId']),
+      username: serializer.fromJson<String>(json['username']),
+      isSynced: serializer.fromJson<bool>(json['isSynced']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'userId': serializer.toJson<String>(userId),
+      'username': serializer.toJson<String>(username),
+      'isSynced': serializer.toJson<bool>(isSynced),
+    };
+  }
+
+  LocalProfileTableData copyWith({
+    String? userId,
+    String? username,
+    bool? isSynced,
+  }) => LocalProfileTableData(
+    userId: userId ?? this.userId,
+    username: username ?? this.username,
+    isSynced: isSynced ?? this.isSynced,
+  );
+  LocalProfileTableData copyWithCompanion(LocalProfileTableCompanion data) {
+    return LocalProfileTableData(
+      userId: data.userId.present ? data.userId.value : this.userId,
+      username: data.username.present ? data.username.value : this.username,
+      isSynced: data.isSynced.present ? data.isSynced.value : this.isSynced,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileTableData(')
+          ..write('userId: $userId, ')
+          ..write('username: $username, ')
+          ..write('isSynced: $isSynced')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(userId, username, isSynced);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProfileTableData &&
+          other.userId == this.userId &&
+          other.username == this.username &&
+          other.isSynced == this.isSynced);
+}
+
+class LocalProfileTableCompanion
+    extends UpdateCompanion<LocalProfileTableData> {
+  final Value<String> userId;
+  final Value<String> username;
+  final Value<bool> isSynced;
+  final Value<int> rowid;
+  const LocalProfileTableCompanion({
+    this.userId = const Value.absent(),
+    this.username = const Value.absent(),
+    this.isSynced = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalProfileTableCompanion.insert({
+    required String userId,
+    required String username,
+    this.isSynced = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : userId = Value(userId),
+       username = Value(username);
+  static Insertable<LocalProfileTableData> custom({
+    Expression<String>? userId,
+    Expression<String>? username,
+    Expression<bool>? isSynced,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (userId != null) 'user_id': userId,
+      if (username != null) 'username': username,
+      if (isSynced != null) 'is_synced': isSynced,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalProfileTableCompanion copyWith({
+    Value<String>? userId,
+    Value<String>? username,
+    Value<bool>? isSynced,
+    Value<int>? rowid,
+  }) {
+    return LocalProfileTableCompanion(
+      userId: userId ?? this.userId,
+      username: username ?? this.username,
+      isSynced: isSynced ?? this.isSynced,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (userId.present) {
+      map['user_id'] = Variable<String>(userId.value);
+    }
+    if (username.present) {
+      map['username'] = Variable<String>(username.value);
+    }
+    if (isSynced.present) {
+      map['is_synced'] = Variable<bool>(isSynced.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileTableCompanion(')
+          ..write('userId: $userId, ')
+          ..write('username: $username, ')
+          ..write('isSynced: $isSynced, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1462,9 +1732,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $LocalAttendanceTableTable(this);
   late final $LocalBaseStatsTableTable localBaseStatsTable =
       $LocalBaseStatsTableTable(this);
+  late final $LocalProfileTableTable localProfileTable =
+      $LocalProfileTableTable(this);
   late final TimetableDao timetableDao = TimetableDao(this as AppDatabase);
   late final AttendanceDao attendanceDao = AttendanceDao(this as AppDatabase);
   late final BaseStatsDao baseStatsDao = BaseStatsDao(this as AppDatabase);
+  late final ProfileDao profileDao = ProfileDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1473,6 +1746,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     localTimetableTable,
     localAttendanceTable,
     localBaseStatsTable,
+    localProfileTable,
   ];
 }
 
@@ -2253,6 +2527,181 @@ typedef $$LocalBaseStatsTableTableProcessedTableManager =
       LocalBaseStatsTableData,
       PrefetchHooks Function()
     >;
+typedef $$LocalProfileTableTableCreateCompanionBuilder =
+    LocalProfileTableCompanion Function({
+      required String userId,
+      required String username,
+      Value<bool> isSynced,
+      Value<int> rowid,
+    });
+typedef $$LocalProfileTableTableUpdateCompanionBuilder =
+    LocalProfileTableCompanion Function({
+      Value<String> userId,
+      Value<String> username,
+      Value<bool> isSynced,
+      Value<int> rowid,
+    });
+
+class $$LocalProfileTableTableFilterComposer
+    extends Composer<_$AppDatabase, $LocalProfileTableTable> {
+  $$LocalProfileTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get username => $composableBuilder(
+    column: $table.username,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isSynced => $composableBuilder(
+    column: $table.isSynced,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalProfileTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocalProfileTableTable> {
+  $$LocalProfileTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get username => $composableBuilder(
+    column: $table.username,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isSynced => $composableBuilder(
+    column: $table.isSynced,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalProfileTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocalProfileTableTable> {
+  $$LocalProfileTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+
+  GeneratedColumn<String> get username =>
+      $composableBuilder(column: $table.username, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSynced =>
+      $composableBuilder(column: $table.isSynced, builder: (column) => column);
+}
+
+class $$LocalProfileTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LocalProfileTableTable,
+          LocalProfileTableData,
+          $$LocalProfileTableTableFilterComposer,
+          $$LocalProfileTableTableOrderingComposer,
+          $$LocalProfileTableTableAnnotationComposer,
+          $$LocalProfileTableTableCreateCompanionBuilder,
+          $$LocalProfileTableTableUpdateCompanionBuilder,
+          (
+            LocalProfileTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $LocalProfileTableTable,
+              LocalProfileTableData
+            >,
+          ),
+          LocalProfileTableData,
+          PrefetchHooks Function()
+        > {
+  $$LocalProfileTableTableTableManager(
+    _$AppDatabase db,
+    $LocalProfileTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProfileTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalProfileTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LocalProfileTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> userId = const Value.absent(),
+                Value<String> username = const Value.absent(),
+                Value<bool> isSynced = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileTableCompanion(
+                userId: userId,
+                username: username,
+                isSynced: isSynced,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String userId,
+                required String username,
+                Value<bool> isSynced = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileTableCompanion.insert(
+                userId: userId,
+                username: username,
+                isSynced: isSynced,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalProfileTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LocalProfileTableTable,
+      LocalProfileTableData,
+      $$LocalProfileTableTableFilterComposer,
+      $$LocalProfileTableTableOrderingComposer,
+      $$LocalProfileTableTableAnnotationComposer,
+      $$LocalProfileTableTableCreateCompanionBuilder,
+      $$LocalProfileTableTableUpdateCompanionBuilder,
+      (
+        LocalProfileTableData,
+        BaseReferences<
+          _$AppDatabase,
+          $LocalProfileTableTable,
+          LocalProfileTableData
+        >,
+      ),
+      LocalProfileTableData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2263,4 +2712,6 @@ class $AppDatabaseManager {
       $$LocalAttendanceTableTableTableManager(_db, _db.localAttendanceTable);
   $$LocalBaseStatsTableTableTableManager get localBaseStatsTable =>
       $$LocalBaseStatsTableTableTableManager(_db, _db.localBaseStatsTable);
+  $$LocalProfileTableTableTableManager get localProfileTable =>
+      $$LocalProfileTableTableTableManager(_db, _db.localProfileTable);
 }
