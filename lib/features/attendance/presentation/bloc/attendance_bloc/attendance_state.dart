@@ -26,6 +26,7 @@
 // }
 
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
+import 'package:campus_connect/features/attendance/domain/entities/subject_base_stats_entity.dart';
 import 'package:campus_connect/features/attendance/domain/entities/subject_stats.dart';
 import 'package:equatable/equatable.dart';
 
@@ -36,29 +37,37 @@ class AttendanceState extends Equatable {
   final bool isLoading;
   final List<AttendanceEntity>? attendance;
   final List<SubjectStats> subjectStats;
+  final List<String>? timetableSubjects;
   final String? error;
+  final List<SubjectBaseStatsEntity>? baseStats;
 
   const AttendanceState({
     this.status = SubjectStatus.initial,
     this.subjectStats = const [],
+    this.timetableSubjects,
     this.isLoading = false,
     this.attendance,
     this.error,
+    this.baseStats,
   });
 
   AttendanceState copyWith({
     SubjectStatus? status,
     List<SubjectStats>? subjectStats,
+    List<String>? timetableSubjects,
     bool? isLoading,
     List<AttendanceEntity>? attendance,
     String? error,
+    List<SubjectBaseStatsEntity>? baseStats,
   }) {
     return AttendanceState(
       isLoading: isLoading ?? this.isLoading,
       status: status ?? this.status,
       subjectStats: subjectStats ?? this.subjectStats,
+      timetableSubjects: timetableSubjects ?? this.timetableSubjects,
       attendance: attendance ?? this.attendance,
       error: error,
+      baseStats: baseStats,
     );
   }
 
@@ -66,8 +75,10 @@ class AttendanceState extends Equatable {
   List<Object?> get props => [
     status,
     subjectStats,
+    timetableSubjects,
     isLoading,
     attendance,
     error,
+    baseStats,
   ];
 }

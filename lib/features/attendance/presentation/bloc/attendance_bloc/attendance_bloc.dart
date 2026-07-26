@@ -1,8 +1,13 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
+import 'package:campus_connect/features/attendance/domain/entities/subject_base_stats_entity.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/add_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_all_attendance_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/get_all_base_stats_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/get_dashboard_stats_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/set_base_stats_usecase.dart';
+import 'package:campus_connect/features/attendance/domain/usecases/sync_attendance_data_usecase.dart';
 import 'package:campus_connect/features/attendance/domain/usecases/update_attendance_usecase.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_event.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
@@ -13,12 +18,20 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   final GetAttendanceUsecase getAttendance;
   final GetDashboardStatsUsecase dashboardStats;
   final UpdateAttendanceUsecase updateAttendanceUsecase;
+  final SetBaseStatsUsecase setBaseStatsUsecase;
+  final GetAllAttendanceUsecase getAllAttendance;
+  final GetAllBaseStatsUsecase getAllBaseStats;
+  final SyncAttendanceDataUsecase syncAttendance;
 
   AttendanceBloc({
     required this.dashboardStats,
     required this.addAttendance,
     required this.getAttendance,
     required this.updateAttendanceUsecase,
+    required this.setBaseStatsUsecase,
+    required this.getAllAttendance,
+    required this.getAllBaseStats,
+    required this.syncAttendance,
   }) : super(const AttendanceState()) {
     on<AddAttendanceEvent>(
       _onAddAttendance,
@@ -27,6 +40,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<FetchAllSubjectsStatsEvent>(_onFetchAllSubjectsStatsEvent);
     on<FetchAttendanceEvent>(_onFetchAttendance);
     on<UpdateLectureEvent>(_onUpdateLecture);
+    on<SetBaseStatsEvent>(_onSetBaseStats);
+    on<SyncAttendanceDataEvent>(_onSyncAttendanceData);
   }
 
   Future<void> _onAddAttendance(
@@ -88,15 +103,38 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     FetchAllSubjectsStatsEvent event,
     Emitter<AttendanceState> emit,
   ) async {
-    // print("EVENT TRIGGERED");
-    emit(state.copyWith(isLoading: true));
+    final attResult = await getAllAttendance(userId: event.userId);
+    final baseResult = await getAllBaseStats(userId: event.userId);
+    // Save timetableSubjects to state if provided, otherwise use existing from state
+    final subjectsToUse = event.timetableSubjects ?? state.timetableSubjects;
 
-    final result = await dashboardStats(userId: event.userId);
-    // print('BLOC RESULT: $result');
-    result.fold(
-      (failure) =>
-          emit(state.copyWith(isLoading: false, error: failure.message)),
-      (data) => emit(state.copyWith(isLoading: false, subjectStats: data)),
+    final String? attError = attResult.fold((l) => l.message, (r) => null);
+    if (attError != null) {
+      emit(state.copyWith(isLoading: false, error: attError));
+      return;
+    }
+    final String? baseError = baseResult.fold((l) => l.message, (r) => null);
+    if (baseError != null) {
+      emit(state.copyWith(isLoading: false, error: baseError));
+      return;
+    }
+
+    final attendanceList = attResult.getOrElse((l) => []);
+    final baseStatsList = baseResult.getOrElse((l) => []);
+    emit(state.copyWith(attendance: attendanceList, baseStats: baseStatsList));
+
+    final subjectStats = dashboardStats(
+      attendanceList: attendanceList,
+      baseStatsList: baseStatsList,
+      timetableSubjects: subjectsToUse,
+    );
+
+    emit(
+      state.copyWith(
+        isLoading: false,
+        timetableSubjects: subjectsToUse,
+        subjectStats: subjectStats,
+      ),
     );
   }
 
@@ -125,6 +163,50 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           ),
         );
 
+        add(FetchAllSubjectsStatsEvent(userId: event.userId));
+      },
+    );
+  }
+
+  Future<void> _onSetBaseStats(
+    SetBaseStatsEvent event,
+    Emitter<AttendanceState> emit,
+  ) async {
+    final entity = SubjectBaseStatsEntity(
+      subjectId: event.subjectId,
+      attended: event.attended,
+      missed: event.missed,
+      cancelled: event.cancelled,
+    );
+
+    final result = await setBaseStatsUsecase(
+      userId: event.userId,
+      entity: entity,
+    );
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(error: failure.message));
+      },
+      (_) {
+        // Refresh dashboard stats to show updated percentages
+        add(FetchAllSubjectsStatsEvent(userId: event.userId));
+      },
+    );
+  }
+
+  Future<void> _onSyncAttendanceData(
+    SyncAttendanceDataEvent event,
+    Emitter<AttendanceState> emit,
+  ) async {
+    final result = await syncAttendance(userId: event.userId);
+
+    result.match(
+      (failure) {
+        // Silent fail for background sync
+      },
+      (_) {
+        // Success! Re-fetch everything so the UI updates with the newly pulled data
         add(FetchAllSubjectsStatsEvent(userId: event.userId));
       },
     );

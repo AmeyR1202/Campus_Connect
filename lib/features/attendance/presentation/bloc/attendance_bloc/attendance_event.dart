@@ -25,11 +25,12 @@ class AddAttendanceEvent extends AttendanceEvent {
 
 class FetchAllSubjectsStatsEvent extends AttendanceEvent {
   final String userId;
+  final List<String>? timetableSubjects;
 
-  FetchAllSubjectsStatsEvent({required this.userId});
+  FetchAllSubjectsStatsEvent({required this.userId, this.timetableSubjects});
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [userId, timetableSubjects];
 }
 
 class UpdateLectureEvent extends AttendanceEvent {
@@ -47,4 +48,32 @@ class UpdateLectureEvent extends AttendanceEvent {
 
   @override
   List<Object?> get props => [subjectId, lectureId, status];
+}
+
+class SetBaseStatsEvent extends AttendanceEvent {
+  final String userId;
+  final String subjectId;
+  final int attended;
+  final int missed;
+  final int cancelled;
+
+  SetBaseStatsEvent({
+    required this.userId,
+    required this.subjectId,
+    required this.attended,
+    required this.missed,
+    required this.cancelled,
+  });
+
+  @override
+  List<Object?> get props => [userId, subjectId, attended, missed, cancelled];
+}
+
+class SyncAttendanceDataEvent extends AttendanceEvent {
+  final String userId;
+
+  SyncAttendanceDataEvent({required this.userId});
+
+  @override
+  List<Object?> get props => [userId];
 }

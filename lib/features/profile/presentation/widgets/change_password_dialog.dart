@@ -2,6 +2,7 @@ import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 void showChangePasswordDialog(BuildContext context, String email) {
   showDialog(
@@ -17,7 +18,7 @@ void showChangePasswordDialog(BuildContext context, String email) {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(context),
           child: Text(
             'Cancel',
             style: TextStyle(color: AppThemeHelper.colors.muted),
@@ -25,7 +26,7 @@ void showChangePasswordDialog(BuildContext context, String email) {
         ),
         TextButton(
           onPressed: () {
-            Navigator.pop(context);
+            context.pop(context);
             context.read<SessionCubit>().sendPasswordReset(email);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

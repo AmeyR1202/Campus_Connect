@@ -1,15 +1,16 @@
 import 'package:campus_connect/core/app/app_shell.dart';
 import 'package:campus_connect/core/router/page_transitions.dart';
 import 'package:campus_connect/core/widgets/error_page.dart';
+import 'package:campus_connect/features/attendance/presentation/pages/attendance_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/subject_details_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/subject_history_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/email_sent_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/login_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/sign_up_page.dart';
-import 'package:campus_connect/features/auth/presentation/pages/splash_screen.dart';
 import 'package:campus_connect/features/auth/presentation/pages/welcome_page.dart';
 import 'package:campus_connect/features/home/presentation/pages/home_page.dart';
 import 'package:campus_connect/features/profile/presentation/pages/profile_page.dart';
+import 'package:campus_connect/features/splash/presentation/pages/splash_screen.dart';
 import 'package:campus_connect/features/timetable/presentation/pages/manage_timetable_page.dart';
 import 'package:campus_connect/features/timetable/presentation/pages/timetable_page.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,13 @@ final GoRouter router = GoRouter(
           path: '/home',
           pageBuilder: (context, state) =>
               buildPageWithTransition(state: state, child: const HomePage()),
+        ),
+        GoRoute(
+          path: '/attendance',
+          pageBuilder: (context, state) => buildPageWithTransition(
+            state: state,
+            child: const AttendancePage(),
+          ),
         ),
         GoRoute(
           path: '/profile',

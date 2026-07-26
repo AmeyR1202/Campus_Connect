@@ -43,6 +43,11 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
     if (cachedLectures == null && userId.isNotEmpty) {
       context.read<TimetableBloc>().add(GetAllLecturesEvent(userId: userId));
     }
+
+    // Trigger background sync to handle app reinstall or offline edits
+    if (userId.isNotEmpty) {
+      context.read<TimetableBloc>().add(SyncDataEvent(userId: userId));
+    }
   }
 
   @override

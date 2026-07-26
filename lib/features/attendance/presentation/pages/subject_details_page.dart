@@ -1,6 +1,7 @@
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
+import 'package:campus_connect/features/attendance/presentation/widgets/edit_base_stats_sheet.dart';
 import 'package:campus_connect/features/attendance/presentation/widgets/lecture_stats_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -139,38 +140,88 @@ class SubjectDetailsPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 12),
-                      InkWell(
-                        onTap: () {
-                          context.push('/subjects/${s.subjectId}/history');
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppThemeHelper.colors.muted.withValues(
-                              alpha: 0.2,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              context.push('/subjects/${s.subjectId}/history');
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppThemeHelper.colors.muted.withValues(
+                                  alpha: 0.2,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.history,
+                                    color: AppThemeHelper.colors.iconPrimary,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    "History",
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-
-                            children: [
-                              Icon(
-                                Icons.history,
-                                color: AppThemeHelper.colors.iconPrimary,
-                                size: 18,
+                          const SizedBox(width: 10),
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (_) => BlocProvider.value(
+                                  value: context.read<AttendanceBloc>(),
+                                  child: EditBaseStatsSheet(
+                                    subjectId: s.subjectId,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
                               ),
-                              const SizedBox(width: 4),
-                              Text(
-                                "All History",
-                                style: Theme.of(context).textTheme.bodyMedium,
+                              decoration: BoxDecoration(
+                                color: AppThemeHelper.colors.muted.withValues(
+                                  alpha: 0.2,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            ],
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.edit_note_rounded,
+                                    color: AppThemeHelper.colors.iconPrimary,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    "Edit Stats",
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                       const SizedBox(height: 10),
                     ],

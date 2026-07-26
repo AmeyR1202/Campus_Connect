@@ -5,8 +5,8 @@ class LectureEntity extends Equatable {
 
   final String subjectName;
   final String day;
-  final String startTime;
-  final String endTime;
+  final DateTime startTime;
+  final DateTime endTime;
   final String type;
 
   const LectureEntity({

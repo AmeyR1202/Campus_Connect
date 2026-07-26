@@ -6,6 +6,7 @@ import 'package:campus_connect/features/timetable/presentation/bloc/timetable_ev
 import 'package:campus_connect/features/timetable/presentation/widgets/session_type_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class TimetableCardWidget extends StatelessWidget {
   final LectureEntity lecture;
@@ -33,7 +34,7 @@ class TimetableCardWidget extends StatelessWidget {
           Column(
             children: [
               Text(
-                lecture.startTime,
+                DateFormat.jm().format(lecture.startTime),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
@@ -46,7 +47,7 @@ class TimetableCardWidget extends StatelessWidget {
                 color: AppThemeHelper.colors.primary.withValues(alpha: 0.3),
               ),
               Text(
-                lecture.endTime,
+                DateFormat.jm().format(lecture.endTime),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
