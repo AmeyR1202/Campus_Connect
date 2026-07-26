@@ -22,7 +22,6 @@ class SessionCubit extends Cubit<SessionState> {
     emit(state.copyWith(user: user, isAuthenticated: true));
   }
 
-  // Add this new method to load the user entirely offline
   Future<void> loadOfflineUser() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser == null) {
@@ -34,18 +33,16 @@ class SessionCubit extends Cubit<SessionState> {
       userId: firebaseUser.uid,
     );
 
-    if (localProfile != null) {
-      final user = UserEntity(
-        id: firebaseUser.uid,
-        username: localProfile.username,
-        email: firebaseUser.email ?? '',
-        isEmailVerified: firebaseUser.emailVerified,
-        createdAt: DateTime.now(),
-      );
-      setUser(user);
-    } else {
-      clearSession();
-    }
+    // Even if localProfile is null, they ARE authenticated in Firebase!
+    // We just don't have their custom username cached in SQLite yet.
+    final user = UserEntity(
+      id: firebaseUser.uid,
+      username: localProfile?.username ?? firebaseUser.displayName ?? '',
+      email: firebaseUser.email ?? '',
+      isEmailVerified: firebaseUser.emailVerified,
+      createdAt: DateTime.now(),
+    );
+    setUser(user);
   }
 
   void clearSession() {

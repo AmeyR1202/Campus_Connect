@@ -1,18 +1,23 @@
+import 'package:campus_connect/core/database/app_database.dart';
 import 'package:campus_connect/core/entities/user_entity.dart';
 import 'package:campus_connect/core/errors/app_exception.dart';
 import 'package:campus_connect/core/errors/failures.dart';
 import 'package:campus_connect/features/auth/data/datasources/firebase_auth_datasource.dart';
 import 'package:campus_connect/features/auth/data/datasources/firestore_user_datasource.dart';
 import 'package:campus_connect/features/auth/domain/repository/auth_repository.dart';
+import 'package:campus_connect/features/profile/data/datasources/profile_local_datasource.dart';
+import 'package:drift/drift.dart';
 import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuthDatasource authDatasource;
   final FirestoreUserDatasource firestoreDatasource;
+  final ProfileLocalDatasource profileLocalDatasource;
 
   AuthRepositoryImpl({
     required this.authDatasource,
     required this.firestoreDatasource,
+    required this.profileLocalDatasource, // <-- ADDED THIS
   });
 
   @override
@@ -31,6 +36,17 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       final userModel = await firestoreDatasource.getUser(firebaseUser.uid);
+
+      // CACHE THE USER LOCALLY SO IT'S AVAILABLE OFFLINE/ON RESTART!
+      await profileLocalDatasource.upsertProfile(
+        LocalProfileTableCompanion(
+          userId: Value(firebaseUser.uid),
+          username: Value(userModel.username),
+          isSynced: const Value(
+            true,
+          ), // Synced because we just got it from Firestore!
+        ),
+      );
 
       final entity = userModel.toEntity(
         email: firebaseUser.email!,
@@ -69,6 +85,15 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final userModel = await firestoreDatasource.getUser(firebaseUser.uid);
 
+      // CACHE THE USER LOCALLY SO IT'S AVAILABLE OFFLINE/ON RESTART!
+      await profileLocalDatasource.upsertProfile(
+        LocalProfileTableCompanion(
+          userId: Value(firebaseUser.uid),
+          username: Value(userModel.username),
+          isSynced: const Value(true),
+        ),
+      );
+
       final entity = userModel.toEntity(
         email: firebaseUser.email!,
         isEmailVerified: firebaseUser.emailVerified,
@@ -104,6 +129,14 @@ class AuthRepositoryImpl implements AuthRepository {
         uid: firebaseUser.uid,
         username: username,
         email: email,
+      );
+
+      await profileLocalDatasource.upsertProfile(
+        LocalProfileTableCompanion(
+          userId: Value(firebaseUser.uid),
+          username: Value(username),
+          isSynced: const Value(true),
+        ),
       );
 
       return const Right(null);

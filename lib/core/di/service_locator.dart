@@ -77,7 +77,11 @@ Future<void> initDependencies() async {
 
   // Repository
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(authDatasource: sl(), firestoreDatasource: sl()),
+    () => AuthRepositoryImpl(
+      authDatasource: sl(),
+      firestoreDatasource: sl(),
+      profileLocalDatasource: sl(),
+    ),
   );
 
   // usecases
