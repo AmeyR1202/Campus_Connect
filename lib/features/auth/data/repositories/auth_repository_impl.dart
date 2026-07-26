@@ -17,7 +17,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
     required this.authDatasource,
     required this.firestoreDatasource,
-    required this.profileLocalDatasource, // <-- ADDED THIS
+    required this.profileLocalDatasource,
   });
 
   @override

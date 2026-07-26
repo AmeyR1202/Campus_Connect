@@ -24,37 +24,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.sessionCubit,
     required this.forgetPasswordUsecase,
   }) : super(AuthInitial()) {
-    on<CheckAuthStatus>(_onCheckAuthStatus);
     on<LoginRequested>(_onLoginRequested);
     on<SignupRequested>(_onSignupRequested);
     on<LogoutRequested>(_onLogoutRequested);
     on<ForgetPasswordRequested>(_onForgetPassword);
-  }
-
-  Future<void> _onCheckAuthStatus(
-    CheckAuthStatus event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(AuthLoading());
-    try {
-      final result = await getCurrentUserUsecase().timeout(
-        const Duration(seconds: 10),
-      );
-      result.fold((failure) => emit(AuthError(failure.message)), (user) {
-        if (user == null) {
-          sessionCubit.clearSession();
-          emit(AuthUnauthenticated());
-        } else {
-          sessionCubit.setUser(user);
-          emit(AuthAuthenticated(user));
-        }
-      });
-    } on TimeoutException {
-      sessionCubit.clearSession();
-      emit(AuthUnauthenticated());
-    } catch (e) {
-      emit(AuthError(e.toString()));
-    }
   }
 
   Future<void> _onLoginRequested(
