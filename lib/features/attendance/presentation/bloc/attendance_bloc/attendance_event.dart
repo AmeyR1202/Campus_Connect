@@ -1,79 +1,47 @@
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class AttendanceEvent extends Equatable {}
+part 'attendance_event.freezed.dart';
 
-class FetchAttendanceEvent extends AttendanceEvent {
-  final String userId;
-  final String? subjectId;
+@freezed
+sealed class AttendanceEvent with _$AttendanceEvent {
+  // 1. Get attendance
+  const factory AttendanceEvent.fetchAttendance({
+    required String userId,
+    String? subjectId,
+  }) = FetchAttendanceEvent;
 
-  FetchAttendanceEvent({required this.userId, this.subjectId});
+  // 2. AddAttendanceEvent
+  const factory AttendanceEvent.addAttendance({
+    required String userId,
+    required AttendanceEntity entity,
+  }) = AddAttendanceEvent;
 
-  @override
-  List<Object?> get props => [userId, subjectId];
-}
+  // 3. FetchAllSubjectsStatsEvent
+  const factory AttendanceEvent.fetchAllSubjectsStatsEvent({
+    required String userId,
+    List<String>? timetableSubjects,
+  }) = FetchAllSubjectsStatsEvent;
 
-class AddAttendanceEvent extends AttendanceEvent {
-  final String userId;
-  final AttendanceEntity entity;
+  // 4. Update Lecture Event
+  const factory AttendanceEvent.updateLectureEvent({
+    required String userId,
+    required String subjectId,
+    required String lectureId,
+    required AttendanceStatus status,
+  }) = UpdateLectureEvent;
 
-  AddAttendanceEvent({required this.userId, required this.entity});
+  // 5. SetBaseStatsEvent
+  const factory AttendanceEvent.setBaseStatsEvent({
+    required String userId,
+    required String subjectId,
+    required int attended,
+    required int missed,
+    required int cancelled,
+  }) = SetBaseStatsEvent;
 
-  @override
-  List<Object?> get props => [userId, entity];
-}
-
-class FetchAllSubjectsStatsEvent extends AttendanceEvent {
-  final String userId;
-  final List<String>? timetableSubjects;
-
-  FetchAllSubjectsStatsEvent({required this.userId, this.timetableSubjects});
-
-  @override
-  List<Object?> get props => [userId, timetableSubjects];
-}
-
-class UpdateLectureEvent extends AttendanceEvent {
-  final String userId;
-  final String subjectId;
-  final String lectureId;
-  final AttendanceStatus status;
-
-  UpdateLectureEvent({
-    required this.subjectId,
-    required this.lectureId,
-    required this.status,
-    required this.userId,
-  });
-
-  @override
-  List<Object?> get props => [subjectId, lectureId, status];
-}
-
-class SetBaseStatsEvent extends AttendanceEvent {
-  final String userId;
-  final String subjectId;
-  final int attended;
-  final int missed;
-  final int cancelled;
-
-  SetBaseStatsEvent({
-    required this.userId,
-    required this.subjectId,
-    required this.attended,
-    required this.missed,
-    required this.cancelled,
-  });
-
-  @override
-  List<Object?> get props => [userId, subjectId, attended, missed, cancelled];
-}
-
-class SyncAttendanceDataEvent extends AttendanceEvent {
-  final String userId;
-
-  SyncAttendanceDataEvent({required this.userId});
-
-  @override
-  List<Object?> get props => [userId];
+  // 6. SyncAttendanceDataEvent
+  const factory AttendanceEvent.syncAttendanceDataEvent({
+    required String userId,
+  }) = SyncAttendanceDataEvent;
 }
