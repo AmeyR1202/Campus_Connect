@@ -1,8 +1,11 @@
-abstract class ProfileEvent {}
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class UpdateUsernameEvent extends ProfileEvent {
-  final String userId;
-  final String newUserName;
+part 'profile_event.freezed.dart';
 
-  UpdateUsernameEvent({required this.userId, required this.newUserName});
+@freezed
+sealed class ProfileEvent with _$ProfileEvent {
+  const factory ProfileEvent.updateUsernameEvent({
+    required String userId,
+    required String newUserName,
+  }) = UpdateUsernameEvent;
 }

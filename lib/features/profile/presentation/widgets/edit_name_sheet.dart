@@ -87,7 +87,7 @@ class _EditNameSheetState extends State<EditNameSheet> {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.errorMessage ?? 'Failed to update name'),
+              content: Text(state.errorMessage),
               backgroundColor: AppThemeHelper.colors.error,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(

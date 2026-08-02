@@ -1,20 +1,12 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class ProfileState extends Equatable {
-  const ProfileState();
+part 'profile_state.freezed.dart';
 
-  @override
-  List<Object?> get props => [];
-}
-
-class ProfileInitial extends ProfileState {}
-
-class ProfileLoading extends ProfileState {}
-
-class ProfileUpdateSuccess extends ProfileState {}
-
-class ProfileError extends ProfileState {
-  final String? errorMessage;
-
-  const ProfileError({required this.errorMessage});
+@freezed
+sealed class ProfileState with _$ProfileState {
+  const factory ProfileState.initial() = ProfileInitial;
+  const factory ProfileState.loading() = ProfileLoading;
+  const factory ProfileState.success() = ProfileUpdateSuccess;
+  const factory ProfileState.error({required String errorMessage}) =
+      ProfileError;
 }

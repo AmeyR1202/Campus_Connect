@@ -1,43 +1,48 @@
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class TimetableEvent {}
+/*
+  1. Add Lecture Event
+  2. Delete Lecture Event
+  3. Get Lectures For Day Event
+  4. Get All Lectures Event
+  5. Update Lecture Event
+  6. Sync Data Event
+ */
 
-class AddLectureEvent extends TimetableEvent {
-  final String userId;
-  final LectureEntity entity;
+part 'timetable_event.freezed.dart';
 
-  AddLectureEvent({required this.userId, required this.entity});
-}
+@freezed
+sealed class TimetableEvent with _$TimetableEvent {
+  // 1. Add Lecture Event
+  const factory TimetableEvent.addLectureEvent({
+    required String userId,
+    required LectureEntity entity,
+  }) = AddLectureEvent;
 
-class DeleteLectureEvent extends TimetableEvent {
-  final String userId;
-  final String lectureId;
+  // 2. Delete Lecture Event
+  const factory TimetableEvent.deleteLectureEvent({
+    required String userId,
+    required String lectureId,
+  }) = DeleteLectureEvent;
 
-  DeleteLectureEvent({required this.userId, required this.lectureId});
-}
+  // 3. Get Lectures For Day Event
+  const factory TimetableEvent.getLecturesForDayEvent({
+    required String userId,
+    required DateTime date,
+  }) = GetLecturesForDayEvent;
 
-class GetLecturesForDayEvent extends TimetableEvent {
-  final String userId;
-  final DateTime date;
+  // 4. Get All Lectures Event
+  const factory TimetableEvent.getAllLecturesEvent({required String userId}) =
+      GetAllLecturesEvent;
 
-  GetLecturesForDayEvent({required this.userId, required this.date});
-}
+  // 5. Update Lecture Event
+  const factory TimetableEvent.updateLectureEvent({
+    required String userId,
+    required LectureEntity entity,
+  }) = UpdateLectureEvent;
 
-class GetAllLecturesEvent extends TimetableEvent {
-  final String userId;
-
-  GetAllLecturesEvent({required this.userId});
-}
-
-class UpdateLectureEvent extends TimetableEvent {
-  final String userId;
-  final LectureEntity entity;
-
-  UpdateLectureEvent({required this.userId, required this.entity});
-}
-
-class SyncDataEvent extends TimetableEvent {
-  final String userId;
-
-  SyncDataEvent({required this.userId});
+  //  6. Sync Data Event
+  const factory TimetableEvent.syncDataEvent({required String userId}) =
+      SyncDataEvent;
 }
