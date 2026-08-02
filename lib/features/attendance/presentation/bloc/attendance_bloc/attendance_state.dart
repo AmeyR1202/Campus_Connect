@@ -32,4 +32,8 @@ abstract class AttendanceState with _$AttendanceState {
       return null;
     }
   }
+
+  int get totalClasses => subjectStats.fold(0, (sum, s) => sum + s.total);
+  int get totalAttended => subjectStats.fold(0, (sum, s) => sum + s.attended);
+  double get overallPercentage => totalClasses == 0 ? 0.0 : (totalAttended / totalClasses) * 100;
 }

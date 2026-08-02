@@ -59,15 +59,11 @@ class _AttendancePageState extends State<AttendancePage> {
             );
           }
 
-          final totalClasses = stats.fold(0, (sum, s) => sum + s.total);
-          final totalAttended = stats.fold(0, (sum, s) => sum + s.attended);
-          final overallPercentage = totalClasses == 0
-              ? 0.0
-              : (totalAttended / totalClasses) * 100;
+          final percentage = state.overallPercentage;
 
           return CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(child: _buildHeader(overallPercentage)),
+              SliverToBoxAdapter(child: _buildHeader(percentage)),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
