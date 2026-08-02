@@ -1,4 +1,5 @@
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
+import 'package:campus_connect/features/attendance/presentation/bloc/attendance_bloc/attendance_state.dart';
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
 import 'package:campus_connect/features/timetable/presentation/widgets/lecture_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +7,14 @@ import 'package:intl/intl.dart';
 
 class LectureListWidget extends StatelessWidget {
   final List<LectureEntity> lectures;
-  final List<AttendanceEntity> attendance;
+  final AttendanceState attendanceState;
   final DateTime selectedDate;
   final Function(LectureEntity, AttendanceStatus) onMark;
 
   const LectureListWidget({
     super.key,
     required this.lectures,
-    required this.attendance,
+    required this.attendanceState,
     required this.onMark,
     required this.selectedDate,
   });
@@ -33,15 +34,9 @@ class LectureListWidget extends StatelessWidget {
             .replaceFirst(' ', ' '); // Remove narrow no-break space if any
         final lectureId =
             "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${startFormatted}_${lecture.subjectName}";
-        AttendanceEntity? attendanceRecord;
+        
+        final AttendanceEntity? attendanceRecord = attendanceState.getAttendanceForLecture(lectureId);
 
-        final matches = attendance
-            .where((a) => a.lectureId == lectureId)
-            .toList();
-
-        if (matches.isNotEmpty) {
-          attendanceRecord = matches.first;
-        }
         return LectureCardWidget(
           lecture: lecture,
           attendance: attendanceRecord,

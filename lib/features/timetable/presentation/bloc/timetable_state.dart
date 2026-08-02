@@ -1,5 +1,6 @@
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 part 'timetable_state.freezed.dart';
 
@@ -23,9 +24,7 @@ abstract class TimetableState with _$TimetableState {
   }
 
   List<LectureEntity> get todayLectures {
-    final int weekday = DateTime.now().weekday; // 1 is marked Monday
-    const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    final todayStr = weekDays[weekday - 1];
+    final todayStr = DateFormat('E').format(DateTime.now());
     return getLecturesForDay(todayStr);
   }
 }

@@ -23,11 +23,9 @@ class SubjectDetailsPage extends StatelessWidget {
       ),
       body: BlocBuilder<AttendanceBloc, AttendanceState>(
         builder: (context, state) {
-          final allSubjects = state.subjectStats;
-
           final filtered = filter == 'safe'
-              ? allSubjects.where((s) => s.percentage > 75).toList()
-              : allSubjects.where((s) => s.percentage < 75).toList();
+              ? state.safeSubjects
+              : state.dangerSubjects;
           if (filtered.isEmpty) {
             return Center(
               child: Text(
@@ -70,7 +68,7 @@ class SubjectDetailsPage extends StatelessWidget {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: s.percentage >= 75
+                              color: s.isSafe
                                   ? AppThemeHelper.colors.success.withValues(
                                       alpha: 0.15,
                                     )
@@ -82,7 +80,7 @@ class SubjectDetailsPage extends StatelessWidget {
                             child: Text(
                               "Overall: ${s.percentage.toStringAsFixed(1)}%",
                               style: TextStyle(
-                                color: s.percentage >= 75
+                                color: s.isSafe
                                     ? AppThemeHelper.colors.success
                                     : AppThemeHelper.colors.error,
                                 fontWeight: FontWeight.bold,
@@ -100,7 +98,7 @@ class SubjectDetailsPage extends StatelessWidget {
                           value: s.percentage / 100,
                           minHeight: 8,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            s.percentage >= 75
+                            s.isSafe
                                 ? AppThemeHelper.colors.success
                                 : AppThemeHelper.colors.error,
                           ),

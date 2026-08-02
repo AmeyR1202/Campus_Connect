@@ -118,7 +118,10 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _AttendanceState():
-return $default(_that);}
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -177,7 +180,10 @@ return $default(_that.status,_that.isLoading,_that.subjectStats,_that.attendance
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SubjectStatus status,  bool isLoading,  List<SubjectStats> subjectStats,  List<AttendanceEntity>? attendance,  List<String>? timetableSubjects,  String? error,  List<SubjectBaseStatsEntity>? baseStats)  $default,) {final _that = this;
 switch (_that) {
 case _AttendanceState():
-return $default(_that.status,_that.isLoading,_that.subjectStats,_that.attendance,_that.timetableSubjects,_that.error,_that.baseStats);}
+return $default(_that.status,_that.isLoading,_that.subjectStats,_that.attendance,_that.timetableSubjects,_that.error,_that.baseStats);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -205,8 +211,8 @@ return $default(_that.status,_that.isLoading,_that.subjectStats,_that.attendance
 /// @nodoc
 
 
-class _AttendanceState implements AttendanceState {
-  const _AttendanceState({this.status = SubjectStatus.initial, this.isLoading = false, final  List<SubjectStats> subjectStats = const [], final  List<AttendanceEntity>? attendance, final  List<String>? timetableSubjects, this.error, final  List<SubjectBaseStatsEntity>? baseStats}): _subjectStats = subjectStats,_attendance = attendance,_timetableSubjects = timetableSubjects,_baseStats = baseStats;
+class _AttendanceState extends AttendanceState {
+  const _AttendanceState({this.status = SubjectStatus.initial, this.isLoading = false, final  List<SubjectStats> subjectStats = const [], final  List<AttendanceEntity>? attendance, final  List<String>? timetableSubjects, this.error, final  List<SubjectBaseStatsEntity>? baseStats}): _subjectStats = subjectStats,_attendance = attendance,_timetableSubjects = timetableSubjects,_baseStats = baseStats,super._();
   
 
 @override@JsonKey() final  SubjectStatus status;

@@ -8,7 +8,9 @@ part 'attendance_state.freezed.dart';
 enum SubjectStatus { initial, loading, success, failure }
 
 @freezed
-sealed class AttendanceState with _$AttendanceState {
+abstract class AttendanceState with _$AttendanceState {
+  const AttendanceState._(); // Required for custom methods/getters
+
   const factory AttendanceState({
     @Default(SubjectStatus.initial) SubjectStatus status,
     @Default(false) bool isLoading,
@@ -18,4 +20,16 @@ sealed class AttendanceState with _$AttendanceState {
     String? error,
     List<SubjectBaseStatsEntity>? baseStats,
   }) = _AttendanceState;
+
+  List<SubjectStats> get safeSubjects => subjectStats.where((s) => s.isSafe).toList();
+  List<SubjectStats> get dangerSubjects => subjectStats.where((s) => !s.isSafe).toList();
+
+  AttendanceEntity? getAttendanceForLecture(String lectureId) {
+    if (attendance == null || attendance!.isEmpty) return null;
+    try {
+      return attendance!.firstWhere((a) => a.lectureId == lectureId);
+    } catch (_) {
+      return null;
+    }
+  }
 }
