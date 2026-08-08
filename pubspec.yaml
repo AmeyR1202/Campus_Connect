@@ -51,9 +51,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/welcome.svg
-    - assets/images/404.svg
-    - assets/images/forget_password.svg
+    - assets/images/
   fonts:
     - family: DMSans
       fonts:

@@ -1,5 +1,4 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
-import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +40,18 @@ class _SplashPageState extends State<SplashPage>
   }
 
   Future<void> navigateIfReady() async {
-    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      try {
+        await user.reload(); // Refresh verification status from Firebase
+      } catch (e) {
+        // Ignore if offline, fallback to cached status
+      }
+    }
+
+    final refreshedUser = FirebaseAuth.instance.currentUser;
+    final isLoggedIn = refreshedUser != null && refreshedUser.emailVerified;
 
     if (isLoggedIn) {
       await context.read<SessionCubit>().loadOfflineUser();
@@ -51,7 +61,7 @@ class _SplashPageState extends State<SplashPage>
       }
     } else {
       if (mounted) {
-        context.go('/welcome');
+        context.go('/auth-selection');
       }
     }
   }

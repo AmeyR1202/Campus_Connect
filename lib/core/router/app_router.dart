@@ -4,10 +4,9 @@ import 'package:campus_connect/core/widgets/error_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/attendance_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/subject_details_page.dart';
 import 'package:campus_connect/features/attendance/presentation/pages/subject_history_page.dart';
+import 'package:campus_connect/features/auth/presentation/pages/auth_selection_page.dart';
 import 'package:campus_connect/features/auth/presentation/pages/email_sent_page.dart';
-import 'package:campus_connect/features/auth/presentation/pages/login_page.dart';
-import 'package:campus_connect/features/auth/presentation/pages/sign_up_page.dart';
-import 'package:campus_connect/features/auth/presentation/pages/welcome_page.dart';
+
 import 'package:campus_connect/features/home/presentation/pages/home_page.dart';
 import 'package:campus_connect/features/profile/presentation/pages/profile_page.dart';
 import 'package:campus_connect/features/splash/presentation/pages/splash_screen.dart';
@@ -44,15 +43,12 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(path: '/splash', builder: (context, state) => const SplashPage()),
-    GoRoute(path: '/welcome', builder: (context, state) => const WelcomePage()),
+
     GoRoute(
-      path: '/login',
-      builder: (context, state) {
-        final email = state.extra as String? ?? '';
-        return LoginPage(userEmail: email);
-      },
+      path: '/auth-selection',
+      builder: (context, state) => const AuthSelectionPage(),
     ),
-    GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),
+
     GoRoute(
       path: '/email-success',
       builder: (context, state) {

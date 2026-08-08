@@ -23,15 +23,22 @@ class AuthInputField extends StatelessWidget {
       cursorColor: AppThemeHelper.colors.primary,
       controller: controller,
       obscureText: isObscure,
+      style: const TextStyle(
+        color: Colors.black87,
+        fontWeight: FontWeight.w500,
+        fontSize: 15,
+      ),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(
-          color: AppThemeHelper.colors.textTertiary.withValues(alpha: 0.5),
+        hintStyle: const TextStyle(
+          color: Colors.black38,
+          fontWeight: FontWeight.w400,
+          fontSize: 15,
         ),
         filled: true,
         fillColor: AppThemeHelper.colors.info.withValues(alpha: 0.1),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(28),
           borderSide: BorderSide.none,
         ),
         suffixIcon: onToggle != null
