@@ -45,6 +45,8 @@ dev_dependencies:
   drift_dev: ^2.33.0
   freezed: ^3.2.5
   json_serializable: ^6.8.0
+  flutter_native_splash: ^2.4.8
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true

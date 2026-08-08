@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 1500),
     );
 
     _revealAnimation = Tween<double>(
@@ -65,15 +65,17 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
             Text(
               'Campus Connect',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineLarge!.copyWith(fontSize: 28),
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                fontSize: 28,
+                color: Colors.white,
+              ),
             ),
             AnimatedBuilder(
               animation: _revealAnimation,
@@ -83,7 +85,7 @@ class _SplashPageState extends State<SplashPage>
                     alignment: Alignment.centerRight,
                     child: FractionallySizedBox(
                       widthFactor: _revealAnimation.value,
-                      child: Container(color: AppThemeHelper.colors.surface),
+                      child: Container(color: Colors.black),
                     ),
                   ),
                 );
