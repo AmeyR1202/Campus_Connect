@@ -44,6 +44,7 @@ final GoRouter router = GoRouter(
 
     GoRoute(path: '/splash', builder: (context, state) => const SplashPage()),
 
+    GoRoute(path: '/success', builder: (context, state) => const SplashPage()),
     GoRoute(
       path: '/auth-selection',
       builder: (context, state) => const AuthSelectionPage(),

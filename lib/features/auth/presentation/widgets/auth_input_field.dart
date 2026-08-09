@@ -1,5 +1,6 @@
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AuthInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -7,12 +8,21 @@ class AuthInputField extends StatelessWidget {
   final bool isObscure;
   final VoidCallback? onToggle;
   final bool autofocus;
+  final String? errorText;
+  final TextInputType? keyboardType;
+  final TextCapitalization textCapitalization;
+  final List<TextInputFormatter>? inputFormatters;
+
   const AuthInputField({
     super.key,
     required this.hintText,
     this.isObscure = false,
     this.onToggle,
     this.autofocus = false,
+    this.errorText,
+    this.keyboardType,
+    this.textCapitalization = TextCapitalization.none,
+    this.inputFormatters,
     required this.controller,
   });
 
@@ -20,6 +30,9 @@ class AuthInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       autofocus: autofocus,
+      keyboardType: keyboardType,
+      textCapitalization: textCapitalization,
+      inputFormatters: inputFormatters,
       cursorColor: AppThemeHelper.colors.primary,
       controller: controller,
       obscureText: isObscure,
@@ -30,6 +43,7 @@ class AuthInputField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintText: hintText,
+        errorText: errorText,
         hintStyle: const TextStyle(
           color: Colors.black38,
           fontWeight: FontWeight.w400,

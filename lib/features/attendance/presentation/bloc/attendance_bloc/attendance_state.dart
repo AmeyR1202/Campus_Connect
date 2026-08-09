@@ -21,8 +21,10 @@ abstract class AttendanceState with _$AttendanceState {
     List<SubjectBaseStatsEntity>? baseStats,
   }) = _AttendanceState;
 
-  List<SubjectStats> get safeSubjects => subjectStats.where((s) => s.isSafe).toList();
-  List<SubjectStats> get dangerSubjects => subjectStats.where((s) => !s.isSafe).toList();
+  List<SubjectStats> get safeSubjects =>
+      subjectStats.where((s) => s.isSafe).toList();
+  List<SubjectStats> get dangerSubjects =>
+      subjectStats.where((s) => !s.isSafe).toList();
 
   AttendanceEntity? getAttendanceForLecture(String lectureId) {
     if (attendance == null || attendance!.isEmpty) return null;
@@ -35,5 +37,6 @@ abstract class AttendanceState with _$AttendanceState {
 
   int get totalClasses => subjectStats.fold(0, (sum, s) => sum + s.total);
   int get totalAttended => subjectStats.fold(0, (sum, s) => sum + s.attended);
-  double get overallPercentage => totalClasses == 0 ? 0.0 : (totalAttended / totalClasses) * 100;
+  double get overallPercentage =>
+      totalClasses == 0 ? 0.0 : (totalAttended / totalClasses) * 100;
 }

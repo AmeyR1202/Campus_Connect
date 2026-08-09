@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
 
     if (sessionUser == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.go('/welcome');
+        context.go('/auth-selection');
       });
       return;
     }

@@ -33,7 +33,7 @@ class AppDrawer extends StatelessWidget {
               title: const Text('Logout'),
               onTap: () {
                 context.read<SessionCubit>().logout();
-                context.go('/welcome');
+                context.go('/auth-selection');
               },
             ),
           ],

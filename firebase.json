@@ -1,1 +1,49 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"campusconnect-49054","appId":"1:945294278060:android:8c44703a94fb090d884e09","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"campusconnect-49054","appId":"1:945294278060:ios:52c465c0713135ad884e09","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"campusconnect-49054","configurations":{"android":"1:945294278060:android:8c44703a94fb090d884e09","ios":"1:945294278060:ios:52c465c0713135ad884e09","macos":"1:945294278060:ios:52c465c0713135ad884e09","web":"1:945294278060:web:5713c1dcc6e1b5bf884e09","windows":"1:945294278060:web:458efdde1a4fa656884e09"}}},"macos":{"default":{"projectId":"campusconnect-49054","appId":"1:945294278060:ios:52c465c0713135ad884e09","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}}}}}
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "campusconnect-49054",
+          "appId": "1:945294278060:android:8c44703a94fb090d884e09",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "campusconnect-49054",
+          "appId": "1:945294278060:ios:52c465c0713135ad884e09",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "campusconnect-49054",
+          "configurations": {
+            "android": "1:945294278060:android:8c44703a94fb090d884e09",
+            "ios": "1:945294278060:ios:52c465c0713135ad884e09",
+            "macos": "1:945294278060:ios:52c465c0713135ad884e09",
+            "web": "1:945294278060:web:5713c1dcc6e1b5bf884e09",
+            "windows": "1:945294278060:web:458efdde1a4fa656884e09"
+          }
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "campusconnect-49054",
+          "appId": "1:945294278060:ios:52c465c0713135ad884e09",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      }
+    }
+  }
+}

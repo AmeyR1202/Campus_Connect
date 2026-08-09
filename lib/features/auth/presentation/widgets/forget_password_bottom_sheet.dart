@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:campus_connect/core/theme/app_theme.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
@@ -21,17 +22,37 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
   final TextEditingController controller = TextEditingController();
 
   String? validationError;
+  String? localError;
+  Timer? errorTimer;
 
   @override
   void dispose() {
     controller.dispose();
+    errorTimer?.cancel();
     super.dispose();
+  }
+
+  void _showError(String message) {
+    setState(() {
+      localError = message;
+    });
+    errorTimer?.cancel();
+    errorTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          localError = null;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (state is AuthError) {
+          _showError(state.message);
+        }
         if (state is PasswordResetEmailSent) {
           if (Navigator.canPop(context)) {
             Navigator.pop(context);
@@ -43,8 +64,6 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
       },
       builder: (context, state) {
         final isLoading = state is AuthLoading;
-        final String? errorText =
-            validationError ?? (state is AuthError ? state.message : null);
 
         return Padding(
           padding: EdgeInsets.only(
@@ -78,7 +97,7 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  if (errorText != null)
+                  if (localError != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16),
                       child: Container(
@@ -100,7 +119,7 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                errorText,
+                                localError!,
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 13,
@@ -114,21 +133,29 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
                   AuthInputField(
                     hintText: "Enter your Email Id",
                     controller: controller,
+                    errorText: validationError,
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 15),
                   AuthSubmitButton(
                     buttonLabel: 'Submit',
                     isLoading: isLoading,
                     onPressed: () {
-                      setState(() {
-                        validationError = null;
-                      });
+                      FocusScope.of(context).unfocus();
                       final email = controller.text.trim();
+                      final bool isValidEmail = RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                      ).hasMatch(email);
 
-                      if (email.isEmpty) {
-                        setState(() {
-                          validationError = 'Email field cannot be empty';
-                        });
+                      setState(() {
+                        validationError = email.isEmpty
+                            ? 'Email field cannot be empty'
+                            : (!isValidEmail
+                                  ? 'Enter a valid email address'
+                                  : null);
+                      });
+
+                      if (validationError != null) {
                         return;
                       }
                       context.read<AuthBloc>().add(

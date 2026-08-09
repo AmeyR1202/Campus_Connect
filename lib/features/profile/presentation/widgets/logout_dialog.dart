@@ -28,7 +28,7 @@ void showLogoutDialog(BuildContext context) {
           onPressed: () {
             Navigator.pop(context);
             context.read<SessionCubit>().logout();
-            context.go('/welcome');
+            context.go('/auth-selection');
           },
           child: Text(
             'Logout',

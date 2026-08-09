@@ -1,15 +1,63 @@
-import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_button.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'dart:async';
+import 'dart:io';
 
-class EmailSentPage extends StatelessWidget {
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:app_links/app_links.dart';
+import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/theme/theme_helper.dart';
+import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class EmailSentPage extends StatefulWidget {
   final String userEmail;
   const EmailSentPage({super.key, required this.userEmail});
 
   @override
+  State<EmailSentPage> createState() => _EmailSentPageState();
+}
+
+class _EmailSentPageState extends State<EmailSentPage> {
+  late AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _initDeepLinks();
+  }
+
+  void _initDeepLinks() {
+    _appLinks = AppLinks();
+
+    // This listens for the link when the user clicks it in Gmail
+    // and the app comes back to the foreground!
+    _linkSubscription = _appLinks.uriLinkStream.listen((uri) async {
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Force Firebase to check the latest verification status
+        await user.reload();
+
+        final refreshedUser = FirebaseAuth.instance.currentUser;
+        if (refreshedUser != null && refreshedUser.emailVerified) {
+          // It worked! Load the offline data and throw them into the app!
+          if (mounted) {
+            await context.read<SessionCubit>().loadOfflineUser();
+            context.go('/home');
+          }
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppThemeHelper.colors.trueBlack,
       body: Stack(
         children: [
           // Background Image
@@ -27,9 +75,9 @@ class EmailSentPage extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withValues(alpha: 0.4),
-                    Colors.black.withValues(alpha: 0.8),
-                    Colors.black,
+                    AppThemeHelper.colors.trueBlack.withValues(alpha: 0.4),
+                    AppThemeHelper.colors.trueBlack.withValues(alpha: 0.8),
+                    AppThemeHelper.colors.trueBlack,
                   ],
                   stops: const [0.0, 0.6, 1.0],
                 ),
@@ -47,11 +95,13 @@ class EmailSentPage extends StatelessWidget {
                     vertical: 36,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppThemeHelper.colors.trueWhite,
                     borderRadius: BorderRadius.circular(32),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.35),
+                        color: AppThemeHelper.colors.trueBlack.withValues(
+                          alpha: 0.35,
+                        ),
                         spreadRadius: 4,
                         blurRadius: 24,
                         offset: const Offset(0, 10),
@@ -66,13 +116,15 @@ class EmailSentPage extends StatelessWidget {
                         height: 80,
                         width: 80,
                         decoration: BoxDecoration(
-                          color: Colors.green.withValues(alpha: 0.1),
+                          color: AppThemeHelper.colors.themeGreen.withValues(
+                            alpha: 0.1,
+                          ),
                           shape: BoxShape.circle,
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Icon(
                             Icons.mark_email_read_rounded,
-                            color: Colors.green,
+                            color: AppThemeHelper.colors.themeGreen,
                             size: 40,
                           ),
                         ),
@@ -82,7 +134,7 @@ class EmailSentPage extends StatelessWidget {
                         "Check your inbox",
                         style: Theme.of(context).textTheme.headlineMedium
                             ?.copyWith(
-                              color: const Color(0xFF1A1A1A),
+                              color: AppThemeHelper.colors.textDark1A,
                               fontWeight: FontWeight.w800,
                               fontSize: 26,
                             ),
@@ -92,16 +144,16 @@ class EmailSentPage extends StatelessWidget {
                       Text.rich(
                         TextSpan(
                           text: "We've sent a verification link to\n",
-                          style: const TextStyle(
-                            color: Colors.black54,
+                          style: TextStyle(
+                            color: AppThemeHelper.colors.textBlack54,
                             fontSize: 14,
                             height: 1.5,
                           ),
                           children: [
                             TextSpan(
-                              text: userEmail,
-                              style: const TextStyle(
-                                color: Colors.black87,
+                              text: widget.userEmail,
+                              style: TextStyle(
+                                color: AppThemeHelper.colors.textBlack87,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -120,22 +172,26 @@ class EmailSentPage extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(28),
-                          border: Border.all(color: Colors.orange),
-                          color: Colors.orange.withValues(alpha: 0.1),
+                          border: Border.all(
+                            color: AppThemeHelper.colors.themeOrange,
+                          ),
+                          color: AppThemeHelper.colors.themeOrange.withValues(
+                            alpha: 0.1,
+                          ),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
                             Icon(
                               Icons.info_outline,
-                              color: Colors.orange,
+                              color: AppThemeHelper.colors.themeOrange,
                               size: 20,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 "Sometimes the email might land in the spam folder",
                                 style: TextStyle(
-                                  color: Colors.orange,
+                                  color: AppThemeHelper.colors.themeOrange,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -146,10 +202,53 @@ class EmailSentPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 32),
                       AuthSubmitButton(
-                        buttonLabel: "Back to Login",
+                        buttonLabel: "Open Mail App",
+                        onPressed: () async {
+                          if (Platform.isAndroid) {
+                            const AndroidIntent intent = AndroidIntent(
+                              action: 'android.intent.action.MAIN',
+                              category: 'android.intent.category.APP_EMAIL',
+                              flags: <int>[268435456],
+                            );
+                            try {
+                              await intent.launch();
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("No mail apps installed"),
+                                  ),
+                                );
+                              }
+                            }
+                          } else if (Platform.isIOS) {
+                            final Uri emailLaunchUri = Uri(scheme: 'message');
+                            if (await canLaunchUrl(emailLaunchUri)) {
+                              await launchUrl(emailLaunchUri);
+                            } else {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("No mail apps installed"),
+                                  ),
+                                );
+                              }
+                            }
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextButton(
                         onPressed: () {
                           context.go('/auth-selection');
                         },
+                        child: Text(
+                          "Back to Login",
+                          style: TextStyle(
+                            color: AppThemeHelper.colors.textBlack54,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),

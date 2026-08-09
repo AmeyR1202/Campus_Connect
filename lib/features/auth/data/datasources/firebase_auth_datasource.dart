@@ -6,6 +6,29 @@ class FirebaseAuthDatasource {
 
   FirebaseAuthDatasource(this.firebaseAuth);
 
+  String _getFriendlyMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'invalid-email':
+        return 'The email address is badly formatted.';
+      case 'user-disabled':
+        return 'This user account has been disabled.';
+      case 'user-not-found':
+        return 'No user found for that email.';
+      case 'wrong-password':
+      case 'invalid-credential':
+        return 'Invalid email or password.';
+      case 'email-already-in-use':
+        return 'An account already exists for that email.';
+      case 'weak-password':
+        return 'The password provided is too weak.';
+      case 'too-many-requests':
+        return 'Too many login attempts. Please try again later.';
+      default:
+        return e.message ??
+            'An authentication error occurred. Please try again.';
+    }
+  }
+
   Future<UserCredential> signUp({
     required String email,
     required String password,
@@ -16,7 +39,7 @@ class FirebaseAuthDatasource {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message.toString());
+      throw AuthException(_getFriendlyMessage(e));
     }
   }
 
@@ -30,7 +53,7 @@ class FirebaseAuthDatasource {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message.toString());
+      throw AuthException(_getFriendlyMessage(e));
     }
   }
 
@@ -38,10 +61,18 @@ class FirebaseAuthDatasource {
     try {
       final user = firebaseAuth.currentUser;
       if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
+        await user.sendEmailVerification(
+          ActionCodeSettings(
+            url: 'https://campusconnect-49054.firebaseapp.com/success',
+            handleCodeInApp: true,
+            androidPackageName: 'com.example.campus_connect',
+            androidInstallApp: true,
+            androidMinimumVersion: '12',
+          ),
+        );
       }
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message.toString());
+      throw AuthException(_getFriendlyMessage(e));
     }
   }
 
@@ -53,7 +84,7 @@ class FirebaseAuthDatasource {
     try {
       await firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message.toString());
+      throw AuthException(_getFriendlyMessage(e));
     }
   }
 
@@ -61,7 +92,7 @@ class FirebaseAuthDatasource {
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
-      throw AuthException(e.message.toString());
+      throw AuthException(_getFriendlyMessage(e));
     }
   }
 }

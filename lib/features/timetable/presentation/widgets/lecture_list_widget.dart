@@ -34,8 +34,9 @@ class LectureListWidget extends StatelessWidget {
             .replaceFirst(' ', ' '); // Remove narrow no-break space if any
         final lectureId =
             "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}_${startFormatted}_${lecture.subjectName}";
-        
-        final AttendanceEntity? attendanceRecord = attendanceState.getAttendanceForLecture(lectureId);
+
+        final AttendanceEntity? attendanceRecord = attendanceState
+            .getAttendanceForLecture(lectureId);
 
         return LectureCardWidget(
           lecture: lecture,

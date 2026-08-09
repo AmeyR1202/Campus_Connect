@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'package:campus_connect/core/widgets/loader.dart';
-import 'package:campus_connect/core/widgets/snackbar.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_event.dart';
 import 'package:campus_connect/features/auth/presentation/bloc/auth_state.dart';
@@ -8,6 +8,7 @@ import 'package:campus_connect/features/auth/presentation/widgets/auth_submit_bu
 import 'package:campus_connect/features/auth/presentation/widgets/auth_switch_text.dart';
 import 'package:campus_connect/features/auth/presentation/widgets/login_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,33 +27,62 @@ class _SignUpBottomSheetState extends State<SignUpBottomSheet> {
   final passwordController = TextEditingController();
   bool obscurePassword = true;
 
+  String? localError;
+  Timer? errorTimer;
+
+  String? usernameError;
+  String? emailError;
+  String? passwordError;
+
   @override
   void dispose() {
     usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    errorTimer?.cancel();
     super.dispose();
   }
 
+  void _showError(String message) {
+    setState(() {
+      localError = message;
+    });
+    errorTimer?.cancel();
+    errorTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          localError = null;
+        });
+      }
+    });
+  }
+
   void _onSignup() {
+    FocusScope.of(context).unfocus();
     final username = usernameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (username.isEmpty || email.isEmpty) {
-      snackbar(context, "Username and Email cannot be empty");
+    final bool isValidEmail = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(email);
+
+    setState(() {
+      usernameError = username.isEmpty ? "Username is required" : null;
+      emailError = email.isEmpty
+          ? "Email is required"
+          : (!isValidEmail ? "Enter a valid email address" : null);
+      passwordError = password.length < 6
+          ? "Password must be at least 6 characters"
+          : null;
+    });
+
+    if (usernameError != null || emailError != null || passwordError != null) {
       return;
     }
-    if (password.length < 6) {
-      snackbar(context, "Password must be at least 6 characters long");
-      return;
-    }
+
     context.read<AuthBloc>().add(
-      SignupRequested(
-        username: usernameController.text.trim(),
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      ),
+      SignupRequested(username: username, email: email, password: password),
     );
   }
 
@@ -64,7 +94,7 @@ class _SignUpBottomSheetState extends State<SignUpBottomSheet> {
           context.go('/email-success', extra: emailController.text.trim());
         }
         if (state is AuthError) {
-          snackbar(context, state.message);
+          _showError(state.message);
         }
       },
       builder: (context, state) {
@@ -99,15 +129,56 @@ class _SignUpBottomSheetState extends State<SignUpBottomSheet> {
 
                       const SizedBox(height: 30),
 
+                      if (localError != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Colors.red.withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    localError!,
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
                       Text(
-                        "Username",
+                        "What should we call you?",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 8),
 
                       AuthInputField(
-                        hintText: 'John Doe',
+                        hintText: 'e.g., Alex',
                         controller: usernameController,
+                        errorText: usernameError,
+                        textCapitalization: TextCapitalization.words,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(
+                            RegExp(r'\s'),
+                          ), // Deny spaces
+                        ],
                       ),
 
                       const SizedBox(height: 16),
@@ -121,6 +192,8 @@ class _SignUpBottomSheetState extends State<SignUpBottomSheet> {
                       AuthInputField(
                         hintText: 'example@gmail.com',
                         controller: emailController,
+                        errorText: emailError,
+                        keyboardType: TextInputType.emailAddress,
                       ),
 
                       const SizedBox(height: 16),
@@ -145,6 +218,7 @@ class _SignUpBottomSheetState extends State<SignUpBottomSheet> {
                         hintText: "Enter your password",
                         isObscure: obscurePassword,
                         controller: passwordController,
+                        errorText: passwordError,
                         onToggle: () {
                           setState(() {
                             obscurePassword = !obscurePassword;

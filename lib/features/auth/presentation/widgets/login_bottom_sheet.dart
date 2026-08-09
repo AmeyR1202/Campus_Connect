@@ -34,6 +34,9 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
   String? localError;
   Timer? errorTimer;
 
+  String? emailError;
+  String? passwordError;
+
   @override
   void dispose() {
     emailController.dispose();
@@ -151,6 +154,8 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
                   AuthInputField(
                     hintText: 'example@gmail.com',
                     controller: emailController,
+                    errorText: emailError,
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 16),
 
@@ -175,6 +180,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
                     hintText: "Enter your password",
                     isObscure: obscurePassword,
                     controller: passwordController,
+                    errorText: passwordError,
                     onToggle: () {
                       setState(() {
                         obscurePassword = !obscurePassword;
@@ -213,14 +219,29 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
                     buttonLabel: 'Continue',
                     isLoading: state is AuthLoading,
                     onPressed: () {
+                      FocusScope.of(context).unfocus();
                       final email = emailController.text.trim();
                       final password = passwordController.text.trim();
-                      if (email.isEmpty || password.isEmpty) {
-                        _showError(
-                          'Please ensure all fields are filled correctly.',
-                        );
+
+                      final bool isValidEmail = RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                      ).hasMatch(email);
+
+                      setState(() {
+                        emailError = email.isEmpty
+                            ? "Email is required"
+                            : (!isValidEmail
+                                  ? "Enter a valid email address"
+                                  : null);
+                        passwordError = password.isEmpty
+                            ? "Password is required"
+                            : null;
+                      });
+
+                      if (emailError != null || passwordError != null) {
                         return;
                       }
+
                       context.read<AuthBloc>().add(
                         LoginRequested(email: email, password: password),
                       );
