@@ -1,44 +1,33 @@
-import 'package:equatable/equatable.dart';
+/*
+  1. Login Requested
+  2. Sign-up Requested
+  3. Forget Password Requested
+  4. Logout Requested
+ */
 
-abstract class AuthEvent extends Equatable {
-  const AuthEvent();
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  @override
-  List<Object?> get props => [];
+part 'auth_event.freezed.dart';
+
+@freezed
+sealed class AuthEvent with _$AuthEvent {
+  // 1. Login Requested
+  const factory AuthEvent.loginRequested({
+    required String email,
+    required String password,
+  }) = LoginRequested;
+
+  // 2. Signup Requested
+  const factory AuthEvent.signupRequested({
+    required String username,
+    required String email,
+    required String password,
+  }) = SignupRequested;
+
+  // 3. Forget Password Requested
+  const factory AuthEvent.forgetPasswordRequested({required String email}) =
+      ForgetPasswordRequested;
+
+  // 4. Logout
+  const factory AuthEvent.logoutRequested() = LogoutRequested;
 }
-
-class LoginRequested extends AuthEvent {
-  final String email;
-  final String password;
-
-  const LoginRequested({required this.email, required this.password});
-
-  @override
-  List<Object?> get props => [email, password];
-}
-
-class SignupRequested extends AuthEvent {
-  final String username;
-  final String email;
-  final String password;
-
-  const SignupRequested({
-    required this.username,
-    required this.email,
-    required this.password,
-  });
-
-  @override
-  List<Object?> get props => [username, email, password];
-}
-
-class ForgetPasswordRequested extends AuthEvent {
-  final String email;
-
-  const ForgetPasswordRequested({required this.email});
-
-  @override
-  List<Object?> get props => [email];
-}
-
-class LogoutRequested extends AuthEvent {}

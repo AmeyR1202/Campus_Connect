@@ -22,4 +22,17 @@ const lightColors = AppColors(
   iconPrimary: Color(0xFF000000),
 
   textTertiary: Color(0xFF000000),
+
+  trueBlack: Color(0xFF000000),
+  trueWhite: Color(0xFFFFFFFF),
+  themeGreen: Color(0xFF4CAF50),
+  themeOrange: Color(0xFFFFA500),
+  textDark1A: Color(0xFF1A1A1A),
+  textBlack54: Color(0x8A000000),
+  textBlack87: Color(0xDD000000),
+  themeRed: Color(0xFFF44336),
+  trueTransparent: Color(0x00000000),
+  textBlack38: Color(0x61000000),
+  textWhite70: Color(0xB3FFFFFF),
+  black12: Color(0x1F000000),
 );

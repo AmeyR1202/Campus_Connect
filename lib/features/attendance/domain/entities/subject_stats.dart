@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/constants/app_constants.dart';
 import 'package:equatable/equatable.dart';
 
 class SubjectStats extends Equatable {
@@ -16,6 +17,10 @@ class SubjectStats extends Equatable {
     required this.canBunk,
     required this.mustAttend,
   });
+
+  // Business Logic Getter: Check if this subject meets the minimum college requirements
+  bool get isSafe => percentage >= AppConstants.targetAttendance;
+
   @override
   List<Object?> get props => [
     subjectId,

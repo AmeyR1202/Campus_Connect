@@ -1,84 +1,42 @@
-// import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
-// import 'package:campus_connect/features/attendance/domain/entities/stats_entity.dart';
-
-// abstract class AttendanceState {}
-
-// class AttendanceInitial extends AttendanceState {}
-
-// class AttendanceLoading extends AttendanceState {}
-
-// class AttendanceLoaded extends AttendanceState {
-//   final List<AttendanceEntity> attendance;
-
-//   AttendanceLoaded(this.attendance);
-// }
-
-// class StatsLoaded extends AttendanceState {
-//   final StatsEntity stats;
-
-//   StatsLoaded(this.stats);
-// }
-
-// class AttendanceError extends AttendanceState {
-//   final String message;
-
-//   AttendanceError(this.message);
-// }
-
 import 'package:campus_connect/features/attendance/domain/entities/attendance_entity.dart';
 import 'package:campus_connect/features/attendance/domain/entities/subject_base_stats_entity.dart';
 import 'package:campus_connect/features/attendance/domain/entities/subject_stats.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'attendance_state.freezed.dart';
 
 enum SubjectStatus { initial, loading, success, failure }
 
-class AttendanceState extends Equatable {
-  final SubjectStatus status;
-  final bool isLoading;
-  final List<AttendanceEntity>? attendance;
-  final List<SubjectStats> subjectStats;
-  final List<String>? timetableSubjects;
-  final String? error;
-  final List<SubjectBaseStatsEntity>? baseStats;
+@freezed
+abstract class AttendanceState with _$AttendanceState {
+  const AttendanceState._(); // Required for custom methods/getters
 
-  const AttendanceState({
-    this.status = SubjectStatus.initial,
-    this.subjectStats = const [],
-    this.timetableSubjects,
-    this.isLoading = false,
-    this.attendance,
-    this.error,
-    this.baseStats,
-  });
-
-  AttendanceState copyWith({
-    SubjectStatus? status,
-    List<SubjectStats>? subjectStats,
-    List<String>? timetableSubjects,
-    bool? isLoading,
+  const factory AttendanceState({
+    @Default(SubjectStatus.initial) SubjectStatus status,
+    @Default(false) bool isLoading,
+    @Default([]) List<SubjectStats> subjectStats,
     List<AttendanceEntity>? attendance,
+    List<String>? timetableSubjects,
     String? error,
     List<SubjectBaseStatsEntity>? baseStats,
-  }) {
-    return AttendanceState(
-      isLoading: isLoading ?? this.isLoading,
-      status: status ?? this.status,
-      subjectStats: subjectStats ?? this.subjectStats,
-      timetableSubjects: timetableSubjects ?? this.timetableSubjects,
-      attendance: attendance ?? this.attendance,
-      error: error,
-      baseStats: baseStats,
-    );
+  }) = _AttendanceState;
+
+  List<SubjectStats> get safeSubjects =>
+      subjectStats.where((s) => s.isSafe).toList();
+  List<SubjectStats> get dangerSubjects =>
+      subjectStats.where((s) => !s.isSafe).toList();
+
+  AttendanceEntity? getAttendanceForLecture(String lectureId) {
+    if (attendance == null || attendance!.isEmpty) return null;
+    try {
+      return attendance!.firstWhere((a) => a.lectureId == lectureId);
+    } catch (_) {
+      return null;
+    }
   }
 
-  @override
-  List<Object?> get props => [
-    status,
-    subjectStats,
-    timetableSubjects,
-    isLoading,
-    attendance,
-    error,
-    baseStats,
-  ];
+  int get totalClasses => subjectStats.fold(0, (sum, s) => sum + s.total);
+  int get totalAttended => subjectStats.fold(0, (sum, s) => sum + s.attended);
+  double get overallPercentage =>
+      totalClasses == 0 ? 0.0 : (totalAttended / totalClasses) * 100;
 }

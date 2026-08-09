@@ -141,7 +141,7 @@ class _TimetablePageState extends State<TimetablePage> {
                     builder: (context, attendanceState) {
                       return LectureListWidget(
                         lectures: todayLectures,
-                        attendance: attendanceState.attendance ?? [],
+                        attendanceState: attendanceState,
                         onMark: (lecture, status) {
                           _markAttendance(lecture, status);
                         },

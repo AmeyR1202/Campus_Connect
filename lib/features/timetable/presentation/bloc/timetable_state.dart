@@ -1,28 +1,21 @@
 import 'package:campus_connect/features/timetable/domain/entities/lecture_entity.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
-class TimetableState extends Equatable {
-  final List<LectureEntity>? lectures;
-  final bool isLoading;
-  final String? error;
+part 'timetable_state.freezed.dart';
 
-  const TimetableState({this.lectures, required this.isLoading, this.error});
+@freezed
+abstract class TimetableState with _$TimetableState {
+  // Required to allow custom methods and getters in Freezed
+  const TimetableState._();
 
-  factory TimetableState.initial() {
-    return const TimetableState(lectures: null, isLoading: false, error: null);
-  }
-
-  TimetableState copyWith({
+  const factory TimetableState({
     List<LectureEntity>? lectures,
-    bool? isLoading,
+    @Default(false) bool isLoading,
     String? error,
-  }) {
-    return TimetableState(
-      lectures: lectures ?? this.lectures,
-      isLoading: isLoading ?? this.isLoading,
-      error: error,
-    );
-  }
+  }) = _TimetableState;
+
+  factory TimetableState.initial() => const TimetableState();
 
   // these are my single source of truth
   List<LectureEntity> getLecturesForDay(String day) {
@@ -31,12 +24,7 @@ class TimetableState extends Equatable {
   }
 
   List<LectureEntity> get todayLectures {
-    final int weekday = DateTime.now().weekday; // 1 is marked Monday
-    const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    final todayStr = weekDays[weekday - 1];
+    final todayStr = DateFormat('E').format(DateTime.now());
     return getLecturesForDay(todayStr);
   }
-
-  @override
-  List<Object?> get props => [lectures, isLoading, error];
 }

@@ -27,7 +27,7 @@ class _ManageTimetablePageState extends State<ManageTimetablePage>
     "Thu",
     "Fri",
     "Sat",
-    // "Sun",
+    "Sun",
   ];
 
   late TabController _tabController;

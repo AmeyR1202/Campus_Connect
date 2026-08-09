@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.campus_connect",
+    "sha256_cert_fingerprints": [
+      "A3:FE:4E:57:4A:FF:C3:EA:A1:C7:6F:3E:99:1E:07:D3:FC:8D:6D:EC:CA:89:1A:91:F0:DF:B2:D3:DD:98:34:D0"
+    ]
+  }
+}]

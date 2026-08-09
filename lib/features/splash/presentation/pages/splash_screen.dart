@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 1500),
     );
 
     _revealAnimation = Tween<double>(
@@ -41,7 +41,20 @@ class _SplashPageState extends State<SplashPage>
   }
 
   Future<void> navigateIfReady() async {
-    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      try {
+        await user.reload(); // Refresh verification status from Firebase
+      } catch (e) {
+        // Ignore if offline, fallback to cached status
+      }
+    }
+
+    final refreshedUser = FirebaseAuth.instance.currentUser;
+    final isLoggedIn = refreshedUser != null && refreshedUser.emailVerified;
+
+    if (!mounted) return;
 
     if (isLoggedIn) {
       await context.read<SessionCubit>().loadOfflineUser();
@@ -50,9 +63,7 @@ class _SplashPageState extends State<SplashPage>
         context.go('/home');
       }
     } else {
-      if (mounted) {
-        context.go('/welcome');
-      }
+      context.go('/auth-selection');
     }
   }
 
@@ -65,15 +76,17 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppThemeHelper.colors.trueBlack,
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
             Text(
               'Campus Connect',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineLarge!.copyWith(fontSize: 28),
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                fontSize: 28,
+                color: AppThemeHelper.colors.trueWhite,
+              ),
             ),
             AnimatedBuilder(
               animation: _revealAnimation,
@@ -83,7 +96,7 @@ class _SplashPageState extends State<SplashPage>
                     alignment: Alignment.centerRight,
                     child: FractionallySizedBox(
                       widthFactor: _revealAnimation.value,
-                      child: Container(color: AppThemeHelper.colors.surface),
+                      child: Container(color: AppThemeHelper.colors.trueBlack),
                     ),
                   ),
                 );

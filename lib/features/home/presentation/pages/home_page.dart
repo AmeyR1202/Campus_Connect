@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
 
     if (sessionUser == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.go('/welcome');
+        context.go('/auth-selection');
       });
       return;
     }
@@ -92,17 +92,9 @@ class _HomePageState extends State<HomePage> {
                 return const EmptyStateWidget();
               }
 
-              final totalClasses = stats.fold(0, (sum, s) => sum + s.total);
-              final totalAttended = stats.fold(0, (sum, s) => sum + s.attended);
-              final safeSubjects = stats
-                  .where((s) => s.percentage >= 75)
-                  .toList();
-              final dangerSubjects = stats
-                  .where((s) => s.percentage < 75)
-                  .toList();
-              final overallPercentage = totalClasses == 0
-                  ? 0.0
-                  : (totalAttended / totalClasses) * 100;
+              final safeSubjects = state.safeSubjects;
+              final dangerSubjects = state.dangerSubjects;
+              final overallPercentage = state.overallPercentage;
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -23,7 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.logoutUsecase,
     required this.sessionCubit,
     required this.forgetPasswordUsecase,
-  }) : super(AuthInitial()) {
+  }) : super(const AuthInitial()) {
     on<LoginRequested>(_onLoginRequested);
     on<SignupRequested>(_onSignupRequested);
     on<LogoutRequested>(_onLogoutRequested);
@@ -34,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
 
     final result = await loginUsecase(
       email: event.email,
@@ -51,7 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     SignupRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await signupUsecase(
       email: event.email,
       username: event.username,
@@ -60,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(AuthVerificationEmailSent()),
+      (_) => emit(const AuthVerificationEmailSent()),
     );
   }
 
@@ -68,12 +68,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LogoutRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await logoutUsecase();
 
     result.fold((failure) => emit(AuthError(failure.message)), (_) {
       sessionCubit.clearSession();
-      emit(AuthUnauthenticated());
+      emit(const AuthUnauthenticated());
     });
   }
 
@@ -81,11 +81,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     ForgetPasswordRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await forgetPasswordUsecase(email: event.email);
 
     result.fold((failure) => emit(AuthError(failure.message)), (_) {
-      emit(PasswordResetEmailSent());
+      emit(const PasswordResetEmailSent());
     });
   }
 }

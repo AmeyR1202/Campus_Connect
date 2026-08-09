@@ -117,15 +117,16 @@ class BunkPlannerCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: allSubjects.map((stat) {
-                      final isSafe = stat.percentage >= 75;
-                      final statColor = isSafe ? colors.success : colors.error;
+                      final statColor = stat.isSafe
+                          ? colors.success
+                          : colors.error;
 
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 6),
                         child: Row(
                           children: [
                             Icon(
-                              isSafe
+                              stat.isSafe
                                   ? Icons.check_circle_outline
                                   : Icons.warning_amber_rounded,
                               size: 16,
@@ -154,7 +155,7 @@ class BunkPlannerCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: allSubjects.map((stat) {
-                    final isSafe = stat.percentage >= 75;
+                    final isSafe = stat.isSafe;
                     final statColor = isSafe ? colors.success : colors.error;
 
                     return Padding(

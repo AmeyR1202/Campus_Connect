@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/constants/app_constants.dart';
 import 'package:campus_connect/core/layout/app_spacing.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
 import 'package:campus_connect/core/theme/theme_helper.dart';
@@ -58,15 +59,11 @@ class _AttendancePageState extends State<AttendancePage> {
             );
           }
 
-          final totalClasses = stats.fold(0, (sum, s) => sum + s.total);
-          final totalAttended = stats.fold(0, (sum, s) => sum + s.attended);
-          final overallPercentage = totalClasses == 0
-              ? 0.0
-              : (totalAttended / totalClasses) * 100;
+          final percentage = state.overallPercentage;
 
           return CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(child: _buildHeader(overallPercentage)),
+              SliverToBoxAdapter(child: _buildHeader(percentage)),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -87,7 +84,7 @@ class _AttendancePageState extends State<AttendancePage> {
   }
 
   Widget _buildHeader(double percentage) {
-    final isSafe = percentage >= 75;
+    final bool isSafe = percentage >= AppConstants.targetAttendance;
     final color = isSafe
         ? AppThemeHelper.colors.success
         : AppThemeHelper.colors.error;
@@ -181,7 +178,7 @@ class _AttendancePageState extends State<AttendancePage> {
   }
 
   Widget _buildSubjectCard(BuildContext context, SubjectStats stat) {
-    final isSafe = stat.percentage >= 75;
+    final isSafe = stat.isSafe;
     final color = isSafe
         ? AppThemeHelper.colors.success
         : AppThemeHelper.colors.error;

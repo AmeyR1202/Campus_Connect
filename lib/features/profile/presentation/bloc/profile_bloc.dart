@@ -9,7 +9,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final SessionCubit sessionCubit;
 
   ProfileBloc({required this.updateUsernameUsecase, required this.sessionCubit})
-    : super(ProfileInitial()) {
+    : super(const ProfileInitial()) {
     on<UpdateUsernameEvent>(_onUpdateUsername);
   }
 
@@ -17,7 +17,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     UpdateUsernameEvent event,
     Emitter<ProfileState> emit,
   ) async {
-    emit(ProfileLoading());
+    emit(const ProfileLoading());
 
     final result = await updateUsernameUsecase(
       userId: event.userId,
@@ -28,7 +28,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileError(errorMessage: failure.message));
       },
       (_) {
-        emit(ProfileUpdateSuccess());
+        emit(const ProfileUpdateSuccess());
       },
     );
   }
