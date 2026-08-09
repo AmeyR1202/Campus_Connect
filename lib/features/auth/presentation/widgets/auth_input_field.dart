@@ -36,16 +36,16 @@ class AuthInputField extends StatelessWidget {
       cursorColor: AppThemeHelper.colors.primary,
       controller: controller,
       obscureText: isObscure,
-      style: const TextStyle(
-        color: Colors.black87,
+      style: TextStyle(
+        color: AppThemeHelper.colors.textBlack87,
         fontWeight: FontWeight.w500,
         fontSize: 15,
       ),
       decoration: InputDecoration(
         hintText: hintText,
         errorText: errorText,
-        hintStyle: const TextStyle(
-          color: Colors.black38,
+        hintStyle: TextStyle(
+          color: AppThemeHelper.colors.textBlack38,
           fontWeight: FontWeight.w400,
           fontSize: 15,
         ),

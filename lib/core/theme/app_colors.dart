@@ -31,6 +31,11 @@ class AppColors {
   final Color textDark1A;
   final Color textBlack54;
   final Color textBlack87;
+  final Color themeRed;
+  final Color trueTransparent;
+  final Color textBlack38;
+  final Color textWhite70;
+  final Color black12;
 
   const AppColors({
     required this.primary,
@@ -55,6 +60,11 @@ class AppColors {
     required this.textDark1A,
     required this.textBlack54,
     required this.textBlack87,
+    required this.themeRed,
+    required this.trueTransparent,
+    required this.textBlack38,
+    required this.textWhite70,
+    required this.black12,
   });
 
   AppColors copyWith({
@@ -80,6 +90,11 @@ class AppColors {
     Color? textDark1A,
     Color? textBlack54,
     Color? textBlack87,
+    Color? themeRed,
+    Color? trueTransparent,
+    Color? textBlack38,
+    Color? textWhite70,
+    Color? black12,
   }) {
     return AppColors(
       primary: primary ?? this.primary,
@@ -104,6 +119,11 @@ class AppColors {
       textDark1A: textDark1A ?? this.textDark1A,
       textBlack54: textBlack54 ?? this.textBlack54,
       textBlack87: textBlack87 ?? this.textBlack87,
+      themeRed: themeRed ?? this.themeRed,
+      trueTransparent: trueTransparent ?? this.trueTransparent,
+      textBlack38: textBlack38 ?? this.textBlack38,
+      textWhite70: textWhite70 ?? this.textWhite70,
+      black12: black12 ?? this.black12,
     );
   }
 }

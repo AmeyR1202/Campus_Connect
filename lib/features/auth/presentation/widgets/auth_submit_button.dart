@@ -1,3 +1,4 @@
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class AuthSubmitButton extends StatelessWidget {
@@ -20,19 +21,19 @@ class AuthSubmitButton extends StatelessWidget {
       return OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
-          foregroundColor: const Color(0xFF1A1A1A),
-          side: const BorderSide(color: Colors.black12, width: 1.5),
+          foregroundColor: AppThemeHelper.colors.textDark1A,
+          side: BorderSide(color: AppThemeHelper.colors.black12, width: 1.5),
           minimumSize: const Size(double.infinity, 56),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
         ),
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
-                  color: Color(0xFF1A1A1A),
+                  color: AppThemeHelper.colors.textDark1A,
                   strokeWidth: 2.5,
                 ),
               )
@@ -51,7 +52,7 @@ class AuthSubmitButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
+            color: AppThemeHelper.colors.trueBlack.withValues(alpha: 0.35),
             spreadRadius: 4,
             blurRadius: 24,
             offset: const Offset(0, 10),
@@ -60,8 +61,8 @@ class AuthSubmitButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF1A1A1A),
-          foregroundColor: Colors.white,
+          backgroundColor: AppThemeHelper.colors.textDark1A,
+          foregroundColor: AppThemeHelper.colors.trueWhite,
           minimumSize: const Size(double.infinity, 56),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
@@ -70,11 +71,11 @@ class AuthSubmitButton extends StatelessWidget {
         ),
         onPressed: isLoading ? null : onPressed,
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
-                  color: Colors.white,
+                  color: AppThemeHelper.colors.trueWhite,
                   strokeWidth: 2.5,
                 ),
               )

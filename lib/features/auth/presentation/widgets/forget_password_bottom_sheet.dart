@@ -70,9 +70,9 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color: AppThemeHelper.colors.trueWhite,
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(32),
                 topRight: Radius.circular(32),
               ),
@@ -103,25 +103,29 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.red.withValues(alpha: 0.1),
+                          color: AppThemeHelper.colors.themeRed.withValues(
+                            alpha: 0.1,
+                          ),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: Colors.red.withValues(alpha: 0.3),
+                            color: AppThemeHelper.colors.themeRed.withValues(
+                              alpha: 0.3,
+                            ),
                           ),
                         ),
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.error_outline,
-                              color: Colors.red,
+                              color: AppThemeHelper.colors.themeRed,
                               size: 20,
                             ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 localError!,
-                                style: const TextStyle(
-                                  color: Colors.red,
+                                style: TextStyle(
+                                  color: AppThemeHelper.colors.themeRed,
                                   fontSize: 13,
                                 ),
                               ),

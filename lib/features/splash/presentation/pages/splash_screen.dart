@@ -1,4 +1,5 @@
 import 'package:campus_connect/core/session/session_cubit.dart';
+import 'package:campus_connect/core/theme/theme_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,7 +76,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppThemeHelper.colors.trueBlack,
       body: Center(
         child: Stack(
           alignment: Alignment.center,
@@ -84,7 +85,7 @@ class _SplashPageState extends State<SplashPage>
               'Campus Connect',
               style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                 fontSize: 28,
-                color: Colors.white,
+                color: AppThemeHelper.colors.trueWhite,
               ),
             ),
             AnimatedBuilder(
@@ -95,7 +96,7 @@ class _SplashPageState extends State<SplashPage>
                     alignment: Alignment.centerRight,
                     child: FractionallySizedBox(
                       widthFactor: _revealAnimation.value,
-                      child: Container(color: Colors.black),
+                      child: Container(color: AppThemeHelper.colors.trueBlack),
                     ),
                   ),
                 );
