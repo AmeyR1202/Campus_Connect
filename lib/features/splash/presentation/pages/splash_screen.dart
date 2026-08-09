@@ -53,6 +53,8 @@ class _SplashPageState extends State<SplashPage>
     final refreshedUser = FirebaseAuth.instance.currentUser;
     final isLoggedIn = refreshedUser != null && refreshedUser.emailVerified;
 
+    if (!mounted) return;
+
     if (isLoggedIn) {
       await context.read<SessionCubit>().loadOfflineUser();
 
@@ -60,9 +62,7 @@ class _SplashPageState extends State<SplashPage>
         context.go('/home');
       }
     } else {
-      if (mounted) {
-        context.go('/auth-selection');
-      }
+      context.go('/auth-selection');
     }
   }
 

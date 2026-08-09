@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:app_links/app_links.dart';
 import 'package:campus_connect/core/session/session_cubit.dart';
@@ -45,13 +44,20 @@ class _EmailSentPageState extends State<EmailSentPage> {
         final refreshedUser = FirebaseAuth.instance.currentUser;
         if (refreshedUser != null && refreshedUser.emailVerified) {
           // It worked! Load the offline data and throw them into the app!
-          if (mounted) {
-            await context.read<SessionCubit>().loadOfflineUser();
-            context.go('/home');
-          }
+          if (!mounted) return;
+          await context.read<SessionCubit>().loadOfflineUser();
+
+          if (!mounted) return;
+          context.go('/home');
         }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _linkSubscription?.cancel();
+    super.dispose();
   }
 
   @override
